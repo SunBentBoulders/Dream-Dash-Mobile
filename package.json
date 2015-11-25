@@ -1,5 +1,6 @@
 {
   "name": "cape-runner",
+<<<<<<< HEAD
   "version": "1.0.0",
   "dependencies": {
     "angular": "^1.4.8",
@@ -16,6 +17,20 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-uglify": "~0.5.0",
+=======
+  "version": "1.1.1",
+  "description": "cape-runner: An Ionic project",
+  "dependencies": {
+    "gulp": "^3.5.6",
+    "gulp-sass": "^2.0.4",
+    "gulp-concat": "^2.2.0",
+    "gulp-minify-css": "^0.3.0",
+    "gulp-rename": "^1.2.0"
+  },
+  "devDependencies": {
+    "bower": "^1.3.3",
+    "gulp-util": "^2.2.14",
+>>>>>>> c800b87e25e8fbefd4a53943f9bd623bfcdab25c
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
@@ -27,4 +42,8 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": []
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c800b87e25e8fbefd4a53943f9bd623bfcdab25c

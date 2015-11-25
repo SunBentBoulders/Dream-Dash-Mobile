@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "bower",
   "homepage": "https://github.com/SunBentBoulders/Cape-Runner",
   "authors": [
@@ -28,5 +29,11 @@
   "dependencies": {
     "angular": "~1.4.8",
     "angular-ui-router": "~0.2.15"
+=======
+  "name": "HelloIonic",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.1.1"
+>>>>>>> c800b87e25e8fbefd4a53943f9bd623bfcdab25c
   }
 }
