@@ -1,0 +1,32 @@
+{
+  "name": "bower",
+  "homepage": "https://github.com/SunBentBoulders/Cape-Runner",
+  "authors": [
+    "Jazz Lyles <ripley36706@gmail.com>",
+    "Shanna Sullivan <shanna.sullivan@gmail.com",
+    "Darryl Nunn <darrylnu@gmail.com>"  
+  ],
+  "description": "game",
+  "main": "app.js",
+  "moduleType": [],
+  "keywords": [
+    "angular",
+    "ionic",
+    "ios",
+    "android",  
+    "phaser"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-ui-router": "~0.2.15"
+  }
+}
