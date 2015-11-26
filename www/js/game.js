@@ -1,22 +1,41 @@
 var GameState = function(game){};
-var music;
+
+var music, sprite;
+
+var stageSize = {width:1136, height:640};
+var centerPoint = {x:stageSize.width/2, y:stageSize.height/2};
+
 GameState.prototype = {
+    
     preload: function(){
         //preload our music and our images/backgrounds
         this.load.image('player', '../img/player.png');
+        this.load.image('enemy', '../img/enemy.png');
         this.load.image('background', '../img/Autumn.jpg');
         this.load.audio('maintheme', '../lib/ionic/music/background_music.mp3');
     },
+    
     create: function(){
+        //enable movement physics
+        this.physics.startSystem(Phaser.Physics.ARCADE);
+        
         //setup the background
         this.background = this.add.tileSprite(0,0, this.world.width, this.world.height, 'background');
         //set the tunes
         music = this.add.audio('background');
         //play the tunes
         music.play();
-    },
-    update: function(){
         
+        sprite = this.game.add.existing(
+            this.player = new Player(this.game, 150, centerPoint.y, this.game.input)
+        );
+        //, not Physics engine
+        sprite.body.allowRotation = false;
+    },
+    
+    update: function(){
+        //enables mouse/movement to handle player rotation
+        sprite.rotation = this.game.physics.arcade.moveToPointer(sprite, 60, this.game.input.activePointer, 500);
     }
 };
 
