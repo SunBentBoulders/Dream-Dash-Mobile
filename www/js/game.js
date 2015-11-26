@@ -29,7 +29,7 @@ GameState.prototype = {
         sprite = this.game.add.existing(
             this.player = new Player(this.game, 150, centerPoint.y, this.game.input)
         );
-        //, not Physics engine
+        //sets player movement to be handled by something other than the Physics engine
         sprite.body.allowRotation = false;
     },
     
@@ -57,8 +57,7 @@ var game = new Phaser.Game(
     { 
         preload: preload, 
         create: create, 
-        update: update, 
-        render: render 
+        update: update 
     }
 );
 );
