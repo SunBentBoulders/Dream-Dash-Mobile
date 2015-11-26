@@ -88,4 +88,4 @@ gulp.task('useref', function(done) {
         .on('end', done);
 });
 
-gulp.task('default', ['sass', 'templatecache', 'ng_annotate', 'useref]);
+gulp.task('default', ['sass', 'templatecache', 'ng_annotate', 'useref']);
