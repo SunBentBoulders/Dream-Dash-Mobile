@@ -8,8 +8,11 @@ var centerPoint = {x:stageSize.width/2, y:stageSize.height/2};
 GameState.prototype = {
     
     preload: function(){
+        /*game.load.image('sky', '../img/sky.png');
+        game.load.image('ground', '..img/ground.png');
+        this.load.image('player', '../img/player.png', 32, 48);*/
         //preload our music and our images/backgrounds
-        this.load.image('player', '../img/player.png');
+        this.load.spritesheet('player', '../img/player.png', 32, 48);
         this.load.image('enemy', '../img/enemy.png');
         this.load.image('background', '../img/Autumn.jpg');
         this.load.audio('maintheme', '../lib/ionic/music/background_music.mp3');
@@ -51,8 +54,8 @@ var Enemy = function(){
 var game = new Phaser.Game(
     1136, 
     640, 
-    Phaser.AUTO, 
-    'game', 
+    Phaser.AUTO, //render context (Phaser.CANVAS, Phaser.WEBGL, or Phaser.AUTO)
+    'game', //id of DOM element to insert game, defaults to body if ''
     GameState,
     { 
         preload: preload, 
