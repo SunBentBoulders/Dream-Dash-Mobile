@@ -31,4 +31,3 @@ Main.prototype = {
 
 game.state.add('Main', Main);
 game.state.start('Main');
-// debugger;
