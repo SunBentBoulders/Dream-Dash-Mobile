@@ -10,7 +10,7 @@ var
 
 
 
-
+// this block controls the initial game menu
 Main.prototype = {
 
   preload: function () {
@@ -19,7 +19,7 @@ Main.prototype = {
     game.load.image('brand',    'assets/images/Boulder.png');
     game.load.script('polyfill',   'lib/polyfill.js');
     game.load.script('utils',   'lib/utils.js');
-    game.load.script('splash',  'states/Splash.js');
+    game.load.script('Splash',  'states/Splash.js');
   },
 
   create: function () {

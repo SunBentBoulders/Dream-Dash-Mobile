@@ -5,3 +5,5 @@ node_modules/
 bower_components/
 #platforms/
 #plugins/
+
+.DS_Store
