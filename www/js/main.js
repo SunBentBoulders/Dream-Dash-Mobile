@@ -10,7 +10,7 @@ var
 
 
 
-
+// this block controls the initial game menu
 Main.prototype = {
 
   preload: function () {

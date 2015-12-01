@@ -18,6 +18,7 @@ Game.prototype = {
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
   },
 
+  // this function is for the game menu
   addMenuOption: function(text, callback) {
     var optionStyle = { font: '30pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', srokeThickness: 4};
     var txt = game.add.text(game.world.centerX, (this.optionCount * 80) + 200, text, optionStyle);
@@ -46,11 +47,14 @@ Game.prototype = {
   },
 
   create: function () {
+    // this block is for the game menu
     this.stage.disableVisibilityChange = false;
     game.add.sprite(0, 0, 'stars');
     this.addMenuOption('Next ->', function (e) {
       this.game.state.start("GameOver");
     });
+
+    // the rest of the create function below is for the game itself
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
