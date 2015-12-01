@@ -29,8 +29,6 @@ GameOver.prototype = {
     txt.events.onInputOut.add(onOut, this);
 
     this.optionCount ++;
-
-
   },
 
   create: function () {
@@ -40,10 +38,8 @@ GameOver.prototype = {
     text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     text.anchor.set(0.5);
     this.addMenuOption('Play Again', function (e) {
+      // need to add game state rather than start game state
       game.state.add('game', Game, true);
-      console.log("added game?");
-      // game.state.start("Game");
-      // console.log("started game?")
     });
     this.addMenuOption('Main Menu', function (e) {
       game.state.start("GameMenu");
@@ -51,10 +47,6 @@ GameOver.prototype = {
   }
 };
 
-
-    // this.addMenuOption('Start', function () {
-    //   game.state.start("Game");
-    // });
 
 
 
