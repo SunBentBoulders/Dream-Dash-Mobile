@@ -40,10 +40,32 @@ GameOver.prototype = {
     text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     text.anchor.set(0.5);
     this.addMenuOption('Play Again', function (e) {
-      this.game.state.start("Game");
+      game.state.add('game', Game, true);
+      console.log("added game?");
+      // game.state.start("Game");
+      // console.log("started game?")
     });
     this.addMenuOption('Main Menu', function (e) {
-      this.game.state.start("GameMenu");
+      game.state.start("GameMenu");
     })
   }
 };
+
+
+    // this.addMenuOption('Start', function () {
+    //   game.state.start("Game");
+    // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+

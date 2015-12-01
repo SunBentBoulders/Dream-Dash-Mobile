@@ -50,9 +50,9 @@ Game.prototype = {
     // this block is for the game menu
     this.stage.disableVisibilityChange = false;
     game.add.sprite(0, 0, 'stars');
-    this.addMenuOption('Next ->', function (e) {
-      this.game.state.start("GameOver");
-    });
+    // this.addMenuOption('Next ->', function (e) {
+    //   this.game.state.start("GameOver");
+    // });
 
     // the rest of the create function below is for the game itself
 
@@ -164,6 +164,11 @@ Game.prototype = {
         this.player.body.velocity.y = -350;
     }
 
+    // if player collects all stars, end game
+    if (this.score === 120) {
+        this.gameOver(this.player);
+    }
+
   },
 
   collectStar: function(player, star) {
@@ -173,7 +178,20 @@ Game.prototype = {
     //  Add and update the score
     this.score += 10;
     this.scoreText.text = 'Score: ' + this.score;
+  },
+
+  gameOver: function(player) {
+    // kill the player
+    player.kill();
+    // go to next state, then gameover state
+    // this.addMenuOption('Next ->', function (e) {
+      this.game.state.start("GameOver");
+    // });
+
+    // create new game
+    // game.state.add('game', Game, true);
   }
+
 };
 
 // this function already in main.js
