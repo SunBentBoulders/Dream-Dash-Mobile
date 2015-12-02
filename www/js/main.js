@@ -1,12 +1,16 @@
 // Global Variables
-var
-  game = new Phaser.Game(800, 600, Phaser.AUTO, 'game'),
-  Main = function () {},
-  gameOptions = {
+// use scaleRatio variables to make game size responsive based on device
+var scaleRatio = window.devicePixelRatio;
+var gameWidth = window.innerWidth * scaleRatio;
+var gameHeight = window.innerHeight * scaleRatio;
+var game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, 'game');
+
+var Main = function () {};
+var gameOptions = {
     playSound: true,
     playMusic: true
-  },
-  musicPlayer;
+  };
+var musicPlayer;
 
 
 
