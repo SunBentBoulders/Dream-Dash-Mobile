@@ -57,7 +57,6 @@ GameMenu.prototype = {
     game.stage.disableVisibilityChange = true;
     game.add.sprite(0, 0, 'menu-bg');
     game.add.existing(this.titleText);
-    console.log("this", this)
     this.addMenuOption('Start', function () {
       game.state.start("Game");
     });
