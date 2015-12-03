@@ -20,7 +20,7 @@ Game.prototype = {
   create: function () {
     // go full screen
     // global function defined at top of main.js
-    goFull();
+    // goFull();
 
     // this block is for the game menu
     this.stage.disableVisibilityChange = false;
