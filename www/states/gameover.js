@@ -7,10 +7,10 @@ GameOver.prototype = {
   },
 
   addMenuOption: function(text, callback) {
-    var optionStyle = { font: '30pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', srokeThickness: 4};
-    var txt = game.add.text(game.world.centerX, (this.optionCount * 80) + 300, text, optionStyle);
+    var optionStyle = { font: game.height/20 +'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', srokeThickness: 4};
+    var txt = game.add.text(game.world.centerX, (this.optionCount * game.height/7.5) + game.height/2, text, optionStyle);
     txt.anchor.setTo(0.5);
-    txt.stroke = "rgba(0,0,0,0";
+    txt.stroke = "rgba(0,0,0,0)";
     txt.strokeThickness = 4;
     var onOver = function (target) {
       target.fill = "#FEFFD5";
@@ -33,8 +33,8 @@ GameOver.prototype = {
 
   create: function () {
     game.add.sprite(0, 0, 'gameover-bg');
-    var titleStyle = { font: 'bold 60pt TheMinion', fill: '#FDFFB5', align: 'center'};
-    var text = game.add.text(game.world.centerX, 100, "Game Over", titleStyle);
+    var titleStyle = { font: 'bold' +  game.height/10 + 'pt TheMinion', fill: '#FDFFB5', align: 'center'};
+    var text = game.add.text(game.world.centerX, game.height/6, "Game Over", titleStyle);
     text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     text.anchor.set(0.5);
     this.addMenuOption('Play Again', function (e) {
