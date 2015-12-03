@@ -3,13 +3,13 @@
 // TODO: add the devicePixelRatio back to scaling methods
 //==========================
 // use scaleRatio variables to make game size responsive based on device
-// var scaleRatio = window.devicePixelRatio;
+var scaleRatio = window.devicePixelRatio;
 // var gameWidth = window.innerWidth * scaleRatio;
 // var gameHeight = window.innerHeight * scaleRatio;
 // original game size was 800 width x 600 height
 //=====================
-var gameWidth = 800;
-var gameHeight = 600;
+var gameWidth = 800 * scaleRatio;
+var gameHeight = 600 * scaleRatio;
 // var aspectRatio = originalGameWidth/originalGameHeight;
 // var devicePixelRatio = window.devicePixelRatio;
 // var gameWidth = originalGameWidth * devicePixelRatio * aspectRatio;
