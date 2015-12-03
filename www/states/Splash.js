@@ -35,9 +35,10 @@ Splash.prototype = {
   },
 
   init: function () {
-    this.loadingBar = game.make.sprite(game.world.centerX-(387/2), 400, "loading");
-    this.logo       = game.make.sprite(game.world.centerX, 200, 'brand');
-    this.status     = game.make.text(game.world.centerX, 380, 'Loading...', {fill: 'white'});
+    // 387/2 gets center of loading bar image
+    this.loadingBar = game.make.sprite(game.world.centerX-387/2, game.height/1.5, "loading");
+    this.logo       = game.make.sprite(game.world.centerX, game.height/3, 'brand');
+    this.status     = game.make.text(game.world.centerX, game.height/1.58, 'Loading...', {fill: 'white'});
     utils.centerGameObjects([this.logo, this.status]);
   },
 

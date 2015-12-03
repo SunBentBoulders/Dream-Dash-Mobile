@@ -3,13 +3,7 @@
     "version": "1.0.0",
     "description": "Cape-Runner",
     "dependencies": {
-        "angular": "^1.4.8",
-        "angular-ui-router": "^0.2.15",
         "phaser": "^2.4.4",
-        "grunt": "^0.4.5",
-        "grunt-sass": "^1.1.0",
-        "grunt-concat": "^0.1.6",
-        "grunt-rename": "^0.1.4",
         "gulp": "^3.5.6",
         "gulp-sass": "^2.0.4",
         "gulp-concat": "^2.2.0",
@@ -23,21 +17,6 @@
         "grunt-contrib-nodeunit": "~0.4.1",
         "grunt-contrib-uglify": "^0.5.1",
         "grunt-karma": "^0.12.1",
-        "grunt-phonegap-build": "*",
-        "grunt-util": "^0.5.3",
-        "gulp-angular-templatecache": "^1.8.0",
-        "gulp-ng-annotate": "^1.1.0",
-        "gulp-useref": "^3.0.3",
-        "gulp-util": "^2.2.14",
         "shelljs": "^0.3.0"
-    },
-    "cordovaPlugins": [
-        "cordova-plugin-device",
-        "cordova-plugin-console",
-        "cordova-plugin-whitelist",
-        "cordova-plugin-splashscreen",
-        "cordova-plugin-statusbar",
-        "ionic-plugin-keyboard"
-    ],
-    "cordovaPlatforms": []
+    }
 }

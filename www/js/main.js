@@ -3,7 +3,18 @@
 var scaleRatio = window.devicePixelRatio;
 var gameWidth = window.innerWidth * scaleRatio;
 var gameHeight = window.innerHeight * scaleRatio;
+// original game size was 800 width x 600 height
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, 'game');
+function goFull() {
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
+    game.scale.updateLayout(true);
+    // game.scale.startFullScreen();
+    // scale the game
+    // game.scale.scale.setShowAll();
+    // game.scale.scale.refresh();
+};
 
 var Main = function () {};
 var gameOptions = {
@@ -29,6 +40,8 @@ Main.prototype = {
   create: function () {
     game.state.add('Splash', Splash);
     game.state.start('Splash');
+    // global function defined
+    goFull();
   }
 
 };

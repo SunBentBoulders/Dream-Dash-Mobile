@@ -17,33 +17,11 @@ Game.prototype = {
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
   },
 
-  // this function is for the game menu
-  addMenuOption: function(text, callback) {
-    var optionStyle = { font: '30pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', srokeThickness: 4};
-    var txt = game.add.text(game.world.centerX, (this.optionCount * 80) + 200, text, optionStyle);
-    txt.anchor.setTo(0.5);
-    txt.stroke = "rgba(0,0,0,0";
-    txt.strokeThickness = 4;
-    var onOver = function (target) {
-      target.fill = "#FEFFD5";
-      target.stroke = "rgba(200,200,200,0.5)";
-      txt.useHandCursor = true;
-    };
-    var onOut = function (target) {
-      target.fill = "white";
-      target.stroke = "rgba(0,0,0,0)";
-      txt.useHandCursor = false;
-    };
-    //txt.useHandCursor = true;
-    txt.inputEnabled = true;
-    txt.events.onInputUp.add(callback, this);
-    txt.events.onInputOver.add(onOver, this);
-    txt.events.onInputOut.add(onOut, this);
-
-    this.optionCount ++;
-  },
-
   create: function () {
+    // go full screen
+    // global function defined at top of main.js
+    goFull();
+
     // this block is for the game menu
     this.stage.disableVisibilityChange = false;
     game.add.sprite(0, 0, 'stars');
@@ -72,14 +50,14 @@ Game.prototype = {
     ground.body.immovable = true;
 
     //  Now let's create two ledges
-    var ledge = platforms.create(400, 400, 'ground');
+    var ledge = platforms.create(game.width/2, game.height/1.5, 'ground');
     ledge.body.immovable = true;
 
     ledge = platforms.create(-150, 250, 'ground');
     ledge.body.immovable = true;
 
-    // The player and its settings
-    this.player = game.add.sprite(32, game.world.height - 150, 'dude');
+    // The player and its settings, positions it at (32, game.world.height - 150)
+    this.player = game.add.sprite(game.width/25, game.height - game.height/4, 'dude');
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(this.player);
