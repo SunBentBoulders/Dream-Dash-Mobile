@@ -18,8 +18,8 @@ function goFull() {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.minWidth = gameWidth/2;
         game.scale.minHeight = gameHeight/2;
-        game.scale.maxWidth = gameWidth;
-        game.scale.maxHeight = gameHeight;
+        game.scale.maxWidth = gameWidth * 1.5;
+        game.scale.maxHeight = gameHeight * 1.5;
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.scale.updateLayout(true); // changed from this.scale.setScreenSize(true)
