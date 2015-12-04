@@ -48,8 +48,9 @@ Game.prototype = {
     graphics.drawRect(0, game.height/2, game.width, game.height);
     graphics.endFill();
 
-    // add star player
-    game.add.sprite(game.width/2, game.height/4 * 3, 'dude')
+    // add star player and enable physics on player
+    this.player = game.add.sprite(game.width/2, game.height/4 * 3, 'dude')
+    game.physics.arcade.enable(this.player);
 
     // add group of enemy stars
     game.stars = game.add.group();
@@ -135,7 +136,7 @@ Game.prototype = {
     // this.player = game.add.sprite(game.width/25, game.height - game.height/4, 'dude');
 
     // //  We need to enable physics on the player
-    // game.physics.arcade.enable(this.player);
+    // game.physics.arcade.enable(game.player);
 
     // //  Player physics properties. Give the little guy a slight bounce.
     // this.player.body.bounce.y = 0.2;
@@ -173,12 +174,12 @@ Game.prototype = {
   },
 
   update: function() {
-    // //  Collide the player and the stars with the platforms
-    // game.physics.arcade.collide(this.player, platforms);
+    //  Collide the player and the stars with the platforms
+    game.physics.arcade.collide(game.player, game.stars);
     // game.physics.arcade.collide(this.stars, platforms);
 
-    // //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    // game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
+    // //  Checks to see if the player overlaps with any of the stars, if he does call the gameOver function
+    game.physics.arcade.overlap(this.player, game.stars, this.gameOver, null, this);
 
     // //  Reset the players velocity (movement)
     // this.player.body.velocity.x = 0;
