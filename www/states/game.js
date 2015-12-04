@@ -70,7 +70,7 @@ Game.prototype = {
         star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
-        tween.to({x: 40, y:40}, 2000, Phaser.Easing.Linear.None, true);
+        tween.to({x: 20, y:20}, 2000, Phaser.Easing.Linear.None, true);
         tween.onComplete.add(function() {
             game.starCount--;
             star.kill();
