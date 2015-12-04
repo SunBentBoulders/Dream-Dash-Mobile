@@ -80,7 +80,7 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: Math.random()*game.width*2}, 2000, Phaser.Easing.Linear.None, true)
+        tween2.to({x: game.width * 3 - Math.random()*game.width*6}, 2000, Phaser.Easing.Linear.None, true)
     }
 
     // dropTimer and addStarWrapper are used to generate stars at random intervals
