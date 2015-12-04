@@ -12,6 +12,7 @@ GameOver.prototype = {
     txt.anchor.setTo(0.5);
     txt.stroke = "rgba(0,0,0,0)";
     txt.strokeThickness = 4;
+    txt.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     var onOver = function (target) {
       target.fill = "#FEFFD5";
       target.stroke = "rgba(200,200,200,0.5)";
@@ -33,7 +34,7 @@ GameOver.prototype = {
 
   create: function () {
     game.add.sprite(0, 0, 'gameover-bg');
-    var titleStyle = { font: 'bold' +  game.height/10 + 'pt TheMinion', fill: '#FDFFB5', align: 'center'};
+    var titleStyle = { font: 'bold ' +  game.height/10 + 'pt TheMinion', fill: '#FDFFB5', align: 'center'};
     var text = game.add.text(game.world.centerX, game.height/6, "Game Over", titleStyle);
     text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     text.anchor.set(0.5);
