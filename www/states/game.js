@@ -64,7 +64,6 @@ Game.prototype = {
         game.starCount++;
         console.log("addStar starCount", game.starCount);
         var star = game.stars.create(Math.random() * game.width, game.height/2, 'star');
-        console.log("star", star)
         star.anchor.setTo(.5);
         // enable physics
         // game.physics.enable(star, Phaser.Physics.ARCADE);
@@ -76,6 +75,19 @@ Game.prototype = {
             game.starCount--;
             star.kill();
         });
+        // add tween for stars to move to edges of screen as they get bigger
+        // applies to stars that start on left of screen
+        if (star.position.x <= game.width/2){
+            var tween2 = game.add.tween(star.position);
+            console.log("position", star.position)
+            // stars move to left of screen
+            tween2.to({x: -game.width}, 2000, Phaser.Easing.Linear.None, true)
+        // applies to stars that start on right of screen
+        } else {
+            var tween3 = game.add.tween(star.position);
+            // stars move to right of screen
+            tween3.to({x: game.width * 2}, 2000, Phaser.Easing.Linear.None, true)
+        }
     }
 
     // dropTimer and addStarWrapper are used to generate stars at random intervals
@@ -83,7 +95,7 @@ Game.prototype = {
     game.dropTimer.start();
     game.addStarWrapper = function() {
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random(), game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/2, game.addStarWrapper, this);
     }
     game.addStarWrapper();
 
