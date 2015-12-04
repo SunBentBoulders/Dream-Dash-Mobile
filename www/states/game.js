@@ -72,16 +72,16 @@ Game.prototype = {
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
         tween.to({x: 20, y:20}, 2000, Phaser.Easing.Linear.None, true);
-        tween.onComplete.add(function() {
-            game.starCount--;
-            star.kill();
-        });
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*2}, 3000, Phaser.Easing.Linear.None, true)
+        tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*2}, 8000, Phaser.Easing.Linear.None, true)
+        tween2.onComplete.add(function() {
+            game.starCount--;
+            star.kill();
+        });
     }
 
     // dropTimer and addStarWrapper are used to generate stars at random intervals
