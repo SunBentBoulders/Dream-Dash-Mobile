@@ -16,7 +16,7 @@ var gameHeight = 600 * scaleRatio;
 // var gameHeight = originalGameHeight * devicePixelRatio * aspectRatio;
 // console.log("gameWidth", gameWidth);
 // console.log("gameHeight", gameHeight);
-var game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, 'game');
+var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'game');
 function goFull() {
 
 

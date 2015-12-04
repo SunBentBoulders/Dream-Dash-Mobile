@@ -1,8 +1,8 @@
 var Game = function(game) {
-  // this.player;
+  this.player;
   // this.platforms;
   // this.cursors;
-  // this.stars;
+  this.stars;
   // this.score = 0;
   // this.scoreText;
 };
@@ -13,11 +13,24 @@ Game.prototype = {
     // this.optionCount = 1;
     // game.load.image('sky', 'img/sky.png');
     // game.load.image('ground', 'img/platform.png');
-    // game.load.image('star', 'img/star.png');
-    // game.load.spritesheet('dude', 'img/dude.png', 32, 48);
+    game.load.image('star', 'img/star.png');
+    game.load.spritesheet('dude', 'img/dude.png', 32, 48);
   },
 
+   // kill star after tween is done
+  // killStar: function(star) {
+  //   console.log("killing star");
+  //   console.log("star", star)
+  //   star.kill();
+  //   game.starCount--;
+  //   console.log("starCount", game.starCount);
+  //   // game.add.tween(star.)
+  // },
+
   create: function () {
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
     // go full screen
     // global function defined at top of main.js
     // goFull();
@@ -34,6 +47,51 @@ Game.prototype = {
     // syntax: top left x, top left y, width, height
     graphics.drawRect(0, game.height/2, game.width, game.height);
     graphics.endFill();
+
+    // add star player
+    game.add.sprite(game.width/2, game.height/4 * 3, 'dude')
+
+    // add group of enemy stars
+    game.stars = game.add.group();
+    game.stars.enableBody = true;
+    game.starCount = 0;
+
+
+
+
+    //  Create a star inside of the 'stars' group
+    game.addStar = function(){
+        game.starCount++;
+        console.log("addStar starCount", game.starCount);
+        var star = game.stars.create(Math.random() * game.width, game.height/2, 'star');
+        console.log("star", star)
+        star.anchor.setTo(.5);
+        // enable physics
+        // game.physics.enable(star, Phaser.Physics.ARCADE);
+        star.body.immovable = true;
+        // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
+        var tween = game.add.tween(star.scale);
+        tween.to({x: 40, y:40}, 2000, Phaser.Easing.Linear.None, true);
+        tween.onComplete.add(function() {
+            console.log("star destroy", star)
+            star.kill();
+        });
+    }
+
+    // dropTimer and addStarWrapper are used to generate stars at random intervals
+    game.dropTimer = game.time.create(false);
+    game.dropTimer.start();
+    game.addStarWrapper = function() {
+        game.addStar();
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random(), game.addStarWrapper, this);
+    }
+    game.addStarWrapper();
+
+    //  Let gravity do its thing
+    // star.body.gravity.y = 300;
+
+    //  This just gives each star a slightly random bounce value
+    // star.body.bounce.y = 0.7 + Math.random() * 0.2;
 
 
     // game.add.sprite(0, 0, 'stars');
@@ -147,6 +205,8 @@ Game.prototype = {
     // }
 
   },
+
+
 
   collectStar: function(player, star) {
     // // Removes the star from the screen
