@@ -49,8 +49,13 @@ Game.prototype = {
     graphics.endFill();
 
     // add star player and enable physics on player
-    this.player = game.add.sprite(game.width/2, game.height/4 * 3, 'dude')
+    this.player = game.add.sprite(game.width/2, game.height/4 * 3, 'dude');
+    this.player.scale.setTo(1.5, 1.5);
+    this.player.anchor.setTo(.5, 1);
+    console.log("this.player.anchor", this.player.anchor)
+
     game.physics.arcade.enable(this.player);
+    // scale player so that eye level is at the horizon line
 
     // add group of enemy stars
     game.stars = game.add.group();
@@ -65,19 +70,22 @@ Game.prototype = {
         game.starCount++;
         console.log("addStar starCount", game.starCount);
         var star = game.stars.create(game.width/2, game.height/2, 'star');
+        star.scale.setTo(0);
         star.anchor.setTo(.5);
         // enable physics
         // game.physics.enable(star, Phaser.Physics.ARCADE);
         star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
-        tween.to({x: 20, y:20}, 2000, Phaser.Easing.Linear.None, true);
+        var timeToTween = 7000;
+        // tween.from({x: 0, y: 0});
+        tween.to({x: 20, y:20}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*2}, 8000, Phaser.Easing.Linear.None, true)
+        tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
             game.starCount--;
             star.kill();
@@ -180,6 +188,7 @@ Game.prototype = {
 
     // //  Checks to see if the player overlaps with any of the stars, if he does call the gameOver function
     game.physics.arcade.overlap(this.player, game.stars, this.gameOver, null, this);
+
 
     // //  Reset the players velocity (movement)
     // this.player.body.velocity.x = 0;
