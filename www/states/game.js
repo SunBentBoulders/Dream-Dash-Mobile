@@ -63,7 +63,7 @@ Game.prototype = {
     game.addStar = function(){
         game.starCount++;
         console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(Math.random() * game.width, game.height/2, 'star');
+        var star = game.stars.create(game.width/2, game.height/2, 'star');
         star.anchor.setTo(.5);
         // enable physics
         // game.physics.enable(star, Phaser.Physics.ARCADE);
@@ -77,7 +77,7 @@ Game.prototype = {
         });
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
-        if (star.position.x <= game.width/2){
+        if (Math.random() < 0.5){
             var tween2 = game.add.tween(star.position);
             console.log("position", star.position)
             // stars move to left of screen
