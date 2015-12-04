@@ -73,7 +73,7 @@ Game.prototype = {
         var tween = game.add.tween(star.scale);
         tween.to({x: 40, y:40}, 2000, Phaser.Easing.Linear.None, true);
         tween.onComplete.add(function() {
-            console.log("star destroy", star)
+            game.starCount--;
             star.kill();
         });
     }
