@@ -31,8 +31,8 @@ function goFull() {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.minWidth = gameWidth/2;
         game.scale.minHeight = gameHeight/2;
-        game.scale.maxWidth = gameWidth * 1.5;
-        game.scale.maxHeight = gameHeight * 1.5;
+        game.scale.maxWidth = gameWidth * 1;
+        game.scale.maxHeight = gameHeight * 1;
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.scale.updateLayout(true); // changed from this.scale.setScreenSize(true)
@@ -84,31 +84,32 @@ function goFull() {
 };
 
 var Main = function () {};
-var gameOptions = {
-    playSound: true,
-    playMusic: true
-  };
-var musicPlayer;
-
+    var gameOptions = {
+        playSound: true,
+        playMusic: true
+      };
+    var musicPlayer;
 
 
 // this block controls the initial game menu
 Main.prototype = {
 
   preload: function () {
+        // global function defined
+    goFull();
+
     game.load.image('stars',    'assets/images/2.jpg');
     game.load.image('loading',  'assets/images/loading.png');
     game.load.image('brand',    'assets/images/Boulder.png');
     game.load.script('polyfill',   'lib/polyfill.js');
     game.load.script('utils',   'lib/utils.js');
     game.load.script('Splash',  'states/Splash.js');
+    game.load.script('Cube', 'js/cubeExperiment.js')
   },
 
   create: function () {
     game.state.add('Splash', Splash);
     game.state.start('Splash');
-    // global function defined
-    goFull();
   }
 
 };

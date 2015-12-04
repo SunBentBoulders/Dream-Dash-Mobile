@@ -35,6 +35,7 @@ Game.prototype = {
     graphics.drawRect(0, game.height/2, game.width, game.height);
     graphics.endFill();
 
+
     // game.add.sprite(0, 0, 'stars');
 
     // // the rest of the create function below is for the game itself
