@@ -8,14 +8,17 @@ var Game = function(game) {
   this.width = 2000;
   this.right = 1;
   this.left = 0;
+  var clouds;
+  var backgroundScroll;
 };
-
 Game.prototype = {
 
   preload: function (game) {
+console.log(game.width,game.height);
     // this.optionCount = 1;
     // game.load.image('sky', 'img/sky.png');
     // game.load.image('ground', 'img/platform.png');
+    game.load.image('clouds', 'img/cloud.png');
     game.load.image('star', 'img/star.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
   },
@@ -33,6 +36,10 @@ Game.prototype = {
   create: function (game) {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
+    //creates infinite tiling of the cloud image
+    clouds = game.add.tileSprite(0,0,this.width,game.height, 'clouds');
+    // set the scroll speed for the background image
+    backgroundScroll = 1;
 
     // go full screen
     // global function defined at top of main.js
@@ -190,6 +197,8 @@ Game.prototype = {
   },
 
   update: function(game) {
+    //make the background scroll
+    clouds.tilePosition.y += backgroundScroll;
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(this.player, game.stars,this.gameOver, null, this);
     // game.physics.arcade.collide(this.stars, platforms);
@@ -205,41 +214,40 @@ Game.prototype = {
     console.log('the touchScreen is enabled',!!game.input.pointer1);
     //this is for computer input
 
-        // if (cursors.left.isDown) {
-        //     //  Move to the left
-        //     this.player.body.velocity.x = -150;
-        //     this.player.animations.play('left');
-        // }
-        // else if (cursors.right.isDown) {
-        //     //  Move to the right
-        //     this.player.body.velocity.x = 150;
-        //     this.player.animations.play('right');
-        // }
-        // else {
-        //     //  Stand still
-        //     this.player.animations.stop();
-        //     this.player.frame = 4;
-        // }
+        if (cursors.left.isDown) {
+            //  Move to the left
+            this.player.body.velocity.x = -150;
+            this.player.animations.play('left');
+        }
+        else if (cursors.right.isDown) {
+            //  Move to the right
+            this.player.body.velocity.x = 150;
+            this.player.animations.play('right');
+        }
+        else {
+            //  Stand still
+            this.player.animations.stop();
+            this.player.frame = 4;
+        }
 
         //this if for the phone input
-    if(game.input.pointer1.isDown){
-        //check to see if the touch is happening on the left
-        console.log('pointer1 is down');
-       if(Math.floor(game.input.x/(game.width/2)) === this.left){
-        //move to the left
-            this.player.animations.play('left');
-            this.player.body.velocity.x = -150;
-        //check to see if the touch is happening on the right
-       }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
-        //move to the right
-            this.player.animations.play('right');
-            this.player.body.velocity.x = 150;
-
-       }
-       } else {
-        this.player.animations.stop();
-        this.player.frame = 4;
-    }
+    // if(game.input.pointer1.isDown){
+    //     //check to see if the touch is happening on the left
+    //     console.log('pointer1 is down');
+    //    if(Math.floor(game.input.x/(game.width/2)) === this.left){
+    //     //move to the left
+    //         this.player.animations.play('left');
+    //         this.player.body.velocity.x = -150;
+    //     //check to see if the touch is happening on the right
+    //     }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
+    //     //move to the right
+    //         this.player.animations.play('right');
+    //         this.player.body.velocity.x = 150;
+    //     }
+    // } else {
+    //     this.player.animations.stop();
+    //     this.player.frame = 4;
+    // }
 
 
 
