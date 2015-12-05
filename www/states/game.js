@@ -1,5 +1,6 @@
 var Game = function(game) {
   this.player;
+  this.fauxPlayer;
   // this.platforms;
   // this.cursors;
   this.stars;
@@ -47,6 +48,11 @@ Game.prototype = {
 
     // make player and faux player for collision detection
     //==============================================================
+    // add faux player first so it renders behind player and isn't seen by user, render physics on faux player
+    this.fauxPlayer = game.add.sprite(game.width/2, game.height/4*3, 'dude');
+    this.fauxPlayer.scale.setTo(.5, .5);
+    this.fauxPlayer.anchor.setTo(.5, 1);
+    game.physics.arcade.enable(this.fauxPlayer);
     // add star player and enable physics on player
     this.player = game.add.sprite(game.width/2, game.height/4 * 3, 'dude');
     this.player.scale.setTo(1.5, 1.5);
@@ -177,7 +183,7 @@ Game.prototype = {
 
   update: function() {
     // //  Checks to see if the player overlaps with any of the stars, if he does call the gameOver function
-    game.physics.arcade.overlap(this.player, game.stars, null, this.checkCollision, this);
+    game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.checkCollision, this);
 
     // adding manual collision detection - check location of each stars in stars group
     if (game.stars.children.length > 3) { // 5 is an arbritrary number
@@ -263,7 +269,8 @@ Game.prototype = {
 
   checkCollision: function(player, star) {
     console.log("checking for collision");
-    setTimeout(this.gameOver, 500);
+    // setTimeout(this.gameOver, 500);
+    this.gameOver();
   },
 
   // this function called by end of update function
