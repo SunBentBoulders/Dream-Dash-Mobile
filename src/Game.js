@@ -235,10 +235,10 @@ Game.prototype = {
             this.player.animations.play('right');
             this.player.body.velocity.x = 150;
 
+       }
        } else {
         this.player.animations.stop();
         this.player.frame = 4;
-       }
     }
 
 
