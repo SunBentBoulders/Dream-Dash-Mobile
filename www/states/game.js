@@ -40,6 +40,13 @@ Game.prototype = {
     graphics.drawRect(0, game.height/2, game.width, game.height);
     graphics.endFill();
 
+    // add group of enemy stars
+    game.stars = game.add.group();
+    game.stars.enableBody = true;
+    game.starCount = 0;
+
+    // make player and faux player for collision detection
+    //==============================================================
     // add star player and enable physics on player
     this.player = game.add.sprite(game.width/2, game.height/4 * 3, 'dude');
     this.player.scale.setTo(1.5, 1.5);
@@ -49,10 +56,6 @@ Game.prototype = {
     game.physics.arcade.enable(this.player);
     // scale player so that eye level is at the horizon line
 
-    // add group of enemy stars
-    game.stars = game.add.group();
-    game.stars.enableBody = true;
-    game.starCount = 0;
 
 
 
@@ -175,11 +178,12 @@ Game.prototype = {
   update: function() {
     // //  Checks to see if the player overlaps with any of the stars, if he does call the gameOver function
     game.physics.arcade.overlap(this.player, game.stars, null, this.checkCollision, this);
+
     // adding manual collision detection - check location of each stars in stars group
-    // if (game.stars.children.length > 3) { // 5 is an arbritrary number
-    //     for (var i = 0; i < game.stars.children.length; i++) {
+    if (game.stars.children.length > 3) { // 5 is an arbritrary number
+        for (var i = 0; i < game.stars.children.length; i++) {
     //             // console.log("gameover");
-    //         var star = game.stars.children[i];
+            var star = game.stars.children[i];
     //         // console.log("star.position", Math.floor(star.position.x), Math.floor(star.position.y))
     //         // var leftX = game.width/2 - this.player.width/4; // makes a bottom center area the target with width of half the player
     //         // var rightX = game.width/2 + this.player.width/4;
@@ -201,9 +205,9 @@ Game.prototype = {
     //         // if (Math.floor(star.position.x) === 400 && Math.floor(star.position.y) ===450) {
     //         //     this.gameOver();
     //         // }
-    //     }
+        }
 
-    // }
+    }
 
 
 
