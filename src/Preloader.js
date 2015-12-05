@@ -17,6 +17,15 @@ Preloader.prototype = {
         utils.centerGameObjects([this.game.logo, this.game.status]);
     },
 
+    loadFonts: function (game) {
+//        WebFontConfig = {
+//          custom: {
+//            families: ['TheMinion'],
+//            urls: ['assets/style/theminion.css']
+//          }
+//        }
+    },
+    
 	preload: function (game) {
         //adds content to splash screen
         game.add.sprite(0, 0, 'stars');
@@ -33,23 +42,17 @@ Preloader.prototype = {
         game.load.image('ground', 'img/platform.png');
         game.load.image('star', 'img/star.png');
         game.load.spritesheet('dude', 'img/dude.png', 32, 48);
-        //loads fonts
-        WebFontConfig = {
-            custom: {
-                families: ['TheMinion'],
-                urls: ['assets/style/theminion.css']
-            }
-        }
+
         //loads audio
 		game.load.audio('bgm', 'assets/bgm/background_music.mp3');
         game.load.audio('startDing', 'assets/bgm/startDing.wav');
+        
+        this.loadFonts(game);
         
 	},
 
 
     addGameStates: function (game) {
-        console.log('game is ', game);
-        console.log('this is ', this);
         game.state.add("MainMenu",MainMenu);
         game.state.add("Game",Game);
 //        game.state.add("GameOver",GameOver);
@@ -90,7 +93,7 @@ Preloader.prototype = {
         game.add.audio('startDing');  
 
         setTimeout(function () {
-          game.state.start("Game");
+          game.state.start("MainMenu");
         }, 1000);
 	}
 };

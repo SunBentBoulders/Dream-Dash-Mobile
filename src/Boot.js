@@ -59,23 +59,22 @@ Boot.prototype = {
         }
     },
 
-    preload: function () {
+    preload: function (game) {
 
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
-        this.load.image('stars', 'assets/images/2.jpg');
-        this.load.image('loading', 'assets/images/loading.png');
-        this.load.image('brand', 'assets/images/Boulder.png');
+        game.load.image('stars', 'assets/images/2.jpg');
+        game.load.image('loading', 'assets/images/loading.png');
+        game.load.image('brand', 'assets/images/Boulder.png');
         
-//        this.load.script('polyfill', 'lib/polyfill.js');
-//        this.load.script('utils', 'lib/utils.js');
-        this.load.script('MainMenu', 'src/MainMenu.js');
+        game.load.script("WebFont", "vendor/webfontloader.js");
+        game.load.script('MainMenu', 'src/MainMenu.js');
 
 
     },
 
-    create: function () {
+    create: function (game) {
 
-        this.state.start('Preloader');
+        game.state.start('Preloader');
 
     },
 
