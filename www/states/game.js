@@ -2,7 +2,7 @@ var Game = function(game) {
   this.player;
   this.fauxPlayer;
   // this.platforms;
-  // this.cursors;
+  this.cursors;
   this.stars;
   // this.score = 0;
   // this.scoreText;
@@ -149,7 +149,7 @@ Game.prototype = {
     // //  Player physics properties. Give the little guy a slight bounce.
     // this.player.body.bounce.y = 0.2;
     // this.player.body.gravity.y = 300;
-    // this.player.body.collideWorldBounds = true;
+    this.player.body.collideWorldBounds = true;
 
     // //  Our two animations, walking left and right.
     // this.player.animations.add('left', [0, 1, 2, 3], 10, true);
@@ -178,7 +178,7 @@ Game.prototype = {
     // this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
     // //  Our controls.
-    // cursors = game.input.keyboard.createCursorKeys();
+    cursors = game.input.keyboard.createCursorKeys();
   },
 
   update: function() {
@@ -186,10 +186,10 @@ Game.prototype = {
     game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.checkCollision, this);
 
     // adding manual collision detection - check location of each stars in stars group
-    if (game.stars.children.length > 3) { // 5 is an arbritrary number
-        for (var i = 0; i < game.stars.children.length; i++) {
+    // if (game.stars.children.length > 3) { // 5 is an arbritrary number
+    //     for (var i = 0; i < game.stars.children.length; i++) {
     //             // console.log("gameover");
-            var star = game.stars.children[i];
+            // var star = game.stars.children[i];
     //         // console.log("star.position", Math.floor(star.position.x), Math.floor(star.position.y))
     //         // var leftX = game.width/2 - this.player.width/4; // makes a bottom center area the target with width of half the player
     //         // var rightX = game.width/2 + this.player.width/4;
@@ -211,9 +211,9 @@ Game.prototype = {
     //         // if (Math.floor(star.position.x) === 400 && Math.floor(star.position.y) ===450) {
     //         //     this.gameOver();
     //         // }
-        }
+    //     }
 
-    }
+    // }
 
 
 
@@ -226,23 +226,23 @@ Game.prototype = {
 
 
     // //  Reset the players velocity (movement)
-    // this.player.body.velocity.x = 0;
+    this.player.body.velocity.x = 0;
 
-    // if (cursors.left.isDown) {
-    //     //  Move to the left
-    //     this.player.body.velocity.x = -150;
-    //     this.player.animations.play('left');
-    // }
-    // else if (cursors.right.isDown) {
-    //     //  Move to the right
-    //     this.player.body.velocity.x = 150;
-    //     this.player.animations.play('right');
-    // }
-    // else {
-    //     //  Stand still
-    //     this.player.animations.stop();
-    //     this.player.frame = 4;
-    // }
+    if (cursors.left.isDown) {
+        //  Move to the left
+        this.player.body.velocity.x = -150;
+        this.player.animations.play('left');
+    }
+    else if (cursors.right.isDown) {
+        //  Move to the right
+        this.player.body.velocity.x = 150;
+        this.player.animations.play('right');
+    }
+    else {
+        //  Stand still
+        this.player.animations.stop();
+        this.player.frame = 4;
+    }
 
     // //  Allow the player to jump if they are touching the ground.
     // if (cursors.up.isDown && this.player.body.touching.down) {
