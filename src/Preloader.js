@@ -55,9 +55,9 @@ Preloader.prototype = {
     addGameStates: function (game) {
         game.state.add("MainMenu",MainMenu);
         game.state.add("Game",Game);
-//        game.state.add("GameOver",GameOver);
-//        game.state.add("Credits",Credits);
-//        game.state.add("Options",Options);
+        game.state.add("GameOver",GameOver);
+        game.state.add("Credits",Credits);
+        game.state.add("Options",Options);
     },
     
     addGameMusic: function (game) {

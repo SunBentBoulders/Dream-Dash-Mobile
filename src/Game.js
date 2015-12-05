@@ -148,9 +148,9 @@ Game.prototype = {
   // this function called by end of update function
   gameOver: function(player) {
     // kill the player
-    player.kill();
-    // go to gameover state
-//      this.game.state.start("GameOver");
+      player.kill();
+      // go to gameover state
+      this.game.state.start("GameOver");
   }
 
 };
