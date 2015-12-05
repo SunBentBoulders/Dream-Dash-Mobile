@@ -61,7 +61,7 @@ Game.prototype = {
     game.addStar = function(){
         game.starCount++;
         console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(game.width/2, game.height/2, 'star');
+        var star = game.stars.create(game.width*1.5 - Math.random()*game.width*3, game.height/2, 'star');
         star.scale.setTo(0);
         star.anchor.setTo(.5);
         // enable physics
