@@ -1,5 +1,9 @@
 var Game = function(game) {
+  // create group that we can use to bind the player to the faux player
   this.player;
+  // this is the real player that user sees
+  this.realPlayer;
+  // this is the fake player that only exists for collision detection
   this.fauxPlayer;
   // this.platforms;
   this.cursors;
@@ -14,7 +18,7 @@ Game.prototype = {
     // this.optionCount = 1;
     // game.load.image('sky', 'img/sky.png');
     // game.load.image('ground', 'img/platform.png');
-    game.load.image('star', 'img/star.png');
+    game.load.image('star', 'img/enemyStar.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
   },
 
@@ -53,14 +57,23 @@ Game.prototype = {
     this.fauxPlayer.scale.setTo(.5, .5);
     this.fauxPlayer.anchor.setTo(.5, 1);
     game.physics.arcade.enable(this.fauxPlayer);
-    // add star player and enable physics on player
-    this.player = game.add.sprite(game.width/2, game.height/4 * 3, 'dude');
-    this.player.scale.setTo(1.5, 1.5);
-    this.player.anchor.setTo(.5, 1);
-    // this.player.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
-    // console.log("player.hitArea", this.player.hitArea);
-    game.physics.arcade.enable(this.player);
-    // scale player so that eye level is at the horizon line
+
+    // add real player and enable physics on player
+    this.realPlayer = game.add.sprite(game.width/2, game.height/4 * 3, 'dude');
+    this.realPlayer.scale.setTo(1.5, 1.5);
+    this.realPlayer.anchor.setTo(.5, 1);
+    // this.realPlayer.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
+    // console.log("realPlayer.hitArea", this.realPlayer.hitArea);
+    game.physics.arcade.enable(this.realPlayer);
+    // scale realPlayer so that eye level is at the horizon line
+
+    // add real player and faux player to player group
+    this.player = game.add.group();
+    this.player.enableBody = true;
+    this.player.add(this.fauxPlayer);
+    this.player.add(this.realPlayer);
+    //==============================================================
+
 
 
 
@@ -78,8 +91,8 @@ Game.prototype = {
         star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
-        var timeToTween = 7000;
-        tween.to({x: 20, y:20}, timeToTween, Phaser.Easing.Exponential.In, true);
+        var timeToTween = 8000;
+        tween.to({x: .5, y:.5}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
 
@@ -97,7 +110,7 @@ Game.prototype = {
     game.dropTimer.start();
     game.addStarWrapper = function() {
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/2, game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapper, this);
     }
     game.addStarWrapper();
 
@@ -149,11 +162,11 @@ Game.prototype = {
     // //  Player physics properties. Give the little guy a slight bounce.
     // this.player.body.bounce.y = 0.2;
     // this.player.body.gravity.y = 300;
-    this.player.body.collideWorldBounds = true;
+    this.player.collideWorldBounds = true;
 
     // //  Our two animations, walking left and right.
-    // this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-    // this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+    this.realPlayer.animations.add('left', [0, 1, 2, 3], 10, true);
+    this.realPlayer.animations.add('right', [5, 6, 7, 8], 10, true);
 
     // //  Finally some stars to collect
     // this.stars = game.add.group();
@@ -226,22 +239,24 @@ Game.prototype = {
 
 
     // //  Reset the players velocity (movement)
-    this.player.body.velocity.x = 0;
+    this.player.setAll('body.velocity.x', 0);
 
     if (cursors.left.isDown) {
         //  Move to the left
-        this.player.body.velocity.x = -150;
-        this.player.animations.play('left');
+        this.player.setAll('body.velocity.x', -150);
+        this.realPlayer.animations.play('left');
     }
     else if (cursors.right.isDown) {
         //  Move to the right
-        this.player.body.velocity.x = 150;
-        this.player.animations.play('right');
+    console.log("this.player", this.player)
+        this.player.setAll('body.velocity.x', 150);
+        this.realPlayer.animations.play('right');
     }
     else {
         //  Stand still
-        this.player.animations.stop();
-        this.player.frame = 4;
+        // this.player.animations.stop();
+        this.player.setAll('body.velocity.x', 0);
+        this.realPlayer.frame = 4;
     }
 
     // //  Allow the player to jump if they are touching the ground.
