@@ -17,15 +17,7 @@ Game.prototype = {
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
   },
 
-   // kill star after tween is done
-  // killStar: function(star) {
-  //   console.log("killing star");
-  //   console.log("star", star)
-  //   star.kill();
-  //   game.starCount--;
-  //   console.log("starCount", game.starCount);
-  //   // game.add.tween(star.)
-  // },
+
 
   create: function () {
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -52,8 +44,8 @@ Game.prototype = {
     this.player = game.add.sprite(game.width/2, game.height/4 * 3, 'dude');
     this.player.scale.setTo(1.5, 1.5);
     this.player.anchor.setTo(.5, 1);
-    console.log("this.player.anchor", this.player.anchor)
-
+    // this.player.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
+    // console.log("player.hitArea", this.player.hitArea);
     game.physics.arcade.enable(this.player);
     // scale player so that eye level is at the horizon line
 
@@ -78,7 +70,6 @@ Game.prototype = {
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
         var timeToTween = 7000;
-        // tween.from({x: 0, y: 0});
         tween.to({x: 20, y:20}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
@@ -182,12 +173,46 @@ Game.prototype = {
   },
 
   update: function() {
+    // //  Checks to see if the player overlaps with any of the stars, if he does call the gameOver function
+    game.physics.arcade.overlap(this.player, game.stars, null, this.checkCollision, this);
+    // adding manual collision detection - check location of each stars in stars group
+    // if (game.stars.children.length > 3) { // 5 is an arbritrary number
+    //     for (var i = 0; i < game.stars.children.length; i++) {
+    //             // console.log("gameover");
+    //         var star = game.stars.children[i];
+    //         // console.log("star.position", Math.floor(star.position.x), Math.floor(star.position.y))
+    //         // var leftX = game.width/2 - this.player.width/4; // makes a bottom center area the target with width of half the player
+    //         // var rightX = game.width/2 + this.player.width/4;
+    //         // var bottomY = game.height/4 * 3 + this.player.height/4;
+    //         // var topY = game.height/4 * 3 + this.player.height/4 * 3;
+
+    //         // if (star.position.x > leftX || star.position.x < rightX) {
+    //         //     if (star.position.y > bottomY || star.position.y < topY) {
+    //         //         this.gameOver()
+    //         //     }
+    //         // }
+    //         // if (Math.floor(star.body.x === 400)) {
+    //         //     console.log("star", star)
+    //         //     // console.log("playerY", this.player.position.y)
+    //         //     if (Math.floor(star.y === 450)) {
+    //         //         console.log("gameover")
+    //         //     }
+    //         // }
+    //         // if (Math.floor(star.position.x) === 400 && Math.floor(star.position.y) ===450) {
+    //         //     this.gameOver();
+    //         // }
+    //     }
+
+    // }
+
+
+
+
+
     //  Collide the player and the stars with the platforms
-    game.physics.arcade.collide(game.player, game.stars);
+    // game.physics.arcade.collide(game.player, game.stars);
     // game.physics.arcade.collide(this.stars, platforms);
 
-    // //  Checks to see if the player overlaps with any of the stars, if he does call the gameOver function
-    game.physics.arcade.overlap(this.player, game.stars, this.gameOver, null, this);
 
 
     // //  Reset the players velocity (movement)
@@ -232,11 +257,17 @@ Game.prototype = {
     // this.scoreText.text = 'Score: ' + this.score;
   },
 
+  checkCollision: function(player, star) {
+    console.log("checking for collision");
+    setTimeout(this.gameOver, 500);
+  },
+
   // this function called by end of update function
-  gameOver: function(player) {
+  gameOver: function() {
     // // kill the player
     // player.kill();
     // // go to gameover state
+    console.log("gameover")
       this.game.state.start("GameOver");
   }
 
