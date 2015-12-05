@@ -4,14 +4,14 @@ Options.prototype = {
 
   menuConfig: {
     className: "inverse",
-    startY: game.height/2.31,
+    startY: this.height/2.31,
     startX: "center"
   },
 
 
-  init: function () {
-    this.titleText = game.make.text(game.world.centerX, game.height/6, "Options", {
-      font: 'bold ' + game.width/13.33 + 'pt TheMinion',
+  init: function (game) {
+    this.titleText = this.game.make.text(this.game.world.centerX, this.game.height/6, "Options", {
+      font: 'bold ' + this.game.width/13.33 + 'pt TheMinion',
       fill: '#c37c01',
       align: 'center'
     });
@@ -21,8 +21,8 @@ Options.prototype = {
   },
 
   addMenuOption: function(text, callback) {
-    var optionStyle = { font: game.height/20 + 'pt TheMinion', fill: 'black', align: 'center', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
-    var txt = game.add.text(game.world.centerX, (this.optionCount * game.height/7.5) + game.world.centerY, text, optionStyle);
+    var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'black', align: 'center', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
+    var txt = this.game.add.text(this.game.world.centerX, (this.optionCount * this.game.height/7.5) + this.game.world.centerY, text, optionStyle);
     txt.anchor.setTo(.5, 2);
     txt.stroke = "rgba(0,0,0,0)";
     txt.strokeThickness = 4;
@@ -48,8 +48,8 @@ Options.prototype = {
   },
 
   addBackOption: function(text, callback) {
-    var optionStyle = { font: game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
-    var txt = game.add.text(game.width/30, ((this.optionCount) * game.height/7.5) + game.height/2, text, optionStyle);
+    var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
+    var txt = this.game.add.text(this.game.width/30, ((this.optionCount) * this.game.height/7.5) + this.game.height/2, text, optionStyle);
 
     txt.stroke = "rgba(0,0,0,0";
     txt.strokeThickness = 4;
@@ -73,7 +73,7 @@ Options.prototype = {
     this.optionCount ++;
   },
 
-  create: function () {
+  create: function (game) {
     // var playSound = gameOptions.playSound,
         var playMusic = gameOptions.playMusic;
 
@@ -92,7 +92,7 @@ Options.prototype = {
     // });
     
     this.addBackOption('< Back', function () {
-      game.state.start("GameMenu");
+      game.state.start("MainMenu");
     });
   }
 };

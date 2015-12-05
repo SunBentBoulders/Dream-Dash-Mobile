@@ -37,7 +37,7 @@ Preloader.prototype = {
         
         game.load.image('menu-bg', 'assets/images/BigAutumn.jpg');
         game.load.image('gameover-bg', 'assets/images/BigSummer.jpg');
-        game.load.image('sky', 'assets/images/options-bg.jpg');
+        game.load.image('options-bg', 'assets/images/options-bg.jpg');
         
         game.load.image('ground', 'img/platform.png');
         game.load.image('star', 'img/star.png');
