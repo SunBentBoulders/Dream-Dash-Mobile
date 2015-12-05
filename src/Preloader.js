@@ -3,56 +3,66 @@ Preloader = function (game) {
 
 //	this.background = null;
 //	this.preloadBar = null;
-
-	this.ready = false;
+	game.ready = false;
 
 };
 
 Preloader.prototype = {
+    
+    init: function () {
+        // 387/2 gets center of loading bar image
+        this.game.loadingBar = this.game.make.sprite(this.game.world.centerX-387/2, this.game.height/1.5, "loading");
+        this.game.logo       = this.game.make.sprite(this.game.world.centerX, this.game.height/3, 'brand');
+        this.game.status     = this.game.make.text(this.game.world.centerX, this.game.height/1.58, 'Loading...', {fill: 'white'});
+        utils.centerGameObjects([this.game.logo, this.game.status]);
+    },
 
-	preload: function () {
-        this.game.load.image('stars',    'assets/images/2.jpg');
-        this.game.load.image('loading',  'assets/images/loading.png');
-        this.game.load.image('brand',    'assets/images/Boulder.png');
-        this.game.load.image('sky', 'assets/images/BigSummer.jpg');
-        this.game.load.image('ground', 'img/platform.png');
-        this.game.load.image('star', 'img/star.png');
-        this.game.load.spritesheet('dude', 'img/dude.png', 32, 48);
+	preload: function (game) {
+        //adds content to splash screen
+        game.add.sprite(0, 0, 'stars');
+        game.add.existing(this.game.logo).scale.setTo(0.5);
+        game.add.existing(this.game.loadingBar);
+        game.add.existing(this.game.status);
+        game.load.setPreloadSprite(this.game.loadingBar);
+        //loads images first
         
+        game.load.image('menu-bg', 'assets/images/BigAutumn.jpg');
+        game.load.image('gameover-bg', 'assets/images/BigSummer.jpg');
+        game.load.image('sky', 'assets/images/options-bg.jpg');
         
-//        game.load.script('polyfill',   'lib/polyfill.js');
-//        game.load.script('utils',   'lib/utils.js');
-//        game.load.script('Splash',  'states/Splash.js');
-
-		//	These are the assets we loaded in Boot.js
-		//	A nice sparkly background and a loading progress bar
-//		this.background = this.add.sprite(0, 0, 'preloaderBackground');
-//		this.preloadBar = this.add.sprite(300, 400, 'preloaderBar');
-
-		//	This sets the preloadBar sprite as a loader sprite.
-		//	What that does is automatically crop the sprite from 0 to full-width
-		//	as the files below are loaded in.
-//		this.load.setPreloadSprite(this.preloadBar);
-
-		//	Here we load the rest of the assets our game needs.
-		//	As this is just a Project Template I've not provided these assets, the lines below won't work as the files themselves will 404, they are just an example of use.
-//		this.load.image('titlepage', 'images/title.jpg');
-//		this.load.atlas('playButton', 'images/play_button.png', 'images/play_button.json');
-		this.load.audio('bgm', 'assets/bgm/background_music.mp3');
-        this.load.audio('startDing', 'assets/bgm/startDing.wav');
-//		this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
-		//	+ lots of other required assets here
-
+        game.load.image('ground', 'img/platform.png');
+        game.load.image('star', 'img/star.png');
+        game.load.spritesheet('dude', 'img/dude.png', 32, 48);
+        //loads fonts
+        WebFontConfig = {
+            custom: {
+                families: ['TheMinion'],
+                urls: ['assets/style/theminion.css']
+            }
+        }
+        //loads audio
+		game.load.audio('bgm', 'assets/bgm/background_music.mp3');
+        game.load.audio('startDing', 'assets/bgm/startDing.wav');
+        
 	},
 
-	create: function () {
 
-		//	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
-//		this.preloadBar.cropEnabled = false;
-        this.game.state.add('Game', Game);
-        this.game.state.start('Game');
-	},
-
+    addGameStates: function (game) {
+        console.log('game is ', game);
+        console.log('this is ', this);
+        game.state.add("MainMenu",MainMenu);
+        game.state.add("Game",Game);
+//        game.state.add("GameOver",GameOver);
+//        game.state.add("Credits",Credits);
+//        game.state.add("Options",Options);
+    },
+    
+    addGameMusic: function (game) {
+        music = game.add.audio('bgm');
+        music.play('', 0, 1, true);
+        //.play('startMarker', startPosition, volume(0 to 1), loop t/f)
+    },
+    
 	update: function () {
 
 		//	You don't actually need to do this, but I find it gives a much smoother game experience.
@@ -70,5 +80,17 @@ Preloader.prototype = {
 //			this.state.start('MainMenu');
 //		}
 
+	},
+    
+	create: function (game) {
+		//	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
+        game.status.setText('Ready!');
+        this.addGameStates(game);
+        this.addGameMusic(game);
+        game.add.audio('startDing');  
+
+        setTimeout(function () {
+          game.state.start("Game");
+        }, 1000);
 	}
 };

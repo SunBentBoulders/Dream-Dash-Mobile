@@ -1,5 +1,4 @@
 Game = {
-//MAIN.JS from repo
     /* Here we've just got some global level vars that persist regardless of State swaps */
     score: 0,
 
@@ -66,8 +65,9 @@ Boot.prototype = {
         this.load.image('stars', 'assets/images/2.jpg');
         this.load.image('loading', 'assets/images/loading.png');
         this.load.image('brand', 'assets/images/Boulder.png');
-        this.load.script('polyfill', 'lib/polyfill.js');
-        this.load.script('utils', 'lib/utils.js');
+        
+//        this.load.script('polyfill', 'lib/polyfill.js');
+//        this.load.script('utils', 'lib/utils.js');
         this.load.script('MainMenu', 'src/MainMenu.js');
 
 
