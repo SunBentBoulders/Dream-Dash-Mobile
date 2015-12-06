@@ -10,6 +10,7 @@ var Game = function(game) {
   this.left = 0;
   var clouds;
   var backgroundScroll;
+  var pause;
 };
 Game.prototype = {
 
@@ -26,6 +27,7 @@ Game.prototype = {
     game.load.image('clouds', 'img/cloud.png');
     game.load.image('star', 'img/star.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
+    game.load.image('pause', 'img/pause.png');
   },
 
    // kill star after tween is done
@@ -200,6 +202,10 @@ Game.prototype = {
     game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON);
     this.player.body.collideWorldBounds=true;
 
+    //add pause button
+    pause = game.add.button(16,16,'pause',pauseGame, this);
+    pause.fixedToCamera = true;
+
   },
 
   update: function(game) {
@@ -281,6 +287,8 @@ Game.prototype = {
     // this.score += 10;
     // this.scoreText.text = 'Score: ' + this.score;
   },
+
+  pauseGame: function(){}
 
   // this function called by end of update function
   gameOver: function(player) {
