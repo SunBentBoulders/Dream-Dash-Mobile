@@ -8,6 +8,8 @@ var Game = function(game) {
   // this.platforms;
   this.cursors;
   this.stars;
+  this.starsToCollect;
+  this.collectedStars;
   // this.score = 0;
   // this.scoreText;
 };
@@ -18,7 +20,8 @@ Game.prototype = {
     // this.optionCount = 1;
     // game.load.image('sky', 'img/sky.png');
     // game.load.image('ground', 'img/platform.png');
-    game.load.image('star', 'img/enemyStar.png');
+    game.load.image('enemyStar', 'img/enemyStar.png')
+    game.load.image('star', 'img/star.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
   },
 
@@ -50,6 +53,12 @@ Game.prototype = {
     game.stars.enableBody = true;
     game.starCount = 0;
 
+    // add group of stars to collect
+    game.starsToCollect = game.add.group();
+    game.starsToCollect.enableBody = true;
+    game.collectedStars = 0;
+
+
     // make player and faux player for collision detection
     //==============================================================
     // add faux player first so it renders behind player and isn't seen by user, render physics on faux player
@@ -79,11 +88,11 @@ Game.prototype = {
 
 
 
-    //  Create a star inside of the 'stars' group
+    //  Create an enemy star inside of the 'stars' group
     game.addStar = function(){
         game.starCount++;
         console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(game.width*1.5 - Math.random()*game.width*3, game.height/2, 'star');
+        var star = game.stars.create(game.width*1.5 - Math.random()*game.width*3, game.height/2, 'enemyStar');
         star.scale.setTo(0);
         star.anchor.setTo(.5);
         // enable physics
@@ -113,6 +122,48 @@ Game.prototype = {
         game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapper, this);
     }
     game.addStarWrapper();
+
+
+    // add stars to collect and get points
+    //=======================================================
+
+    //  Create a star inside of the 'stars' group
+    game.addStarToCollect = function(){
+        game.collectedStars++;
+        console.log("addStarToCollect collectedStars", game.collectedStars);
+        var star = game.starsToCollect.create(game.width*1.5 - Math.random()*game.width*3, game.height/2, 'star');
+        star.scale.setTo(0);
+        star.anchor.setTo(.5);
+        // enable physics
+        // game.physics.enable(star, Phaser.Physics.ARCADE);
+        star.body.immovable = true;
+        // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
+        var tween = game.add.tween(star.scale);
+        var timeToTween = 10000;
+        tween.to({x: 4, y:4}, timeToTween, Phaser.Easing.Exponential.In, true);
+        // add tween for stars to move to edges of screen as they get bigger
+        // applies to stars that start on left of screen
+
+        var tween2 = game.add.tween(star.position);
+        // stars move to random x coordinates of screen
+        tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.onComplete.add(function() {
+            game.collectedStars--;
+            star.kill();
+        });
+    }
+
+    // dropTimer and addStarWrapper are used to generate stars at random intervals
+    game.dropTimerCollectedStars = game.time.create(false);
+    game.dropTimerCollectedStars.start();
+    game.addStarWrapperCollectedStars = function() {
+        game.addStarToCollect();
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapperCollectedStars, this);
+    }
+    game.addStarWrapperCollectedStars();
+
+    //=======================================================
+
 
     //  Let gravity do its thing
     // star.body.gravity.y = 300;
@@ -243,13 +294,13 @@ Game.prototype = {
 
     if (cursors.left.isDown) {
         //  Move to the left
-        this.player.setAll('body.velocity.x', -150);
+        this.player.setAll('body.velocity.x', -300);
         this.realPlayer.animations.play('left');
     }
     else if (cursors.right.isDown) {
         //  Move to the right
     console.log("this.player", this.player)
-        this.player.setAll('body.velocity.x', 150);
+        this.player.setAll('body.velocity.x', 300);
         this.realPlayer.animations.play('right');
     }
     else {
