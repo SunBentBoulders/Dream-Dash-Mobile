@@ -14,7 +14,12 @@ var Game = function(game) {
 Game.prototype = {
 
   preload: function (game) {
-console.log(game.width,game.height);
+    //checks to see if vibrate is available, and if so, activates it
+    if("vibrate" in window.navigator) {
+        console.log('vibrate is on');
+    }
+    
+    // console.log(game.width,game.height);
     // this.optionCount = 1;
     // game.load.image('sky', 'img/sky.png');
     // game.load.image('ground', 'img/platform.png');
@@ -185,8 +190,9 @@ console.log(game.width,game.height);
     // }
 
     // //  The score
-    // this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-
+    this.scoreText = game.add.text(this.player.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    this.scoreText.fixedToCamera = true;
+    console.log(this.scoreText);
     // //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
@@ -209,11 +215,11 @@ console.log(game.width,game.height);
     // //  Reset the players velocity (movement)
     this.player.body.velocity.x = 0;
     //checks to see if the keyboard is being used
-    console.log('the keyboard is enabled',game.input.keyboard.enabled);
+    // console.log('the keyboard is enabled',game.input.keyboard.enabled);
     //check to see if finger is touching screen
-    console.log('the touchScreen is enabled',!!game.input.pointer1);
+    // console.log('the touchScreen is enabled',!!game.input.pointer1);
     //this is for computer input
-
+    if(game.device.desktop){
         if (cursors.left.isDown) {
             //  Move to the left
             this.player.body.velocity.x = -150;
@@ -229,25 +235,27 @@ console.log(game.width,game.height);
             this.player.animations.stop();
             this.player.frame = 4;
         }
+    } else {
 
         //this if for the phone input
-    // if(game.input.pointer1.isDown){
-    //     //check to see if the touch is happening on the left
-    //     console.log('pointer1 is down');
-    //    if(Math.floor(game.input.x/(game.width/2)) === this.left){
-    //     //move to the left
-    //         this.player.animations.play('left');
-    //         this.player.body.velocity.x = -150;
-    //     //check to see if the touch is happening on the right
-    //     }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
-    //     //move to the right
-    //         this.player.animations.play('right');
-    //         this.player.body.velocity.x = 150;
-    //     }
-    // } else {
-    //     this.player.animations.stop();
-    //     this.player.frame = 4;
-    // }
+        if(game.input.pointer1.isDown){
+            //check to see if the touch is happening on the left
+            // console.log('pointer1 is down');
+           if(Math.floor(game.input.x/(game.width/2)) === this.left){
+            //move to the left
+                this.player.animations.play('left');
+                this.player.body.velocity.x = -150;
+            //check to see if the touch is happening on the right
+            }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
+            //move to the right
+                this.player.animations.play('right');
+                this.player.body.velocity.x = 150;
+            }
+        } else {
+            this.player.animations.stop();
+            this.player.frame = 4;
+        }
+    }
 
 
 
@@ -278,6 +286,7 @@ console.log(game.width,game.height);
   gameOver: function(player) {
     // // kill the player
     // player.kill();
+    window.navigator.vibrate([2000]);
     // // go to gameover state
       this.game.state.start("GameOver");
   }
