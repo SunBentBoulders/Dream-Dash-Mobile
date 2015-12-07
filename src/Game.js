@@ -229,8 +229,8 @@ Game.prototype = {
     // this.player.body.collideWorldBounds = true;
 
     // //  Our two animations, walking left and right.
-    this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-    this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+    this.realPlayer.animations.add('left', [0, 1, 2, 3], 10, true);
+    this.realPlayer.animations.add('right', [5, 6, 7, 8], 10, true);
 
     // //  Finally some stars to collect
     // this.stars = game.add.group();
