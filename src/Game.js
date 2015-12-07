@@ -288,12 +288,12 @@ Game.prototype = {
     if(game.device.desktop){
         if (cursors.left.isDown) {
             //  Move to the left
-            this.player.setAll('body.velocity.x', -150);
+            this.player.setAll('body.velocity.x', -300);
             this.realPlayer.animations.play('left');
         }
         else if (cursors.right.isDown) {
             //  Move to the right
-            this.player.setAll('body.velocity.x', 150);
+            this.player.setAll('body.velocity.x', 300);
             this.realPlayer.animations.play('right');
         }
         else {
@@ -364,7 +364,7 @@ Game.prototype = {
     window.navigator.vibrate([2000]);
 
     // kill the player
-      player.kill();
+      // player.kill();
 
     // // go to gameover state
       this.game.state.start("GameOver");
