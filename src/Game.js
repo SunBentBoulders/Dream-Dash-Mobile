@@ -203,7 +203,7 @@ Game.prototype = {
     this.player.body.collideWorldBounds=true;
 
     //add pause button
-    pause = game.add.button(16,16,'pause',pauseGame, this);
+    pause = game.add.button(16,16,'pause');
     pause.fixedToCamera = true;
 
   },
@@ -288,7 +288,7 @@ Game.prototype = {
     // this.scoreText.text = 'Score: ' + this.score;
   },
 
-  pauseGame: function(){}
+  pauseGame: function(){},
 
   // this function called by end of update function
   gameOver: function(player) {
