@@ -49,7 +49,11 @@ Options.prototype = {
 
   addBackOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
-    var txt = this.game.add.text(this.game.width/30, ((this.optionCount) * this.game.height/7.5) + this.game.height/2, text, optionStyle);
+    var txt = this.game.add.text(this.game.width/30, ((this.optionCount + 1) * this.game.height/7.5) + this.game.height/2, text, optionStyle);
+    console.log("this.optionCount", this.optionCount)
+    txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
+
+
 
     txt.stroke = "rgba(0,0,0,0";
     txt.strokeThickness = 4;
@@ -85,12 +89,12 @@ Options.prototype = {
       target.text = playMusic ? 'Mute Music' : 'Play Music';
       music.volume = playMusic ? 1 : 0;
     });
-    
+
     // this.addMenuOption(playSound ? 'Mute Sound' : 'Play Sound', function (target) {
     //   playSound = !playSound;
     //   target.text = playSound ? 'Mute Sound' : 'Play Sound';
     // });
-    
+
     this.addBackOption('< Back', function () {
       game.state.start("MainMenu");
     });

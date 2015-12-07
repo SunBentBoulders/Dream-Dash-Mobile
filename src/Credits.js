@@ -30,6 +30,8 @@ Credits.prototype = {
   addMenuOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
     var txt = this.game.add.text(this.game.width/30, ((this.optionCount + 2) * this.game.height/7.5) + this.game.height/2, text, optionStyle);
+    txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
+
 
     txt.stroke = "rgba(0,0,0,0";
     txt.strokeThickness = 4;
@@ -50,7 +52,7 @@ Credits.prototype = {
     txt.events.onInputOver.add(onOver, this);
     txt.events.onInputOut.add(onOut, this);
 
-    this.game.optionCount ++;
+    this.optionCount ++;
   },
 
   create: function () {
