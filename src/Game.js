@@ -81,13 +81,13 @@ Game.prototype = {
     // make player and faux player for collision detection
     //===================================================
     // add faux player first so it renders behind player and isn't seen by user, render physics on faux player
-    this.fauxPlayer = game.add.sprite(game.width/2, game.height/4*4, 'dude');
+    this.fauxPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4*4, 'dude');
     this.fauxPlayer.scale.setTo(.5, .5);
     this.fauxPlayer.anchor.setTo(.5, 1);
     game.physics.arcade.enable(this.fauxPlayer);
 
     // add real player and enable physics on player
-    this.realPlayer = game.add.sprite(game.width/2, game.height/4 * 4, 'dude');
+    this.realPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4 * 4, 'dude');
     this.realPlayer.scale.setTo(1.5, 1.5);
     this.realPlayer.anchor.setTo(.5, 1);
     // this.realPlayer.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
@@ -261,8 +261,10 @@ Game.prototype = {
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
     game.world.setBounds(0,0,this.scrollableWidth,game.height);
+    console.log("game.world in game", game.world)
     game.camera.follow(this.realPlayer, Phaser.Camera.FOLLOW_LOCKON);
-    this.player.collideWorldBounds=true;
+    this.realPlayer.body.collideWorldBounds=true;
+    this.fauxPlayer.body.collideWorldBounds=true;
 
     //add pause button
     pause = game.add.button(16,16,'pause');
@@ -367,6 +369,7 @@ Game.prototype = {
 
     // kill the player
       // player.kill();
+    // reset bounds to be viewable area
 
     // // go to gameover state
       this.game.state.start("GameOver");
