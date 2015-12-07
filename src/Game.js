@@ -260,7 +260,7 @@ Game.prototype = {
     //set the world to be wider behind the frame
     game.world.setBounds(0,0,this.width,game.height);
     game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON);
-    this.player.body.collideWorldBounds=true;
+    this.player.collideWorldBounds=true;
 
     //add pause button
     pause = game.add.button(16,16,'pause');
