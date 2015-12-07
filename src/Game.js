@@ -15,7 +15,7 @@ var Game = function(game) {
   this.collectedStars;
   // this.score = 0;
   // this.scoreText;
-  this.width = 2000;
+  this.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
   var clouds;
@@ -46,7 +46,7 @@ Game.prototype = {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //creates infinite tiling of the cloud image
-    clouds = game.add.tileSprite(0,0,this.width,game.height, 'clouds');
+    clouds = game.add.tileSprite(0,0,this.scrollableWidth,game.height, 'clouds');
     // set the scroll speed for the background image
     backgroundScroll = 1;
 
@@ -63,7 +63,7 @@ Game.prototype = {
     graphics.beginFill(0x000019);
     graphics.lineStyle(2, 0x000019, 1);
     // syntax: top left x, top left y, width, height
-    graphics.drawRect(0, game.height/2, this.width, game.height);
+    graphics.drawRect(0, game.height/2, this.scrollableWidth, game.height);
     graphics.endFill();
     // ==================================
 
@@ -109,6 +109,8 @@ Game.prototype = {
         game.starCount++;
         // console.log("addStar starCount", game.starCount);
         var star = game.stars.create(this.width*1.5 - Math.random()*game.width*3, game.height/2, 'enemyStar');
+        console.log("this.width", this.width);
+        console.log("game.width", game.width)
         star.scale.setTo(0);
         star.anchor.setTo(0.5);
         // enable physics
@@ -258,7 +260,7 @@ Game.prototype = {
     // //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
-    game.world.setBounds(0,0,this.width,game.height);
+    game.world.setBounds(0,0,this.scrollableWidth,game.height);
     game.camera.follow(this.realPlayer, Phaser.Camera.FOLLOW_LOCKON);
     this.player.collideWorldBounds=true;
 
