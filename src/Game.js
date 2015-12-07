@@ -279,7 +279,7 @@ Game.prototype = {
     game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.checkCollision, this);
 
     // //  Reset the players velocity (movement)
-    this.player.body.velocity.x = 0;
+    this.player.setAll('body.velocity.x', 0); // sets velocity of realPlayer and fauxPlayer - syntax changed b/c player is now a group of sprites
     //checks to see if the keyboard is being used
     // console.log('the keyboard is enabled',game.input.keyboard.enabled);
     //check to see if finger is touching screen
@@ -288,18 +288,18 @@ Game.prototype = {
     if(game.device.desktop){
         if (cursors.left.isDown) {
             //  Move to the left
-            this.player.body.velocity.x = -150;
-            this.player.animations.play('left');
+            this.player.setAll('body.velocity.x', -150);
+            this.realPlayer.animations.play('left');
         }
         else if (cursors.right.isDown) {
             //  Move to the right
-            this.player.body.velocity.x = 150;
-            this.player.animations.play('right');
+            this.player.setAll('body.velocity.x', 150);
+            this.realPlayer.animations.play('right');
         }
         else {
             //  Stand still
-            this.player.animations.stop();
-            this.player.frame = 4;
+            this.player.setAll('body.velocity.x', 0);
+            this.realPlayer.frame = 4;
         }
     } else {
 
@@ -309,17 +309,17 @@ Game.prototype = {
             // console.log('pointer1 is down');
            if(Math.floor(game.input.x/(game.width/2)) === this.left){
             //move to the left
-                this.player.animations.play('left');
-                this.player.body.velocity.x = -150;
+                this.realPlayer.animations.play('left');
+                this.player.setAll('body.velocity.x', -150);
             //check to see if the touch is happening on the right
             }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
             //move to the right
-                this.player.animations.play('right');
-                this.player.body.velocity.x = 150;
+                this.realPlayer.animations.play('right');
+                this.player.setAll('body.velocity.x', 150);
             }
         } else {
-            this.player.animations.stop();
-            this.player.frame = 4;
+            this.player.setAll('body.velocity.x', 0);
+            this.realPlayer.frame = 4;
         }
     }
 
@@ -352,14 +352,14 @@ Game.prototype = {
 
   // this function is called when the faux player overlaps with an enemy star
   checkCollision: function(player, star) {
-    // console.log("checking for collision");
+    console.log("checking for collision");
     // setTimeout(this.gameOver, 500);
     this.gameOver();
   },
 
   // this function called by end of update function
   gameOver: function(player) {
-    // console.log("gameover");
+    console.log("gameover");
     // // kill the player
     // player.kill();
     window.navigator.vibrate([2000]);
