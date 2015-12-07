@@ -366,6 +366,8 @@ Game.prototype = {
     console.log("gameover");
     // player.kill();
     window.navigator.vibrate([2000]);
+    // reset world bounds to the original 800x600
+    this.world.setBounds(0,0,800,600);
 
     // kill the player
       // player.kill();
