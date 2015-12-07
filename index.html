@@ -36,10 +36,21 @@
 	<link rel="stylesheet" href="css/stylesheet.css" type="text/css" charset="utf-8" />
     
 	<script src="vendor/phaser.js"></script>
+<!--    <script src="vendor/webfontloader.js"></script>-->
+    
+    <script src="lib/polyfill.js"></script>
+    <script src="lib/utils.js"></script>
+    <script src="lib/style.js"></script>
+    <script src="lib/mixins.js"></script>
+    
+    
 	<script src="src/Preloader.js"></script>
 	<script src="src/Boot.js"></script>
-	<script src="src/Game.js"></script>
 	<script src="src/MainMenu.js"></script>
+	<script src="src/Game.js"></script>
+    <script src="src/GameOver.js"></script>
+    <script src="src/Credits.js"></script>
+    <script src="src/Options.js"></script>
     
 </head>
 <body>
@@ -53,13 +64,19 @@
         //	We did it in a window.onload event, but you can do it anywhere (requireJS load, anonymous function, jQuery dom ready, - whatever floats your boat)
         //	We're using a game size of 1024 x 768 here, but you can use whatever you feel makes sense for your game of course.
         var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
-
+        
+        WebFontConfig = {
+          custom: {
+            families: ['TheMinion'],
+            urls: ['assets/style/theminion.css']
+          }
+        }
+        
         //	Add the States your game has.
         //	You don't have to do this in the html, it could be done in your Boot state too, but for simplicity I'll keep it here.
         game.state.add('Boot', Boot); //main.js
         game.state.add('Preloader', Preloader); //does not transfer
-//        game.state.add('MainMenu', Game.MainMenu); //gamemenu.js
-        game.state.add('Game', Game); //game.js
+//        game.state.add('Game', Game); //game.js
 
         //	Now start the Boot state.
         game.state.start('Boot');

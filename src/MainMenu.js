@@ -1,42 +1,85 @@
 
-Game.MainMenu = function (game) {
+MainMenu = function (game) {
 
 //	this.music = null;
 //	this.playButton = null;
 
 };
 
-Game.MainMenu.prototype = {
 
-	create: function () {
+MainMenu.prototype = {
+    
 
-		//	We've already preloaded our assets, so let's kick right into the Main Menu itself.
-		//	Here all we're doing is playing some music and adding a picture and button
-		//	Naturally I expect you to do something significantly better :)
+  init: function (game) {
+    console.log('this is ', this);
+    console.log('game is ', game);
+      var menuConfig = {
+        startY: this.game.height/2.31,
+        startX: this.game.width/26.67
+      };
+          
+    this.titleText = this.game.make.text(this.game.world.centerX, this.game.height/6, "Cape Runner", {
+      font: 'bold ' + this.game.width/13.33 + 'pt TheMinion',
+      fill: '#c37c01',
+      align: 'center'
+    });
+    this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
+    this.titleText.anchor.set(0.5);
+    this.optionCount = 1;
+  },
 
-//		this.music = this.add.audio('titleMusic');
-//		this.music.play();
-//
-//		this.add.sprite(0, 0, 'titlepage');
-//
-//		this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
+  addMenuOption: function(text, callback) {
+    var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
+    var txt = this.game.add.text(this.game.width/30, (this.optionCount * this.game.height/7.5) + this.game.height/2.2, text, optionStyle);
+    txt.anchor.setTo(0);
+    txt.stroke = "rgba(0,0,0,0)";
+    txt.strokeThickness = 4;
+    txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 
-	},
+    var onOver = function (target) {
+      target.fill = "#FEFFD5";
+      target.stroke = "rgba(200,200,200,0.5)";
+      txt.useHandCursor = true;
+    };
+      
+    var onOut = function (target) {
+      target.fill = "white";
+      target.stroke = "rgba(0,0,0,0)";
+      txt.useHandCursor = false;
+    };
+    //txt.useHandCursor = true;
+    txt.inputEnabled = true;
+    txt.events.onInputUp.add(callback, this);
+    txt.events.onInputOver.add(onOver, this);
+    txt.events.onInputOut.add(onOut, this);
 
-	update: function () {
+    this.optionCount ++;
+  },
 
-		//	Do some nice funky main menu effect here
+  create: function (game) {
 
-	},
+    if (music.name !== "bgm" && playMusic) {
+      music.stop();
+      music = game.add.audio('bgm');
+      music.loop = true;
+      music.play();
+    }
+    game.stage.disableVisibilityChange = true;
+    game.add.sprite(0, 0, 'menu-bg');
+    game.add.existing(this.titleText);
 
-	startGame: function (pointer) {
+    this.addMenuOption('Start', function () {
+      game.state.start("Game");
+    });
+    this.addMenuOption('Options', function () {
+      game.state.start("Options");
+    });
+    this.addMenuOption('Credits', function () {
+      game.state.start("Credits");
+    });
 
-		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
-//		this.music.stop();
-
-		//	And start the actual game
-		this.state.start('Game');
-
-	}
-
+  }
+  
 };
+
+Phaser.Utils.mixinPrototype(MainMenu.prototype, mixins);

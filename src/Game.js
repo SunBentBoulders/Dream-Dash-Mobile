@@ -360,9 +360,12 @@ Game.prototype = {
   // this function called by end of update function
   gameOver: function(player) {
     console.log("gameover");
-    // // kill the player
     // player.kill();
     window.navigator.vibrate([2000]);
+
+    // kill the player
+      player.kill();
+
     // // go to gameover state
       this.game.state.start("GameOver");
   }
