@@ -21,6 +21,7 @@ var Game = function(game) {
   var clouds;
   var backgroundScroll;
   var pause;
+  var pausedText;
 };
 Game.prototype = {
 
@@ -269,6 +270,24 @@ Game.prototype = {
     //add pause button
     pause = game.add.button(16,16,'pause');
     pause.fixedToCamera = true;
+    pause.inputEnabled = true;
+    pause.events.onInputUp.add(function(){
+
+            pausedText = game.add.text(game.camera.x + 400,150, "Game Paused",{ font: '30px Arial', fill: '#fff' });
+            console.log(pausedText);
+            console.log(game.camera.x,game.camera.y)
+            pausedText.anchor.setTo(0.5,0.5);
+            // pausedText.fixedToCamera = true;
+            game.paused = true;
+            console.log('im paused');
+    });
+    game.input.onDown.add(function(){
+        if(game.paused){
+            pausedText.destroy();
+            game.paused = false;
+        }
+    })
+
 
   },
 
