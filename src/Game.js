@@ -259,7 +259,7 @@ Game.prototype = {
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
     game.world.setBounds(0,0,this.width,game.height);
-    game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON);
+    game.camera.follow(this.realPlayer, Phaser.Camera.FOLLOW_LOCKON);
     this.player.collideWorldBounds=true;
 
     //add pause button
