@@ -9,10 +9,11 @@ var Game = function(game) {
   // this.cursors;
   // these are the enemy stars
   this.stars;
-  // these are the stars for the player to collect
-  this.starsToCollect;
+  // these are the stars for the player to collect(set to 1 for now, until we get level up working)
+  this.starsToCollect = 1;
   // this is the number of stars that have been collected
-  this.collectedStars;
+  this.collectedStars = 0;
+  //sets the score at the beginning of the game
   this.score = 0;
   // this.scoreText;
   this.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
@@ -107,7 +108,7 @@ Game.prototype = {
 
     //  Create a star inside of the 'stars' group
     game.addStar = function(){
-        game.starCount++;
+        // game.starCount++;
         // console.log("addStar starCount", game.starCount);
         var star = game.stars.create(this.width*1.5 - Math.random()*game.width*3, game.height/2, 'enemyStar');
         console.log("this.width", this.width);
@@ -129,7 +130,7 @@ Game.prototype = {
         // stars move to random x coordinates of screen
         tween2.to({x: this.width * 3 - Math.random()*this.width*6, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
-            game.starCount--;
+            // game.starCount--;
             star.kill();
         });
     };
@@ -139,7 +140,7 @@ Game.prototype = {
     game.dropTimer.start();
     game.addStarWrapper = function() {
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/.8, game.addStarWrapper, this);
     };
     game.addStarWrapper();
 
@@ -148,7 +149,7 @@ Game.prototype = {
 
     //  Create a star inside of the 'stars' group
     game.addStarToCollect = function(){
-        game.collectedStars++;
+        // game.collectedStars++;
         console.log("addStarToCollect collectedStars", game.collectedStars);
         var star = game.starsToCollect.create(game.width*1.5 - Math.random()*game.width*3, game.height/2, 'star');
         star.scale.setTo(0);
@@ -167,7 +168,7 @@ Game.prototype = {
         // stars move to random x coordinates of screen
         tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
-            game.collectedStars--;
+            // game.collectedStars--;
             star.kill();
         });
     }
@@ -346,18 +347,12 @@ Game.prototype = {
         }
     }
 
-
-
-    // //  Allow the player to jump if they are touching the ground.
-    // if (cursors.up.isDown && this.player.body.touching.down) {
-    //     this.player.body.velocity.y = -350;
-    // }
-
-    // // if player collects all stars, end game
-    // if (this.score === 120) {
-    //     this.gameOver(this.player);
-    // }
-
+    //=================================
+    //this is here to simulate winning the game, need to go to game.state(win) once set up
+    if(this.starsToCollect + this.collectedStars === this.collectedStars){
+        console.log('you win');
+        // this.gameOver();
+    }
   },
 
 
@@ -366,7 +361,10 @@ Game.prototype = {
     // // Removes the star from the screen
     star.kill();
 
-    // //  Add and update the score
+    // //  Add and update the score and the number of stars collected and left to collect
+    this.collectedStars++;
+    this.starsToCollect--;
+    console.log('this.collectedStars',this.collectedStars);
     this.score += 10;
     this.scoreText.text = 'Score: ' + this.score;
   },
