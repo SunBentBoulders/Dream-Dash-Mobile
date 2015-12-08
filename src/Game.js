@@ -12,11 +12,11 @@ var Game = function(game) {
   // these are the stars for the player to collect
   this.starsToCollect;
   // this keeps track of the current level (1 through 5) that the player is on
-  this.currentLevel;
   // this is the number of stars that have been collected
   this.collectedStars;
   // this.score = 0;
   // this.scoreText;
+  game.currentLevel = 1;
   game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
@@ -90,7 +90,7 @@ Game.prototype = {
     game.physics.arcade.enable(this.fauxPlayer);
 
     // add real player and enable physics on player
-    this.realPlayer = game.add.sprite(game.scrollableWidth/2, game.height/4 * 4, 'dude');
+    this.realPlayer = game.add.sprite(game.scrollableWidth/2, 0, 'dude');
     this.realPlayer.scale.setTo(1.5, 1.5);
     this.realPlayer.anchor.setTo(.5, 1);
     // this.realPlayer.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
@@ -102,6 +102,11 @@ Game.prototype = {
     this.player.enableBody = true;
     this.player.add(this.fauxPlayer);
     this.player.add(this.realPlayer);
+    //  Player physics properties. Give the little guy a slight bounce.
+    this.realPlayer.body.bounce.y = 0.2;
+    this.realPlayer.body.gravity.y = 300;
+    this.fauxPlayer.body.bounce.y = 0.2;
+    this.fauxPlayer.body.gravity.y = 300;
     //===================================================
 
 
@@ -112,8 +117,6 @@ Game.prototype = {
         // console.log("game.camera", game.camera)
         game.starCount++;
         console.log("addStar starCount", game.starCount);
-        // console.log("game.camera", game.camera);
-        console.log("game.camera.view.randomX", game.camera.view.randomX)
         var star = game.stars.create(game.camera.view.randomX, game.height/2, 'enemyStar');
         // console.log("this.width", this.width);
         // console.log("game.width", game.width)
@@ -145,7 +148,7 @@ Game.prototype = {
     game.dropTimer.start();
     game.addStarWrapper = function() {
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*2, game.addStarWrapper, this);
     };
     game.addStarWrapper();
 
