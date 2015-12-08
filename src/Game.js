@@ -9,13 +9,16 @@ var Game = function(game) {
   // this.cursors;
   // these are the enemy stars
   this.stars;
-  // these are the stars for the player to collect
-  this.starsToCollect;
+  // these are the stars for the player to collect(set to 1 for now, until we get level up working)
+  this.starsToCollect = 2;
   // this is the number of stars that have been collected
-  this.collectedStars;
-  // this.score = 0;
+  this.collectedStars = 0;
+  //sets the score at the beginning of the game
+  this.score = 0;
   // this.scoreText;
-  this.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
+  // this keeps track of the current level (1 through 5) that the player is on
+  game.currentLevel = 1;
+  game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
   var clouds;
@@ -47,7 +50,7 @@ Game.prototype = {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //creates infinite tiling of the cloud image
-    clouds = game.add.tileSprite(0,0,this.scrollableWidth,game.height, 'clouds');
+    clouds = game.add.tileSprite(0,0,game.scrollableWidth,game.height, 'clouds');
     // set the scroll speed for the background image
     backgroundScroll = 1;
 
@@ -64,7 +67,7 @@ Game.prototype = {
     graphics.beginFill(0x000019);
     graphics.lineStyle(2, 0x000019, 1);
     // syntax: top left x, top left y, width, height
-    graphics.drawRect(0, game.height/2, this.scrollableWidth, game.height);
+    graphics.drawRect(0, game.height/2, game.scrollableWidth, game.height);
     graphics.endFill();
     // ==================================
 
@@ -82,13 +85,14 @@ Game.prototype = {
     // make player and faux player for collision detection
     //===================================================
     // add faux player first so it renders behind player and isn't seen by user, render physics on faux player
-    this.fauxPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4*4, 'dude');
+    this.fauxPlayer = game.add.sprite(game.scrollableWidth/2, game.height/4*4, 'dude');
     this.fauxPlayer.scale.setTo(.5, .5);
     this.fauxPlayer.anchor.setTo(.5, 1);
     game.physics.arcade.enable(this.fauxPlayer);
+    // this.fauxPlayer.visible = false;
 
     // add real player and enable physics on player
-    this.realPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4 * 4, 'dude');
+    this.realPlayer = game.add.sprite(game.scrollableWidth/2, 0, 'dude');
     this.realPlayer.scale.setTo(1.5, 1.5);
     this.realPlayer.anchor.setTo(.5, 1);
     // this.realPlayer.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
@@ -100,6 +104,9 @@ Game.prototype = {
     this.player.enableBody = true;
     this.player.add(this.fauxPlayer);
     this.player.add(this.realPlayer);
+    //  Player physics properties. Give the little guy a slight bounce.
+    this.realPlayer.body.bounce.y = 0.3;
+    this.realPlayer.body.gravity.y = 300;
     //===================================================
 
 
@@ -108,10 +115,10 @@ Game.prototype = {
     //  Create a star inside of the 'stars' group
     game.addStar = function(){
         game.starCount++;
-        // console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(this.width*1.5 - Math.random()*game.width*3, game.height/2, 'enemyStar');
-        console.log("this.width", this.width);
-        console.log("game.width", game.width)
+        console.log("addStar starCount", game.starCount);
+        var star = game.stars.create(game.camera.view.randomX, game.height/2, 'enemyStar');
+        // console.log("this.width", this.width);
+        // console.log("game.width", game.width)
         star.scale.setTo(0);
         star.anchor.setTo(0.5);
         // enable physics
@@ -127,10 +134,11 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: this.width * 3 - Math.random()*this.width*6, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.to({x: Math.random() * game.scrollableWidth, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
-            game.starCount--;
+            // game.starCount--;
             star.kill();
+            console.log("star killed, starCount is", game.starCount)
         });
     };
 
@@ -138,8 +146,9 @@ Game.prototype = {
     game.dropTimer = game.time.create(false);
     game.dropTimer.start();
     game.addStarWrapper = function() {
+        game.currentLevel = 10;
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*3.5, game.addStarWrapper, this);
     };
     game.addStarWrapper();
 
@@ -148,13 +157,12 @@ Game.prototype = {
 
     //  Create a star inside of the 'stars' group
     game.addStarToCollect = function(){
-        game.collectedStars++;
+        // game.collectedStars++;
         console.log("addStarToCollect collectedStars", game.collectedStars);
-        var star = game.starsToCollect.create(game.width*1.5 - Math.random()*game.width*3, game.height/2, 'star');
+        var star = game.starsToCollect.create(game.camera.view.randomX, game.height/2, 'star');
         star.scale.setTo(0);
         star.anchor.setTo(.5);
-        // enable physics
-        // game.physics.enable(star, Phaser.Physics.ARCADE);
+
         star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
@@ -165,10 +173,12 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.to({x: Math.random() * game.scrollableWidth, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
-            game.collectedStars--;
+            // game.collectedStars--;
             star.kill();
+            console.log("collection star killed, collectedStars is", game.collectedStars)
+
         });
     }
 
@@ -176,117 +186,52 @@ Game.prototype = {
     game.dropTimerCollectedStars = game.time.create(false);
     game.dropTimerCollectedStars.start();
     game.addStarWrapperCollectedStars = function() {
+        // "this" refers to game
         game.addStarToCollect();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapperCollectedStars, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()*5, game.addStarWrapperCollectedStars, this);
     }
     game.addStarWrapperCollectedStars();
-
-    //  Let gravity do its thing
-    // star.body.gravity.y = 300;
-
-    //  This just gives each star a slightly random bounce value
-    // star.body.bounce.y = 0.7 + Math.random() * 0.2;
-
-
-    // game.add.sprite(0, 0, 'stars');
-
-    // // the rest of the create function below is for the game itself
-
-    // //  We're going to be using physics, so enable the Arcade Physics system
-    // game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    // //  A simple background for our game
-    // game.add.sprite(0, 0, 'sky');
-
-    // //  The platforms group contains the ground and the 2 ledges we can jump on
-    // platforms = game.add.group();
-
-    // //  We will enable physics for any object that is created in this group
-    // platforms.enableBody = true;
-
-    // // Here we create the ground.
-    // var ground = platforms.create(0, game.world.height - 64, 'ground');
-
-    // //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    // ground.scale.setTo(2, 2);
-
-    // //  This stops it from falling away when you jump on it
-    // ground.body.immovable = true;
-
-    // //  Now let's create two ledges
-    // var ledge = platforms.create(game.width/2, game.height/1.5, 'ground');
-    // ledge.body.immovable = true;
-
-    // ledge = platforms.create(-150, 250, 'ground');
-    // ledge.body.immovable = true;
-
-    // // The player and its settings, positions it at (32, game.world.height - 150)
-    // this.player = game.add.sprite(game.width/25, game.height - game.height/4, 'dude');
-
-    // //  We need to enable physics on the player
-    // game.physics.arcade.enable(game.player);
-
-    // //  Player physics properties. Give the little guy a slight bounce.
-    // this.player.body.bounce.y = 0.2;
-    // this.player.body.gravity.y = 300;
-    // this.player.body.collideWorldBounds = true;
 
     // //  Our two animations, walking left and right.
     this.realPlayer.animations.add('left', [0, 1, 2, 3], 10, true);
     this.realPlayer.animations.add('right', [5, 6, 7, 8], 10, true);
 
-    // //  Finally some stars to collect
-    // this.stars = game.add.group();
 
-    // //  We will enable physics for any star that is created in this group
-    // this.stars.enableBody = true;
-
-    // //  Here we'll create 12 of them evenly spaced apart
-    // for (var i = 0; i < 12; i++)
-    // {
-    //     //  Create a star inside of the 'stars' group
-    //     var star = this.stars.create(i * 70, 0, 'star');
-
-    //     //  Let gravity do its thing
-    //     star.body.gravity.y = 300;
-
-    //     //  This just gives each star a slightly random bounce value
-    //     star.body.bounce.y = 0.7 + Math.random() * 0.2;
-    // }
-
-    // //  The score
-    this.scoreText = game.add.text(this.player.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
-    this.scoreText.fixedToCamera = true;
-    console.log(this.scoreText);
-    // //  Our controls.
+    // //  The score=============================================
+    //will add this back once level up game state is made
+    // this.scoreText = game.add.text(this.realPlayer.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    // this.scoreText.fixedToCamera = true;
+    this.scoreSprite = game.add.sprite(this.realPlayer.x-400,24,'star');
+    this.scoreSprite.fixedToCamera = true;
+    this.leftToCollect = game.add.text(this.realPlayer.x-380,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#000' });
+    this.leftToCollect.fixedToCamera = true;
+    // console.log('this is this.stars', game.stars);
+    // //  Our controls.=======================================
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
-    game.world.setBounds(0,0,this.scrollableWidth,game.height);
-    console.log("game.world in game", game.world)
+    game.world.setBounds(0,0,game.scrollableWidth,game.height);
+    // console.log("game.world in game", game.world)
     game.camera.follow(this.realPlayer, Phaser.Camera.FOLLOW_LOCKON);
     this.realPlayer.body.collideWorldBounds=true;
     this.fauxPlayer.body.collideWorldBounds=true;
-
+    //========================================================
     //add pause button
     pause = game.add.button(16,16,'pause');
     pause.fixedToCamera = true;
     pause.inputEnabled = true;
     pause.events.onInputUp.add(function(){
-
-            pausedText = game.add.text(game.camera.x + 400,150, "Game Paused",{ font: '30px Arial', fill: '#fff' });
-            console.log(pausedText);
-            console.log(game.camera.x,game.camera.y)
-            pausedText.anchor.setTo(0.5,0.5);
-            // pausedText.fixedToCamera = true;
-            game.paused = true;
-            console.log('im paused');
+        //this is the game paused text
+        pausedText = game.add.text(game.camera.x + 400,150, "Game Paused",{ font: '30px Arial', fill: '#fff' });
+        pausedText.anchor.setTo(0.5,0.5);
+        game.paused = true;
     });
     game.input.onDown.add(function(){
+        //unpauses the game
         if(game.paused){
             pausedText.destroy();
             game.paused = false;
         }
-    })
+    });
 
 
   },
@@ -298,7 +243,10 @@ Game.prototype = {
     // game.physics.arcade.collide(this.player, game.stars,this.gameOver, null, this);
     // game.physics.arcade.collide(this.stars, platforms);
 
-    // //  Checks to see if the player overlaps with any of the stars, if he does call the checkCollision function, then gameOver function
+    //Check to see if starTocollect is collected if so, run collect star
+    game.physics.arcade.overlap(this.realPlayer, game.starsToCollect, null, this.collectStar, this);
+
+    // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
     game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.checkCollision, this);
 
     // //  Reset the players velocity (movement)
@@ -311,12 +259,12 @@ Game.prototype = {
     if(game.device.desktop){
         if (cursors.left.isDown) {
             //  Move to the left
-            this.player.setAll('body.velocity.x', -300);
+            this.player.setAll('body.velocity.x', -400);
             this.realPlayer.animations.play('left');
         }
         else if (cursors.right.isDown) {
             //  Move to the right
-            this.player.setAll('body.velocity.x', 300);
+            this.player.setAll('body.velocity.x', 400);
             this.realPlayer.animations.play('right');
         }
         else {
@@ -333,12 +281,12 @@ Game.prototype = {
            if(Math.floor(game.input.x/(game.width/2)) === this.left){
             //move to the left
                 this.realPlayer.animations.play('left');
-                this.player.setAll('body.velocity.x', -150);
+                this.player.setAll('body.velocity.x', -400);
             //check to see if the touch is happening on the right
             }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
             //move to the right
                 this.realPlayer.animations.play('right');
-                this.player.setAll('body.velocity.x', 150);
+                this.player.setAll('body.velocity.x', 400);
             }
         } else {
             this.player.setAll('body.velocity.x', 0);
@@ -346,32 +294,29 @@ Game.prototype = {
         }
     }
 
-
-
-    // //  Allow the player to jump if they are touching the ground.
-    // if (cursors.up.isDown && this.player.body.touching.down) {
-    //     this.player.body.velocity.y = -350;
-    // }
-
-    // // if player collects all stars, end game
-    // if (this.score === 120) {
-    //     this.gameOver(this.player);
-    // }
-
+    //=================================
+    //this is here to simulate winning the game, need to go to game.state(win) once set up
+    if(this.starsToCollect + this.collectedStars === this.collectedStars){
+        console.log('you win');
+        //calls function to increase the level
+        this.levelUp();
+        // this.gameOver();
+    }
   },
 
 
 
   collectStar: function(player, star) {
     // // Removes the star from the screen
-    // star.kill();
+    star.kill();
 
-    // //  Add and update the score
-    // this.score += 10;
-    // this.scoreText.text = 'Score: ' + this.score;
+    // //  Add and update the score and the number of stars collected and left to collect
+    this.collectedStars++;
+    this.starsToCollect--;
+    console.log('this.collectedStars',this.collectedStars);
+    this.score += 10;
+    this.leftToCollect.text = ' x ' + this.starsToCollect;
   },
-
-  pauseGame: function(){},
 
   // this function is called when the faux player overlaps with an enemy star
   checkCollision: function(player, star) {
@@ -394,6 +339,11 @@ Game.prototype = {
 
     // // go to gameover state
       this.game.state.start("GameOver");
+  },
+  //this is the function that will be called when player collects all candles
+  levelUp: function(){
+
+    this.game.state.start("LevelUp");
   }
 
 };
