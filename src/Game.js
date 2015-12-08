@@ -13,7 +13,7 @@ var Game = function(game) {
   this.starsToCollect;
   // this is the number of stars that have been collected
   this.collectedStars;
-  // this.score = 0;
+  this.score = 0;
   // this.scoreText;
   this.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
@@ -255,7 +255,7 @@ Game.prototype = {
     // }
 
     // //  The score
-    this.scoreText = game.add.text(this.player.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    this.scoreText = game.add.text(this.realPlayer.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     this.scoreText.fixedToCamera = true;
     console.log(this.scoreText);
     // //  Our controls.
@@ -266,27 +266,24 @@ Game.prototype = {
     game.camera.follow(this.realPlayer, Phaser.Camera.FOLLOW_LOCKON);
     this.realPlayer.body.collideWorldBounds=true;
     this.fauxPlayer.body.collideWorldBounds=true;
-
+    //========================================================
     //add pause button
     pause = game.add.button(16,16,'pause');
     pause.fixedToCamera = true;
     pause.inputEnabled = true;
     pause.events.onInputUp.add(function(){
-
-            pausedText = game.add.text(game.camera.x + 400,150, "Game Paused",{ font: '30px Arial', fill: '#fff' });
-            console.log(pausedText);
-            console.log(game.camera.x,game.camera.y)
-            pausedText.anchor.setTo(0.5,0.5);
-            // pausedText.fixedToCamera = true;
-            game.paused = true;
-            console.log('im paused');
+        //this is the game paused text
+        pausedText = game.add.text(game.camera.x + 400,150, "Game Paused",{ font: '30px Arial', fill: '#fff' });
+        pausedText.anchor.setTo(0.5,0.5);
+        game.paused = true;
     });
     game.input.onDown.add(function(){
+        //unpauses the game
         if(game.paused){
             pausedText.destroy();
             game.paused = false;
         }
-    })
+    });
 
 
   },
@@ -298,7 +295,10 @@ Game.prototype = {
     // game.physics.arcade.collide(this.player, game.stars,this.gameOver, null, this);
     // game.physics.arcade.collide(this.stars, platforms);
 
-    // //  Checks to see if the player overlaps with any of the stars, if he does call the checkCollision function, then gameOver function
+    //Check to see if starTocollect is collected if so, run collect star
+    game.physics.arcade.overlap(this.fauxPlayer, game.starsToCollect, null, this.collectStar, this);
+
+    // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
     game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.checkCollision, this);
 
     // //  Reset the players velocity (movement)
@@ -364,14 +364,12 @@ Game.prototype = {
 
   collectStar: function(player, star) {
     // // Removes the star from the screen
-    // star.kill();
+    star.kill();
 
     // //  Add and update the score
-    // this.score += 10;
-    // this.scoreText.text = 'Score: ' + this.score;
+    this.score += 10;
+    this.scoreText.text = 'Score: ' + this.score;
   },
-
-  pauseGame: function(){},
 
   // this function is called when the faux player overlaps with an enemy star
   checkCollision: function(player, star) {
