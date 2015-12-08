@@ -109,10 +109,12 @@ Game.prototype = {
 
     //  Create a star inside of the 'stars' group
     game.addStar = function(){
-        console.log("game.camera", game.camera)
+        // console.log("game.camera", game.camera)
         game.starCount++;
-        // console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(game.camera.bounds.randomX, game.height/2, 'enemyStar');
+        console.log("addStar starCount", game.starCount);
+        // console.log("game.camera", game.camera);
+        console.log("game.camera.view.randomX", game.camera.view.randomX)
+        var star = game.stars.create(game.camera.view.randomX, game.height/2, 'enemyStar');
         // console.log("this.width", this.width);
         // console.log("game.width", game.width)
         star.scale.setTo(0);
@@ -130,10 +132,11 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: game.camera.bounds.randomX, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.to({x: Math.random() * game.scrollableWidth, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
             game.starCount--;
             star.kill();
+            console.log("star killed, starCount is", game.starCount)
         });
     };
 
@@ -153,11 +156,10 @@ Game.prototype = {
     game.addStarToCollect = function(){
         game.collectedStars++;
         console.log("addStarToCollect collectedStars", game.collectedStars);
-        var star = game.starsToCollect.create(game.width*1.5 - Math.random()*game.width*3, game.height/2, 'star');
+        var star = game.starsToCollect.create(game.camera.view.randomX, game.height/2, 'star');
         star.scale.setTo(0);
         star.anchor.setTo(.5);
-        // enable physics
-        // game.physics.enable(star, Phaser.Physics.ARCADE);
+
         star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
@@ -168,10 +170,12 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.to({x: Math.random() * game.scrollableWidth, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
             game.collectedStars--;
             star.kill();
+            console.log("collection star killed, collectedStars is", game.collectedStars)
+
         });
     }
 
@@ -179,6 +183,7 @@ Game.prototype = {
     game.dropTimerCollectedStars = game.time.create(false);
     game.dropTimerCollectedStars.start();
     game.addStarWrapperCollectedStars = function() {
+        // "this" refers to game
         game.addStarToCollect();
         game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapperCollectedStars, this);
     }
@@ -260,12 +265,12 @@ Game.prototype = {
     // //  The score
     this.scoreText = game.add.text(this.player.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     this.scoreText.fixedToCamera = true;
-    console.log(this.scoreText);
+    // console.log(this.scoreText);
     // //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
     game.world.setBounds(0,0,game.scrollableWidth,game.height);
-    console.log("game.world in game", game.world)
+    // console.log("game.world in game", game.world)
     game.camera.follow(this.realPlayer, Phaser.Camera.FOLLOW_LOCKON);
     this.realPlayer.body.collideWorldBounds=true;
     this.fauxPlayer.body.collideWorldBounds=true;
