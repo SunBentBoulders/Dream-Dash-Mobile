@@ -45,7 +45,6 @@ Game.prototype = {
 
 
   create: function (game) {
-    this.scoreSprite = game.add.sprite('star');
     console.log('this is scoreSprite', this.scoreSprite)
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -192,7 +191,9 @@ Game.prototype = {
     //will add this back once level up game state is made
     // this.scoreText = game.add.text(this.realPlayer.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     // this.scoreText.fixedToCamera = true;
-    this.leftToCollect = game.add.text(this.realPlayer.x-400,16, this.scoreSprite +' X ' + this.starsToCollect, { fontSize: '32px', fill:'#000' });
+    this.scoreSprite = game.add.sprite(this.realPlayer.x-400,24,'star');
+    this.scoreSprite.fixedToCamera = true;
+    this.leftToCollect = game.add.text(this.realPlayer.x-380,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#000' });
     this.leftToCollect.fixedToCamera = true;
     console.log('this is this.stars', game.stars);
     // //  Our controls.=======================================
@@ -302,7 +303,7 @@ Game.prototype = {
     this.starsToCollect--;
     console.log('this.collectedStars',this.collectedStars);
     this.score += 10;
-    this.leftToCollect.text = 'Left X ' + this.starsToCollect;
+    this.leftToCollect.text = ' x ' + this.starsToCollect;
   },
 
   // this function is called when the faux player overlaps with an enemy star
