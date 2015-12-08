@@ -15,7 +15,7 @@ var Game = function(game) {
   this.collectedStars;
   // this.score = 0;
   // this.scoreText;
-  this.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
+  game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
   var clouds;
@@ -47,7 +47,7 @@ Game.prototype = {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //creates infinite tiling of the cloud image
-    clouds = game.add.tileSprite(0,0,this.scrollableWidth,game.height, 'clouds');
+    clouds = game.add.tileSprite(0,0,game.scrollableWidth,game.height, 'clouds');
     // set the scroll speed for the background image
     backgroundScroll = 1;
 
@@ -64,7 +64,7 @@ Game.prototype = {
     graphics.beginFill(0x000019);
     graphics.lineStyle(2, 0x000019, 1);
     // syntax: top left x, top left y, width, height
-    graphics.drawRect(0, game.height/2, this.scrollableWidth, game.height);
+    graphics.drawRect(0, game.height/2, game.scrollableWidth, game.height);
     graphics.endFill();
     // ==================================
 
@@ -82,13 +82,13 @@ Game.prototype = {
     // make player and faux player for collision detection
     //===================================================
     // add faux player first so it renders behind player and isn't seen by user, render physics on faux player
-    this.fauxPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4*4, 'dude');
+    this.fauxPlayer = game.add.sprite(game.scrollableWidth/2, game.height/4*4, 'dude');
     this.fauxPlayer.scale.setTo(.5, .5);
     this.fauxPlayer.anchor.setTo(.5, 1);
     game.physics.arcade.enable(this.fauxPlayer);
 
     // add real player and enable physics on player
-    this.realPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4 * 4, 'dude');
+    this.realPlayer = game.add.sprite(game.scrollableWidth/2, game.height/4 * 4, 'dude');
     this.realPlayer.scale.setTo(1.5, 1.5);
     this.realPlayer.anchor.setTo(.5, 1);
     // this.realPlayer.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
@@ -109,9 +109,9 @@ Game.prototype = {
     game.addStar = function(){
         game.starCount++;
         // console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(this.width*1.5 - Math.random()*game.width*3, game.height/2, 'enemyStar');
-        console.log("this.width", this.width);
-        console.log("game.width", game.width)
+        var star = game.stars.create(Math.random()*game.scrollableWidth, game.height/2, 'enemyStar');
+        // console.log("this.width", this.width);
+        // console.log("game.width", game.width)
         star.scale.setTo(0);
         star.anchor.setTo(0.5);
         // enable physics
@@ -127,7 +127,7 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: this.width * 3 - Math.random()*this.width*6, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.to({x: Math.random()*game.scrollableWidth, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
             game.starCount--;
             star.kill();
@@ -261,7 +261,7 @@ Game.prototype = {
     // //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
-    game.world.setBounds(0,0,this.scrollableWidth,game.height);
+    game.world.setBounds(0,0,game.scrollableWidth,game.height);
     console.log("game.world in game", game.world)
     game.camera.follow(this.realPlayer, Phaser.Camera.FOLLOW_LOCKON);
     this.realPlayer.body.collideWorldBounds=true;
