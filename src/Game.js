@@ -87,6 +87,7 @@ Game.prototype = {
     this.fauxPlayer.scale.setTo(.5, .5);
     this.fauxPlayer.anchor.setTo(.5, 1);
     game.physics.arcade.enable(this.fauxPlayer);
+    // this.fauxPlayer.visible = false;
 
     // add real player and enable physics on player
     this.realPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4 * 4, 'dude');
@@ -233,7 +234,7 @@ Game.prototype = {
     // game.physics.arcade.collide(this.stars, platforms);
 
     //Check to see if starTocollect is collected if so, run collect star
-    game.physics.arcade.overlap(this.fauxPlayer, game.starsToCollect, null, this.collectStar, this);
+    game.physics.arcade.overlap(this.realPlayer, game.starsToCollect, null, this.collectStar, this);
 
     // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
     game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.checkCollision, this);
@@ -287,6 +288,7 @@ Game.prototype = {
     //this is here to simulate winning the game, need to go to game.state(win) once set up
     if(this.starsToCollect + this.collectedStars === this.collectedStars){
         console.log('you win');
+        //calls function to increase the level
         this.levelUp();
         // this.gameOver();
     }
@@ -328,9 +330,9 @@ Game.prototype = {
     // // go to gameover state
       this.game.state.start("GameOver");
   },
-
+  //this is the function that will be called when player collects all candles
   levelUp: function(){
-    
+
     this.game.state.start("LevelUp");
   }
 
