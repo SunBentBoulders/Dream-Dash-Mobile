@@ -11,6 +11,8 @@ var Game = function(game) {
   this.stars;
   // these are the stars for the player to collect
   this.starsToCollect;
+  // this keeps track of the current level (1 through 5) that the player is on
+  this.currentLevel;
   // this is the number of stars that have been collected
   this.collectedStars;
   // this.score = 0;
