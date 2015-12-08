@@ -10,7 +10,7 @@ var Game = function(game) {
   // these are the enemy stars
   this.stars;
   // these are the stars for the player to collect(set to 1 for now, until we get level up working)
-  this.starsToCollect = 1;
+  this.starsToCollect = 10;
   // this is the number of stars that have been collected
   this.collectedStars = 0;
   //sets the score at the beginning of the game
@@ -45,6 +45,8 @@ Game.prototype = {
 
 
   create: function (game) {
+    this.scoreSprite = game.add.sprite('star');
+    console.log('this is scoreSprite', this.scoreSprite)
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //creates infinite tiling of the cloud image
@@ -182,84 +184,18 @@ Game.prototype = {
     }
     game.addStarWrapperCollectedStars();
 
-    //  Let gravity do its thing
-    // star.body.gravity.y = 300;
-
-    //  This just gives each star a slightly random bounce value
-    // star.body.bounce.y = 0.7 + Math.random() * 0.2;
-
-
-    // game.add.sprite(0, 0, 'stars');
-
-    // // the rest of the create function below is for the game itself
-
-    // //  We're going to be using physics, so enable the Arcade Physics system
-    // game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    // //  A simple background for our game
-    // game.add.sprite(0, 0, 'sky');
-
-    // //  The platforms group contains the ground and the 2 ledges we can jump on
-    // platforms = game.add.group();
-
-    // //  We will enable physics for any object that is created in this group
-    // platforms.enableBody = true;
-
-    // // Here we create the ground.
-    // var ground = platforms.create(0, game.world.height - 64, 'ground');
-
-    // //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    // ground.scale.setTo(2, 2);
-
-    // //  This stops it from falling away when you jump on it
-    // ground.body.immovable = true;
-
-    // //  Now let's create two ledges
-    // var ledge = platforms.create(game.width/2, game.height/1.5, 'ground');
-    // ledge.body.immovable = true;
-
-    // ledge = platforms.create(-150, 250, 'ground');
-    // ledge.body.immovable = true;
-
-    // // The player and its settings, positions it at (32, game.world.height - 150)
-    // this.player = game.add.sprite(game.width/25, game.height - game.height/4, 'dude');
-
-    // //  We need to enable physics on the player
-    // game.physics.arcade.enable(game.player);
-
-    // //  Player physics properties. Give the little guy a slight bounce.
-    // this.player.body.bounce.y = 0.2;
-    // this.player.body.gravity.y = 300;
-    // this.player.body.collideWorldBounds = true;
-
     // //  Our two animations, walking left and right.
     this.realPlayer.animations.add('left', [0, 1, 2, 3], 10, true);
     this.realPlayer.animations.add('right', [5, 6, 7, 8], 10, true);
 
-    // //  Finally some stars to collect
-    // this.stars = game.add.group();
-
-    // //  We will enable physics for any star that is created in this group
-    // this.stars.enableBody = true;
-
-    // //  Here we'll create 12 of them evenly spaced apart
-    // for (var i = 0; i < 12; i++)
-    // {
-    //     //  Create a star inside of the 'stars' group
-    //     var star = this.stars.create(i * 70, 0, 'star');
-
-    //     //  Let gravity do its thing
-    //     star.body.gravity.y = 300;
-
-    //     //  This just gives each star a slightly random bounce value
-    //     star.body.bounce.y = 0.7 + Math.random() * 0.2;
-    // }
-
-    // //  The score
-    this.scoreText = game.add.text(this.realPlayer.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
-    this.scoreText.fixedToCamera = true;
-    console.log(this.scoreText);
-    // //  Our controls.
+    // //  The score=============================================
+    //will add this back once level up game state is made
+    // this.scoreText = game.add.text(this.realPlayer.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    // this.scoreText.fixedToCamera = true;
+    this.leftToCollect = game.add.text(this.realPlayer.x-400,16, this.scoreSprite +' X ' + this.starsToCollect, { fontSize: '32px', fill:'#000' });
+    this.leftToCollect.fixedToCamera = true;
+    console.log('this is this.stars', game.stars);
+    // //  Our controls.=======================================
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
     game.world.setBounds(0,0,this.scrollableWidth,game.height);
@@ -366,7 +302,7 @@ Game.prototype = {
     this.starsToCollect--;
     console.log('this.collectedStars',this.collectedStars);
     this.score += 10;
-    this.scoreText.text = 'Score: ' + this.score;
+    this.leftToCollect.text = 'Left X ' + this.starsToCollect;
   },
 
   // this function is called when the faux player overlaps with an enemy star
