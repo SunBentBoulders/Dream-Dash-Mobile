@@ -68,7 +68,7 @@ Credits.prototype = {
     var bg = this.game.add.sprite(0, 0, 'gameover-bg');
     this.addCredit('Physics Engineer', 'Shanna Sullivan');
     this.addCredit('State Engineer', 'Jazz Lyles');
-    this.addCredit('Gameflow Engineer', 'Darryl Nunn');
+    this.addCredit('Mechanics Engineer', 'Darryl Nunn');
     this.addCredit('Phaser.io & Cocoon', 'Powered By');
     this.addCredit('for playing', 'Thank you');
     this.addMenuOption('< Back', function (e) {
