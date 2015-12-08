@@ -103,10 +103,8 @@ Game.prototype = {
     this.player.add(this.fauxPlayer);
     this.player.add(this.realPlayer);
     //  Player physics properties. Give the little guy a slight bounce.
-    this.realPlayer.body.bounce.y = 0.2;
+    this.realPlayer.body.bounce.y = 0.3;
     this.realPlayer.body.gravity.y = 300;
-    this.fauxPlayer.body.bounce.y = 0.2;
-    this.fauxPlayer.body.gravity.y = 300;
     //===================================================
 
 
@@ -148,7 +146,7 @@ Game.prototype = {
     game.dropTimer.start();
     game.addStarWrapper = function() {
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*2, game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*3, game.addStarWrapper, this);
     };
     game.addStarWrapper();
 
@@ -188,7 +186,7 @@ Game.prototype = {
     game.addStarWrapperCollectedStars = function() {
         // "this" refers to game
         game.addStarToCollect();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapperCollectedStars, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()*5, game.addStarWrapperCollectedStars, this);
     }
     game.addStarWrapperCollectedStars();
 
@@ -322,12 +320,12 @@ Game.prototype = {
     if(game.device.desktop){
         if (cursors.left.isDown) {
             //  Move to the left
-            this.player.setAll('body.velocity.x', -300);
+            this.player.setAll('body.velocity.x', -350);
             this.realPlayer.animations.play('left');
         }
         else if (cursors.right.isDown) {
             //  Move to the right
-            this.player.setAll('body.velocity.x', 300);
+            this.player.setAll('body.velocity.x', 350);
             this.realPlayer.animations.play('right');
         }
         else {
@@ -344,12 +342,12 @@ Game.prototype = {
            if(Math.floor(game.input.x/(game.width/2)) === this.left){
             //move to the left
                 this.realPlayer.animations.play('left');
-                this.player.setAll('body.velocity.x', -150);
+                this.player.setAll('body.velocity.x', -350);
             //check to see if the touch is happening on the right
             }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
             //move to the right
                 this.realPlayer.animations.play('right');
-                this.player.setAll('body.velocity.x', 150);
+                this.player.setAll('body.velocity.x', 350);
             }
         } else {
             this.player.setAll('body.velocity.x', 0);
