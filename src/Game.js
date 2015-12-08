@@ -145,8 +145,9 @@ Game.prototype = {
     game.dropTimer = game.time.create(false);
     game.dropTimer.start();
     game.addStarWrapper = function() {
+        game.currentLevel = 10;
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*3, game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*3.5, game.addStarWrapper, this);
     };
     game.addStarWrapper();
 
@@ -320,12 +321,12 @@ Game.prototype = {
     if(game.device.desktop){
         if (cursors.left.isDown) {
             //  Move to the left
-            this.player.setAll('body.velocity.x', -350);
+            this.player.setAll('body.velocity.x', -400);
             this.realPlayer.animations.play('left');
         }
         else if (cursors.right.isDown) {
             //  Move to the right
-            this.player.setAll('body.velocity.x', 350);
+            this.player.setAll('body.velocity.x', 400);
             this.realPlayer.animations.play('right');
         }
         else {
@@ -342,12 +343,12 @@ Game.prototype = {
            if(Math.floor(game.input.x/(game.width/2)) === this.left){
             //move to the left
                 this.realPlayer.animations.play('left');
-                this.player.setAll('body.velocity.x', -350);
+                this.player.setAll('body.velocity.x', -400);
             //check to see if the touch is happening on the right
             }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
             //move to the right
                 this.realPlayer.animations.play('right');
-                this.player.setAll('body.velocity.x', 350);
+                this.player.setAll('body.velocity.x', 400);
             }
         } else {
             this.player.setAll('body.velocity.x', 0);
