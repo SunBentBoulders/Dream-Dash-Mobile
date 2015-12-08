@@ -10,7 +10,7 @@ var Game = function(game) {
   // these are the enemy stars
   this.stars;
   // these are the stars for the player to collect(set to 1 for now, until we get level up working)
-  this.starsToCollect = 10;
+  this.starsToCollect = 2;
   // this is the number of stars that have been collected
   this.collectedStars = 0;
   //sets the score at the beginning of the game
@@ -45,7 +45,6 @@ Game.prototype = {
 
 
   create: function (game) {
-    console.log('this is scoreSprite', this.scoreSprite)
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //creates infinite tiling of the cloud image
@@ -195,7 +194,7 @@ Game.prototype = {
     this.scoreSprite.fixedToCamera = true;
     this.leftToCollect = game.add.text(this.realPlayer.x-380,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#000' });
     this.leftToCollect.fixedToCamera = true;
-    console.log('this is this.stars', game.stars);
+    // console.log('this is this.stars', game.stars);
     // //  Our controls.=======================================
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
@@ -271,12 +270,12 @@ Game.prototype = {
            if(Math.floor(game.input.x/(game.width/2)) === this.left){
             //move to the left
                 this.realPlayer.animations.play('left');
-                this.player.setAll('body.velocity.x', -150);
+                this.player.setAll('body.velocity.x', -175);
             //check to see if the touch is happening on the right
             }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
             //move to the right
                 this.realPlayer.animations.play('right');
-                this.player.setAll('body.velocity.x', 150);
+                this.player.setAll('body.velocity.x', 175);
             }
         } else {
             this.player.setAll('body.velocity.x', 0);
@@ -288,6 +287,7 @@ Game.prototype = {
     //this is here to simulate winning the game, need to go to game.state(win) once set up
     if(this.starsToCollect + this.collectedStars === this.collectedStars){
         console.log('you win');
+        this.levelUp();
         // this.gameOver();
     }
   },
@@ -327,6 +327,11 @@ Game.prototype = {
 
     // // go to gameover state
       this.game.state.start("GameOver");
+  },
+
+  levelUp: function(){
+    
+    this.game.state.start("LevelUp");
   }
 
 };

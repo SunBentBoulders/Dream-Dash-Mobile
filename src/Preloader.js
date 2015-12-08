@@ -58,6 +58,7 @@ Preloader.prototype = {
         game.state.add("GameOver",GameOver);
         game.state.add("Credits",Credits);
         game.state.add("Options",Options);
+        game.state.add("LevelUp", LevelUp);
     },
     
     addGameMusic: function (game) {
