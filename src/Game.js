@@ -112,7 +112,7 @@ Game.prototype = {
         console.log("game.camera", game.camera)
         game.starCount++;
         // console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(Math.random()*game.scrollableWidth, game.height/2, 'enemyStar');
+        var star = game.stars.create(game.camera.bounds.randomX, game.height/2, 'enemyStar');
         // console.log("this.width", this.width);
         // console.log("game.width", game.width)
         star.scale.setTo(0);
@@ -130,23 +130,7 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        // this function generates x-coordinate based on which half of the world the star generated from
-        var newX = function(xCoordinate) {
-            // if star generates on left 1/3 of screen,
-            if (xCoordinate < game.scrollableWidth/3) {
-                // star ends up in first 2/3 or screen
-                return 2 * (Math.random() * game.scrollableWidth/3);
-            // if star generates on middle 1/3 of screen,
-            } else if  (xCoordinate > game.scrollableWidth/3 && xCoordinate < game.scrollableWidth) {
-                // star ends up in any part of screen
-                return Math.random() * game.scrollableWidth;
-            // if star generates on right 1/3 of screen,
-            } else {
-                // star ends up in last 2/3 of screen
-                return (Math.random() * game.scrollableWidth/3) + 2 * (Math.random() * game.scrollableWidth/3);
-            }
-        };
-        tween2.to({x: newX(star.position.x), y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.to({x: game.camera.bounds.randomX, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
             game.starCount--;
             star.kill();
