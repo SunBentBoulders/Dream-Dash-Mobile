@@ -16,8 +16,6 @@ var Game = function(game) {
   //sets the score at the beginning of the game
   this.score = 0;
   // this.scoreText;
-  // this keeps track of the current level (1 through 5) that the player is on
-  game.currentLevel = 1;
   game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
@@ -26,6 +24,11 @@ var Game = function(game) {
   var pause;
   var pausedText;
   var totalScore;
+  // this keeps track of the current level (1 through 5) that the player is on
+  // var currentLevel;
+  this.currentLevel = 1;
+  game.currentLevel = this.currentLevel;
+  thisLevel = 1;
 };
 Game.prototype = {
 
@@ -81,7 +84,7 @@ Game.prototype = {
     game.starsToCollect = game.add.group();
     game.starsToCollect.enableBody = true;
     game.collectedStars = 0;
-    game.score = 0;
+    // game.score = 0;
 
 
     // make player and faux player for collision detection
@@ -148,10 +151,12 @@ Game.prototype = {
     game.dropTimer = game.time.create(false);
     game.dropTimer.start();
     game.addStarWrapper = function() {
-        game.currentLevel = 10;
+        // game.currentLevel = 10;
         game.addStar();
-
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*3.5, game.addStarWrapper, this);
+        console.log('this is thislevel in addstar', thisLevel);
+        console.log('this is game.currentLevel in addstar', game.currentLevel)
+        // console.log('this is currentLevel', currentLevel);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/ thisLevel * 3.5, game.addStarWrapper, this);
 
     };
     game.addStarWrapper();
@@ -348,8 +353,12 @@ Game.prototype = {
   },
   //this is the function that will be called when player collects all candles
   levelUp: function(){
+    this.starsToCollect = 1;
+    thisLevel++;
+    console.log('this is currentLevel', thisLevel);
 
-    setTimeout(this.game.state.start("LevelUp"), 1000);
+    this.game.state.start("LevelUp");
+    this.world.setBounds(0,0,800,600);
   }
 
 };
