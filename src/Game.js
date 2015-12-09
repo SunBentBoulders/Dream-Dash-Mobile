@@ -126,7 +126,7 @@ Game.prototype = {
         star.anchor.setTo(0.5);
         // enable physics
         // game.physics.enable(star, Phaser.Physics.ARCADE);
-        star.body.immovable = true;
+        // star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
         var timeToTween = 8000;
@@ -166,7 +166,7 @@ Game.prototype = {
         star.scale.setTo(0);
         star.anchor.setTo(.5);
 
-        star.body.immovable = true;
+        // star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
         var timeToTween = 10000;
@@ -250,7 +250,7 @@ Game.prototype = {
     game.physics.arcade.overlap(this.player, game.starsToCollect, null, this.collectStar, this);
 
     // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
-    game.physics.arcade.overlap(this.player, game.stars, null, this.checkCollision, this);
+    game.physics.arcade.collide(this.player, game.stars, null, this.checkCollision, this);
 
     // //  Reset the players velocity (movement)
     this.player.body.velocity.x = 0; // sets velocity of realPlayer and fauxPlayer - syntax changed b/c player is now a group of sprites
@@ -325,7 +325,28 @@ Game.prototype = {
   checkCollision: function(player, star) {
     console.log("checking for collision");
     // setTimeout(this.gameOver, 500);
-    this.gameOver();
+    player.body.velocity.x = Math.random()*1000;
+    player.body.velocity.y = -Math.random()*1000;
+    star.body.velocity.x = Math.random()*1000;
+    star.body.velocity.y = -Math.random()*1000;
+    var collisionTweenPlayer = this.add.tween(player.position);
+    // stars move to random x coordinates of screen
+    collisionTweenPlayer.to({x: this.camera.view.randomX, y: this.height}, 2000, Phaser.Easing.Bounce.In, true)
+    collisionTweenPlayer.onComplete.add(function() {
+        console.log("player is reacting to collision in checkCollision")
+        this.gameOver();
+    }, this);
+    // this.gameOver();
+  },
+
+  render: function(game) {
+    this.game.debug.bodyInfo(this.player, 32, 32);
+    this.game.debug.body(this.player);
+    this.game.stars.forEachAlive(this.renderGroup, this);
+  },
+
+  renderGroup: function(member) {
+    this.game.debug.body(member);
   },
 
   // this function called by end of update function
