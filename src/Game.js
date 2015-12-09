@@ -16,7 +16,9 @@ var Game = function(game) {
   //sets the score at the beginning of the game
   this.score = 0;
   // this.scoreText;
-  this.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
+  // this keeps track of the current level (1 through 5) that the player is on
+  game.currentLevel = 1;
+  game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
   var clouds;
@@ -49,7 +51,7 @@ Game.prototype = {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //creates infinite tiling of the cloud image
-    clouds = game.add.tileSprite(0,0,this.scrollableWidth,game.height, 'clouds');
+    clouds = game.add.tileSprite(0,0,game.scrollableWidth,game.height, 'clouds');
     // set the scroll speed for the background image
     backgroundScroll = 1;
 
@@ -66,7 +68,7 @@ Game.prototype = {
     graphics.beginFill(0x000019);
     graphics.lineStyle(2, 0x000019, 1);
     // syntax: top left x, top left y, width, height
-    graphics.drawRect(0, game.height/2, this.scrollableWidth, game.height);
+    graphics.drawRect(0, game.height/2, game.scrollableWidth, game.height);
     graphics.endFill();
     // ==================================
 
@@ -85,14 +87,14 @@ Game.prototype = {
     // make player and faux player for collision detection
     //===================================================
     // add faux player first so it renders behind player and isn't seen by user, render physics on faux player
-    this.fauxPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4*4, 'dude');
+    this.fauxPlayer = game.add.sprite(game.scrollableWidth/2, game.height/4*4, 'dude');
     this.fauxPlayer.scale.setTo(.5, .5);
     this.fauxPlayer.anchor.setTo(.5, 1);
     game.physics.arcade.enable(this.fauxPlayer);
     // this.fauxPlayer.visible = false;
 
     // add real player and enable physics on player
-    this.realPlayer = game.add.sprite(this.scrollableWidth/2, game.height/4 * 4, 'dude');
+    this.realPlayer = game.add.sprite(game.scrollableWidth/2, 0, 'dude');
     this.realPlayer.scale.setTo(1.5, 1.5);
     this.realPlayer.anchor.setTo(.5, 1);
     // this.realPlayer.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
@@ -104,6 +106,9 @@ Game.prototype = {
     this.player.enableBody = true;
     this.player.add(this.fauxPlayer);
     this.player.add(this.realPlayer);
+    //  Player physics properties. Give the little guy a slight bounce.
+    this.realPlayer.body.bounce.y = 0.3;
+    this.realPlayer.body.gravity.y = 300;
     //===================================================
 
 
@@ -111,11 +116,11 @@ Game.prototype = {
 
     //  Create a star inside of the 'stars' group
     game.addStar = function(){
-        // game.starCount++;
-        // console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(this.width*1.5 - Math.random()*game.width*3, game.height/2, 'enemyStar');
-        console.log("this.width", this.width);
-        console.log("game.width", game.width)
+        game.starCount++;
+        console.log("addStar starCount", game.starCount);
+        var star = game.stars.create(game.camera.view.randomX, game.height/2, 'enemyStar');
+        // console.log("this.width", this.width);
+        // console.log("game.width", game.width)
         star.scale.setTo(0);
         star.anchor.setTo(0.5);
         // enable physics
@@ -131,10 +136,11 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: this.width * 3 - Math.random()*this.width*6, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.to({x: Math.random() * game.scrollableWidth, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
             // game.starCount--;
             star.kill();
+            console.log("star killed, starCount is", game.starCount)
         });
     };
 
@@ -142,8 +148,11 @@ Game.prototype = {
     game.dropTimer = game.time.create(false);
     game.dropTimer.start();
     game.addStarWrapper = function() {
+        game.currentLevel = 10;
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/.008, game.addStarWrapper, this);
+
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*3.5, game.addStarWrapper, this);
+
     };
     game.addStarWrapper();
 
@@ -154,11 +163,10 @@ Game.prototype = {
     game.addStarToCollect = function(){
         // game.collectedStars++;
         console.log("addStarToCollect collectedStars", game.collectedStars);
-        var star = game.starsToCollect.create(game.width*1.5 - Math.random()*game.width*3, game.height/2, 'star');
+        var star = game.starsToCollect.create(game.camera.view.randomX, game.height/2, 'star');
         star.scale.setTo(0);
         star.anchor.setTo(.5);
-        // enable physics
-        // game.physics.enable(star, Phaser.Physics.ARCADE);
+
         star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
@@ -169,10 +177,12 @@ Game.prototype = {
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: game.width * 3 - Math.random()*game.width*6, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.to({x: Math.random() * game.scrollableWidth, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
             // game.collectedStars--;
             star.kill();
+            console.log("collection star killed, collectedStars is", game.collectedStars)
+
         });
     }
 
@@ -180,14 +190,16 @@ Game.prototype = {
     game.dropTimerCollectedStars = game.time.create(false);
     game.dropTimerCollectedStars.start();
     game.addStarWrapperCollectedStars = function() {
+        // "this" refers to game
         game.addStarToCollect();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/1.5, game.addStarWrapperCollectedStars, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()*5, game.addStarWrapperCollectedStars, this);
     }
     game.addStarWrapperCollectedStars();
 
     // //  Our two animations, walking left and right.
     this.realPlayer.animations.add('left', [0, 1, 2, 3], 10, true);
     this.realPlayer.animations.add('right', [5, 6, 7, 8], 10, true);
+
 
     // //  The score=============================================
     //will add this back once level up game state is made
@@ -201,8 +213,8 @@ Game.prototype = {
     // //  Our controls.=======================================
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
-    game.world.setBounds(0,0,this.scrollableWidth,game.height);
-    console.log("game.world in game", game.world)
+    game.world.setBounds(0,0,game.scrollableWidth,game.height);
+    // console.log("game.world in game", game.world)
     game.camera.follow(this.realPlayer, Phaser.Camera.FOLLOW_LOCKON);
     this.realPlayer.body.collideWorldBounds=true;
     this.fauxPlayer.body.collideWorldBounds=true;
@@ -251,12 +263,12 @@ Game.prototype = {
     if(game.device.desktop){
         if (cursors.left.isDown) {
             //  Move to the left
-            this.player.setAll('body.velocity.x', -300);
+            this.player.setAll('body.velocity.x', -400);
             this.realPlayer.animations.play('left');
         }
         else if (cursors.right.isDown) {
             //  Move to the right
-            this.player.setAll('body.velocity.x', 300);
+            this.player.setAll('body.velocity.x', 400);
             this.realPlayer.animations.play('right');
         }
         else {
@@ -273,12 +285,12 @@ Game.prototype = {
            if(Math.floor(game.input.x/(game.width/2)) === this.left){
             //move to the left
                 this.realPlayer.animations.play('left');
-                this.player.setAll('body.velocity.x', -175);
+                this.player.setAll('body.velocity.x', -400);
             //check to see if the touch is happening on the right
             }else if(Math.floor(game.input.x/(game.width/2)) === this.right){
             //move to the right
                 this.realPlayer.animations.play('right');
-                this.player.setAll('body.velocity.x', 175);
+                this.player.setAll('body.velocity.x', 400);
             }
         } else {
             this.player.setAll('body.velocity.x', 0);

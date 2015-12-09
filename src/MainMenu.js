@@ -8,16 +8,16 @@ MainMenu = function (game) {
 
 
 MainMenu.prototype = {
-    
+
 
   init: function (game) {
-    console.log('this is ', this);
-    console.log('game is ', game);
+    // console.log('this is ', this);
+    // console.log('game is ', game);
       var menuConfig = {
         startY: this.game.height/2.31,
         startX: this.game.width/26.67
       };
-          
+
     this.titleText = this.game.make.text(this.game.world.centerX, this.game.height/6, "Cape Runner", {
       font: 'bold ' + this.game.width/13.33 + 'pt TheMinion',
       fill: '#c37c01',
@@ -41,7 +41,7 @@ MainMenu.prototype = {
       target.stroke = "rgba(200,200,200,0.5)";
       txt.useHandCursor = true;
     };
-      
+
     var onOut = function (target) {
       target.fill = "white";
       target.stroke = "rgba(0,0,0,0)";
@@ -79,7 +79,7 @@ MainMenu.prototype = {
     });
 
   }
-  
+
 };
 
 Phaser.Utils.mixinPrototype(MainMenu.prototype, mixins);
