@@ -10,7 +10,7 @@ var Game = function(game) {
   // these are the enemy stars
   this.stars;
   // these are the stars for the player to collect(set to 1 for now, until we get level up working)
-  this.starsToCollect = 2;
+  this.starsToCollect = 1;
   // this is the number of stars that have been collected
   this.collectedStars = 0;
   //sets the score at the beginning of the game
@@ -23,6 +23,7 @@ var Game = function(game) {
   var backgroundScroll;
   var pause;
   var pausedText;
+  var totalScore;
 };
 Game.prototype = {
 
@@ -78,6 +79,7 @@ Game.prototype = {
     game.starsToCollect = game.add.group();
     game.starsToCollect.enableBody = true;
     game.collectedStars = 0;
+    game.score = 0;
 
 
     // make player and faux player for collision detection
@@ -141,7 +143,7 @@ Game.prototype = {
     game.dropTimer.start();
     game.addStarWrapper = function() {
         game.addStar();
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/.8, game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/.008, game.addStarWrapper, this);
     };
     game.addStarWrapper();
 
@@ -303,8 +305,10 @@ Game.prototype = {
     // //  Add and update the score and the number of stars collected and left to collect
     this.collectedStars++;
     this.starsToCollect--;
-    console.log('this.collectedStars',this.collectedStars);
+    console.log('this.score',this.score);
     this.score += 10;
+    totalScore = this.score;
+    console.log('game.score', game.score)
     this.leftToCollect.text = ' x ' + this.starsToCollect;
   },
 
@@ -333,7 +337,7 @@ Game.prototype = {
   //this is the function that will be called when player collects all candles
   levelUp: function(){
 
-    this.game.state.start("LevelUp");
+    setTimeout(this.game.state.start("LevelUp"), 1000);
   }
 
 };

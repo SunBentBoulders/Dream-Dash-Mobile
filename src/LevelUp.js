@@ -2,7 +2,7 @@ var LevelUp = function(game){};
 
 LevelUp.prototype = {
 
-	preload: function(){
+	preload: function(game){
 		//stuff here
 	},
 	
@@ -17,7 +17,12 @@ LevelUp.prototype = {
 		this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 		this.titleText.anchor.set(0.5);
 		this.optionCount = 1;
-		this.showScore = game.add.text(game.width/2 , game.height/4 + 100, 'Total Score '+ game.score);
+		this.showScore = game.add.text(game.width/2 - 140 , game.height/4 + 100, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/40 + 'pt TheMinion',
+		  fill: '#c37c01',
+		  align: 'center'
+		});
+		
+		console.log('this is totalscore', totalScore);
 	},
 
 	startNextLevel: function(){
