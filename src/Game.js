@@ -146,7 +146,7 @@ Game.prototype = {
     game.dropTimer = game.time.create(false);
     game.dropTimer.start();
     game.addStarWrapper = function() {
-        game.currentLevel = 10;
+        // game.currentLevel = 1;
         game.addStar();
         game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/game.currentLevel*3.5, game.addStarWrapper, this);
     };
