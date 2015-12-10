@@ -359,11 +359,11 @@ Game.prototype = {
     game.physics.arcade.overlap(this.player, game.starsToCollect, null, this.collectStar, this);
 
     //check to see if ClockToCollect is collected, if so, run gainLife
-    game.physics.arcade.overlap(this.realPlayer, game.ClocksToCollect, null, this.collectClock, this);
+    game.physics.arcade.overlap(this.player, game.ClocksToCollect, null, this.collectClock, this);
 
     // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
     game.physics.arcade.collide(this.player, game.stars, null, this.checkCollision, this);
-    game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.loseLife, this);
+    game.physics.arcade.overlap(this.player, game.stars, null, this.loseLife, this);
 
 
     // //  Reset the players velocity (movement)
