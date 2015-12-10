@@ -11,7 +11,7 @@ LevelUp.prototype = {
 		//stuff here
 		this.titleText = game.add.text(game.width/2, game.height/4, "You Woke Up!", {
 		  font: 'bold ' + game.width/13.33 + 'pt TheMinion',
-		  fill: '#c37c01',
+		  fill: '#7CCD7C',
 		  align: 'center'
 		});
 		this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);

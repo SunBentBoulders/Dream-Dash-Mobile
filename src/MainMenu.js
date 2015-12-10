@@ -20,7 +20,7 @@ MainMenu.prototype = {
 
     this.titleText = this.game.make.text(this.game.world.centerX, this.game.height/6, "Cape Runner", {
       font: 'bold ' + this.game.width/13.33 + 'pt TheMinion',
-      fill: '#c37c01',
+      fill: '#7CCD7C',
       align: 'center'
     });
     this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
@@ -58,6 +58,8 @@ MainMenu.prototype = {
 
   create: function (game) {
 
+ 
+
     if (music.name !== "bgm" && playMusic) {
       music.stop();
       music = game.add.audio('bgm');
@@ -69,7 +71,8 @@ MainMenu.prototype = {
     game.add.existing(this.titleText);
 
     this.addMenuOption('Start', function () {
-      game.state.start("Game");
+      // game.state.start("Game");
+      game.state.start('Game');
     });
     this.addMenuOption('Options', function () {
       game.state.start("Options");
@@ -78,7 +81,9 @@ MainMenu.prototype = {
       game.state.start("Credits");
     });
 
-  }
+  },
+
+
 
 };
 

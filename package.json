@@ -1,0 +1,23 @@
+{
+  "name": "mobilecaperunner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "phaser-state-transition-plugin": "^0.1.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darrylnu/MobileCapeRunner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darrylnu/MobileCapeRunner/issues"
+  },
+  "homepage": "https://github.com/darrylnu/MobileCapeRunner#readme"
+}
