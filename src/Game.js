@@ -135,7 +135,6 @@ Game.prototype = {
         game.physics.arcade.enable(game.stars);
         game.stars.enableBody = true;
         star.body.setSize(300, 300);
-        star.scale.setTo(0);
 
         // star.body.scale.setTo(0.5, 0.5)
         // game.physics.arcade.enable(star);
@@ -152,8 +151,8 @@ Game.prototype = {
         tween.to({x: .5, y:.5}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
-        var bodyTween = game.add.tween(star.body);
-        bodyTween.to({width: 30, height: 50}, Phaser.Easing.Exponential.In, true);
+        // var bodyTween = game.add.tween(star.body);
+        // bodyTween.to({width: 40, height: 40}, Phaser.Easing.Exponential.In, true);
 
 
         var tween2 = game.add.tween(star.position);
@@ -186,6 +185,10 @@ Game.prototype = {
         var star = game.starsToCollect.create(game.camera.view.randomX, game.height/2, 'star');
         star.scale.setTo(0);
         star.anchor.setTo(.5);
+        // modify physics body of enemy sprites
+        game.physics.arcade.enable(game.stars);
+        game.stars.enableBody = true;
+        star.body.setSize(10, 10);
 
         // star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
@@ -194,6 +197,8 @@ Game.prototype = {
         tween.to({x: 4, y:4}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
+        // var bodyTween = game.add.tween(star.body);
+        // bodyTween.to({width: 5, height: 5}, Phaser.Easing.Exponential.In, true);
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
@@ -364,6 +369,7 @@ Game.prototype = {
     // this.game.debug.bodyInfo(this.player, 32, 32);
     this.game.debug.body(this.player);
     this.game.stars.forEachAlive(this.renderGroup, this);
+    this.game.starsToCollect.forEachAlive(this.renderGroup, this);
   },
 
   renderGroup: function(member) {
