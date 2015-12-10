@@ -115,7 +115,9 @@ Game.prototype = {
     // this.player.add(this.fauxPlayer);
     // this.player.add(this.realPlayer);
     //  Player physics properties. Give the little guy a slight bounce.
+    this.player.body.collideWorldBounds = true;
     this.player.body.bounce.y = 0.3;
+    this.player.body.bounce.x = 0.2;
     this.player.body.gravity.y = 300;
     //===================================================
 
@@ -242,6 +244,7 @@ Game.prototype = {
     // console.log("game.world in game", game.world)
     game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON);
     this.player.body.collideWorldBounds=true;
+    this.player.collideWorldBounds=true;
     // this.fauxPlayer.body.collideWorldBounds=true;
     //========================================================
     //add pause button
@@ -266,6 +269,8 @@ Game.prototype = {
   },
 
   update: function(game) {
+    this.player.body.bounce.x = 0.2;
+    // this.player.bounce.x = 0.2;
     //make the background scroll
     clouds.tilePosition.y += backgroundScroll;
     //  Collide the player and the stars with the platforms
@@ -350,23 +355,34 @@ Game.prototype = {
   // this function is called when the faux player overlaps with an enemy star
   checkCollision: function(player, star) {
     console.log("checking for collision");
+    this.input.keyboard.enabled = false;
+    player.animations.frame = 4;
+    player.animations.paused = true;
+    console.log("player", player)
+    // player.body.velocity.x = 0;
     // setTimeout(this.gameOver, 500);
-    player.body.velocity.x = Math.random()*1000;
-    player.body.velocity.y = -Math.random()*1000;
-    star.body.velocity.x = Math.random()*1000;
-    star.body.velocity.y = -Math.random()*1000;
-    var collisionTweenPlayer = this.add.tween(player.position);
+    // if (player.position.x < this.game.scrollableWidth/2) {
+    //     player.body.velocity.x = 20;
+    //     console.log("player.body.velocity.x", player.body.velocity.x)
+    // } else {
+    //     player.body.velocity.x = -20;
+    // }
+    player.body.velocity.x = 10;
+    player.body.velocity.y = -300;
+    // star.body.velocity.x = Math.random()*1000;
+    // star.body.velocity.y = -Math.random()*1000;
+    // var collisionTweenPlayer = this.add.tween(player.position);
     // stars move to random x coordinates of screen
-    collisionTweenPlayer.to({x: this.camera.view.randomX, y: this.height}, 2000, Phaser.Easing.Bounce.In, true)
-    collisionTweenPlayer.onComplete.add(function() {
-        console.log("player is reacting to collision in checkCollision")
-        this.gameOver();
-    }, this);
+    // collisionTweenPlayer.to({x: this.camera.view.randomX, y: this.height}, 2000, Phaser.Easing.Linear.In, true)
+    // collisionTweenPlayer.onComplete.add(function() {
+    //     console.log("player is reacting to collision in checkCollision")
+    //     this.gameOver();
+    // }, this);
     // this.gameOver();
   },
 
   render: function(game) {
-    // this.game.debug.bodyInfo(this.player, 32, 32);
+    this.game.debug.bodyInfo(this.player, 32, 32);
     this.game.debug.body(this.player);
     this.game.stars.forEachAlive(this.renderGroup, this);
     this.game.starsToCollect.forEachAlive(this.renderGroup, this);
