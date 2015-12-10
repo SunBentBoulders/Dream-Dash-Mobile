@@ -572,7 +572,7 @@ Game.prototype = {
             //makes device vibrate
             window.navigator.vibrate([1000]);
             //makes the player invincible for 5 seconds
-            this.game.time.events.add(5000, this.toggleInvincible, this);
+            this.game.time.events.add(3000, this.toggleInvincible, this);
         } else if(this.life2.visible){
             //makes second life dissapear
             this.life2.visible = false;
@@ -591,7 +591,7 @@ Game.prototype = {
         if(!this.life3.visible){
             this.life3.visible = true;
             this.toggleLostLife();
-            this.game.time.events.add(5000, this.toggleLostLife, this);
+            this.game.time.events.add(3000, this.toggleLostLife, this);
         } else if(!this.life2.visible){
             this.life2.visible = true;
             this.toggleLostLife();
