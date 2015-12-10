@@ -147,6 +147,8 @@ Game.prototype = {
         // game.physics.enable(star, Phaser.Physics.ARCADE);
         // star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
+        game.physics.arcade.moveToXY(star, Math.random() * game.scrollableWidth, this.height * 1.5, 200, 14000)
+
         var tween = game.add.tween(star.scale);
         var timeToTween = 8000;
         // tween.from({x: 0, y: 0});
@@ -155,7 +157,7 @@ Game.prototype = {
         // applies to stars that start on left of screen
         // var bodyTween = game.add.tween(star.body);
         // bodyTween.to({width: 40, height: 40}, Phaser.Easing.Exponential.In, true);
-
+        // add velocity instead of tween
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
@@ -355,10 +357,13 @@ Game.prototype = {
   // this function is called when the faux player overlaps with an enemy star
   checkCollision: function(player, star) {
     console.log("checking for collision");
+    console.log("player.body.velocity.x", player.body.velocity.x);
+    player.body.velocity.x = 10
+    console.log("player.body.velocity.x", player.body.velocity.x)
     this.input.keyboard.enabled = false;
     player.animations.frame = 4;
     player.animations.paused = true;
-    console.log("player", player)
+    // console.log("player", player)
     // player.body.velocity.x = 0;
     // setTimeout(this.gameOver, 500);
     // if (player.position.x < this.game.scrollableWidth/2) {
@@ -367,8 +372,8 @@ Game.prototype = {
     // } else {
     //     player.body.velocity.x = -20;
     // }
-    player.body.velocity.x = 10;
-    player.body.velocity.y = -300;
+    // player.body.velocity.x = 10;
+    player.body.velocity.y = -100;
     // star.body.velocity.x = Math.random()*1000;
     // star.body.velocity.y = -Math.random()*1000;
     // var collisionTweenPlayer = this.add.tween(player.position);
