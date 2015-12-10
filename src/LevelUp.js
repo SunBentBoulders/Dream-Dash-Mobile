@@ -7,7 +7,7 @@ LevelUp.prototype = {
 	},
 	
 	create: function(game){
-		this.stage.backgroundColor = 0x7D26CD
+		this.stage.backgroundColor = 0x4B0082
 		//stuff here
 		this.titleText = game.add.text(game.width/2, game.height/4, "You Woke Up!", {
 		  font: 'bold ' + game.width/13.33 + 'pt TheMinion',

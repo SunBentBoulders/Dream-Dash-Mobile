@@ -5,12 +5,11 @@ var Game = function(game) {
   this.realPlayer;
   // this is the fake player that only exists for collision detection
   this.fauxPlayer;
-  // this.platforms;
   // this.cursors;
   // these are the enemy stars
   this.stars;
   // these are the stars for the player to collect(set to 1 for now, until we get level up working)
-  this.starsToCollect = 1;
+  this.starsToCollect = 5;
   // this is the number of stars that have been collected
   this.collectedStars = 0;
   //sets the score at the beginning of the game
@@ -25,10 +24,13 @@ var Game = function(game) {
   var pausedText;
   var totalScore;
   // this keeps track of the current level (1 through 5) that the player is on
-  // var currentLevel;
   this.currentLevel = 1;
   game.currentLevel = this.currentLevel;
-  thisLevel = 1;
+  nextLevel = 1;
+  //sets the players invinicibiliy for when it get hits by enemy
+  playerInvincible = false;
+  //sets the players lifesLost to be false
+  playerLostLife = false;
 };
 Game.prototype = {
 
@@ -47,6 +49,7 @@ Game.prototype = {
     game.load.image('star', 'img/star.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
     game.load.image('pause', 'img/pause.png');
+    game.load.image('clock', 'img/clock.png');
   },
 
 
@@ -85,6 +88,10 @@ Game.prototype = {
     game.starsToCollect.enableBody = true;
     game.collectedStars = 0;
     // game.score = 0;
+
+    //add group of clocks to collect
+    game.ClocksToCollect = game.add.group();
+    game.ClocksToCollect.enableBody = true;
 
 
     // make player and faux player for collision detection
@@ -153,10 +160,10 @@ Game.prototype = {
     game.addStarWrapper = function() {
         // game.currentLevel = 10;
         game.addStar();
-        console.log('this is thislevel in addstar', thisLevel);
+        console.log('this is nextLevel in addstar', nextLevel);
         console.log('this is game.currentLevel in addstar', game.currentLevel)
         // console.log('this is currentLevel', currentLevel);
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/ thisLevel * 3.5, game.addStarWrapper, this);
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/ nextLevel * 3.5, game.addStarWrapper, this);
 
     };
     game.addStarWrapper();
@@ -200,8 +207,49 @@ Game.prototype = {
         game.dropTimer.add(Phaser.Timer.SECOND * Math.random()*5, game.addStarWrapperCollectedStars, this);
     }
     game.addStarWrapperCollectedStars();
+ 
+ // add Clocks to collect and get points
+    //=======================================================
 
-    // //  Our two animations, walking left and right.
+    //  Create a Clock inside of the 'Clocks' group
+    game.addClockToCollect = function(){
+        // game.collectedClocks++;
+        // console.log("addClockToCollect collectedClocks", game.collectedClocks);
+        var Clock = game.ClocksToCollect.create(game.camera.view.randomX, game.height/2, 'clock');
+        Clock.scale.setTo(0);
+        Clock.anchor.setTo(.5);
+
+        Clock.body.immovable = true;
+        // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
+        var tween = game.add.tween(Clock.scale);
+        var timeToTween = 10000;
+        tween.to({x: 4, y:4}, timeToTween, Phaser.Easing.Exponential.In, true);
+        // add tween for Clocks to move to edges of screen as they get bigger
+        // applies to Clocks that Clockt on left of screen
+
+        var tween2 = game.add.tween(Clock.position);
+        // Clocks move to random x coordinates of screen
+        tween2.to({x: Math.random() * game.scrollableWidth, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        tween2.onComplete.add(function() {
+            // game.collectedClocks--;
+            Clock.kill();
+            // console.log("collection Clock killed, collectedClocks is", game.collectedClocks)
+
+        });
+    }
+
+    // dropTimer and addClockWrapper are used to generate Clocks at random intervals
+    game.dropTimerCollectedClocks = game.time.create(false);
+    game.dropTimerCollectedClocks.start();
+    game.addClockWrapperCollectedClocks = function() {
+        // "this" refers to game
+        game.addClockToCollect();
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/nextLevel * 20, game.addClockWrapperCollectedClocks, this);
+    }
+    game.addClockWrapperCollectedClocks();
+
+    //=========================================== 
+    //  Our two animations, walking left and right.
     this.realPlayer.animations.add('left', [0, 1, 2, 3], 10, true);
     this.realPlayer.animations.add('right', [5, 6, 7, 8], 10, true);
 
@@ -210,11 +258,29 @@ Game.prototype = {
     //will add this back once level up game state is made
     // this.scoreText = game.add.text(this.realPlayer.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     // this.scoreText.fixedToCamera = true;
-    this.scoreSprite = game.add.sprite(this.realPlayer.x-400,24,'star');
+    this.scoreSprite = game.add.sprite(this.realPlayer.x-290,24,'star');
     this.scoreSprite.fixedToCamera = true;
-    this.leftToCollect = game.add.text(this.realPlayer.x-380,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#000' });
+    this.leftToCollect = game.add.text(this.realPlayer.x-270,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#000' });
     this.leftToCollect.fixedToCamera = true;
     // console.log('this is this.stars', game.stars);
+    //=====================================================
+    //this will be the life bar
+    var lifeDistance = 80
+    this.life1 = game.add.sprite(lifeDistance, 16, 'clock');
+    this.life1.fixedToCamera = true;
+    this.life2 = game.add.sprite(lifeDistance + 40, 16, 'clock');
+    this.life2.fixedToCamera = true;
+    this.life3 = game.add.sprite(lifeDistance + 80, 16, 'clock');
+    this.life3.fixedToCamera = true;
+
+
+
+
+
+
+
+
+
     // //  Our controls.=======================================
     cursors = game.input.keyboard.createCursorKeys();
     //set the world to be wider behind the frame
@@ -230,7 +296,7 @@ Game.prototype = {
     pause.inputEnabled = true;
     pause.events.onInputUp.add(function(){
         //this is the game paused text
-        pausedText = game.add.text(game.camera.x + 400,150, "Game Paused",{ font: '30px Arial', fill: '#fff' });
+        pausedText = game.add.text(game.camera.x + 400,game.height/2, "Paused",{ font: '200px Arial', fill: '#fff' });
         pausedText.anchor.setTo(0.5,0.5);
         game.paused = true;
     });
@@ -252,11 +318,15 @@ Game.prototype = {
     // game.physics.arcade.collide(this.player, game.stars,this.gameOver, null, this);
     // game.physics.arcade.collide(this.stars, platforms);
 
+
     //Check to see if starTocollect is collected if so, run collect star
     game.physics.arcade.overlap(this.realPlayer, game.starsToCollect, null, this.collectStar, this);
 
+    //check to see if ClockToCollect is collected, if so, run gainLife
+    game.physics.arcade.overlap(this.realPlayer, game.ClocksToCollect, null, this.collectClock, this);
+
     // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
-    game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.checkCollision, this);
+    game.physics.arcade.overlap(this.fauxPlayer, game.stars, null, this.loseLife, this);
 
     // //  Reset the players velocity (movement)
     this.player.setAll('body.velocity.x', 0); // sets velocity of realPlayer and fauxPlayer - syntax changed b/c player is now a group of sprites
@@ -325,16 +395,26 @@ Game.prototype = {
     console.log('this.score',this.score);
     this.score += 10;
     totalScore = this.score;
-    console.log('game.score', game.score)
+    console.log('game.score', game.score);
+    //this sets the upper right corner left to collect
     this.leftToCollect.text = ' x ' + this.starsToCollect;
   },
 
-  // this function is called when the faux player overlaps with an enemy star
-  checkCollision: function(player, star) {
-    console.log("checking for collision");
-    // setTimeout(this.gameOver, 500);
-    this.gameOver();
+  collectClock: function(player, Clock){
+    Clock.kill();
+    this.gainLife();
   },
+
+  // this function is called when the faux player overlaps with an enemy star
+  // checkCollision: function() {
+  //   if(!loseLifeBool){
+  //       this.loseLife();
+  //   }
+    
+  //   console.log("checking for collision");
+  //   // setTimeout(this.gameOver, 500);
+  //   // this.gameOver();
+  // },
 
   // this function called by end of update function
   gameOver: function(player) {
@@ -350,16 +430,65 @@ Game.prototype = {
     // reset bounds to be viewable area
 
     // // go to gameover state
-      this.game.state.start("GameOver");
+    this.game.state.start("GameOver");
   },
   //this is the function that will be called when player collects all candles
   levelUp: function(){
-    this.starsToCollect = 1;
-    thisLevel++;
-    console.log('this is currentLevel', thisLevel);
-
+    //resets the number of stars to collect once level up is reached
+    this.starsToCollect = 5;
+    //increases the level
+    nextLevel++;
+    console.log('this is currentLevel', nextLevel);
+    //starts the levelup state
     this.game.state.start("LevelUp");
+    //resets the world bouns
     this.world.setBounds(0,0,800,600);
-  }
+  },
+
+  loseLife: function(){
+    if(!playerInvincible){
+        if(this.life3.visible){
+            //makes the third life dissappear
+            this.life3.visible = false;
+            //makes the player non-invincible
+            this.toggleInvincible();
+            //makes device vibrate
+            window.navigator.vibrate([1000]);
+            //makes the player invincible for 5 seconds
+            this.game.time.events.add(5000, this.toggleInvincible, this);
+        } else if(this.life2.visible){
+            //makes second life dissapear
+            this.life2.visible = false;
+            this.toggleInvincible();
+            window.navigator.vibrate([1000]);
+            this.game.time.events.add(5000, this.toggleInvincible, this);
+        } else{
+            //once player loses last life, end the game
+            this.gameOver();
+        }
+    }
+  },
+
+  gainLife: function(){
+    if(!playerLostLife){
+        if(!this.life3.visible){
+            this.life3.visible = true;
+            this.toggleLostLife();
+            this.game.time.events.add(5000, this.toggleLostLife, this);
+        } else if(!this.life2.visible){
+            this.life2.visible = true;
+            this.toggleLostLife();
+            this.game.time.events.add(5000, this.toggleLostLife, this);
+        }
+    }
+  },
+
+  toggleInvincible: function(){
+    playerInvincible = !playerInvincible;
+  },
+
+  toggleLostLife: function(){
+    playerLostLife = !playerLostLife;
+  } 
 
 };
