@@ -73,7 +73,12 @@ Game.prototype = {
 
      // add group of enemy stars
     game.stars = game.add.group();
-    game.stars.enableBody = true;
+    // game.physics.arcade.enable(game.stars);
+    // game.stars.enableBody = true;
+    // console.log("game.stars", game.stars)
+    // console.log("game.stars", game.stars)
+    // game.stars.setAll('body.width', 30);
+    // game.stars.setAll('body.height', 50);
     game.starCount = 0;
 
     // add group of stars to collect
@@ -105,6 +110,8 @@ Game.prototype = {
 
     game.physics.arcade.enable(this.player);
     this.player.enableBody = true;
+    this.player.body.width = 24;
+    this.player.body.height = 36;
     // this.player.add(this.fauxPlayer);
     // this.player.add(this.realPlayer);
     //  Player physics properties. Give the little guy a slight bounce.
@@ -124,6 +131,17 @@ Game.prototype = {
         // console.log("game.width", game.width)
         star.scale.setTo(0);
         star.anchor.setTo(0.5);
+        // modify physics body of enemy sprites
+        game.physics.arcade.enable(game.stars);
+        game.stars.enableBody = true;
+        star.body.setSize(300, 300);
+        star.scale.setTo(0);
+
+        // star.body.scale.setTo(0.5, 0.5)
+        // game.physics.arcade.enable(star);
+        // star.enableBody = true;
+        // star.body.width = 30;
+        // star.body.height = 30;
         // enable physics
         // game.physics.enable(star, Phaser.Physics.ARCADE);
         // star.body.immovable = true;
@@ -134,6 +152,9 @@ Game.prototype = {
         tween.to({x: .5, y:.5}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
+        var bodyTween = game.add.tween(star.body);
+        bodyTween.to({width: 30, height: 50}, Phaser.Easing.Exponential.In, true);
+
 
         var tween2 = game.add.tween(star.position);
         // stars move to random x coordinates of screen
@@ -340,7 +361,7 @@ Game.prototype = {
   },
 
   render: function(game) {
-    this.game.debug.bodyInfo(this.player, 32, 32);
+    // this.game.debug.bodyInfo(this.player, 32, 32);
     this.game.debug.body(this.player);
     this.game.stars.forEachAlive(this.renderGroup, this);
   },
