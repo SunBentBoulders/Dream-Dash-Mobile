@@ -1,4 +1,20 @@
 var Game = function(game) {
+    var transitionPlugin = game.plugins.add(Phaser.Plugin.StateTransition);
+
+    transitionPlugin.settings = {
+      // how long the animation should take
+      duration: 3000,
+
+      // ease property
+      ease: Phaser.Easing.Quadratic.Out, /* default ease */
+
+      // what property should be tweened
+      properties: {
+        alpha: 0
+      }
+    };
+
+  transitionPlugin;
   // player is now a group that we can use to bind the real player to the faux player
   this.player;
   // this is the real player that the user sees
@@ -55,7 +71,24 @@ Game.prototype = {
 
 
   create: function (game) {
+    //adds in transitions
+    transitionPlugin = game.plugins.add(Phaser.Plugin.StateTransition);
+
+    transitionPlugin.settings = {
+      // how long the animation should take
+      duration: 2000,
+
+      // ease property
+      ease: Phaser.Easing.Quadratic.Out, /* default ease */
+
+      // what property should be tweened
+      properties: {
+        alpha: 0
+      }
+    };
+
     //  We're going to be using physics, so enable the Arcade Physics system
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //creates infinite tiling of the cloud image
     clouds = game.add.tileSprite(0,0,game.scrollableWidth,game.height, 'clouds');
@@ -343,6 +376,8 @@ Game.prototype = {
     });
 
 
+
+
   },
 
   update: function(game) {
@@ -511,17 +546,18 @@ Game.prototype = {
     // reset bounds to be viewable area
 
     // // go to gameover state
-    this.game.state.start("GameOver");
+    transitionPlugin.to("GameOver");
   },
   //this is the function that will be called when player collects all candles
   levelUp: function(){
+    playerInvincible = false;
     //resets the number of stars to collect once level up is reached
     this.starsToCollect = 5;
     //increases the level
     nextLevel++;
     console.log('this is currentLevel', nextLevel);
     //starts the levelup state
-    this.game.state.start("LevelUp");
+    transitionPlugin.to("LevelUp");
     //resets the world bouns
     this.world.setBounds(0,0,800,600);
   },
@@ -536,7 +572,7 @@ Game.prototype = {
             //makes device vibrate
             window.navigator.vibrate([1000]);
             //makes the player invincible for 5 seconds
-            this.game.time.events.add(5000, this.toggleInvincible, this);
+            this.game.time.events.add(3000, this.toggleInvincible, this);
         } else if(this.life2.visible){
             //makes second life dissapear
             this.life2.visible = false;
@@ -555,7 +591,7 @@ Game.prototype = {
         if(!this.life3.visible){
             this.life3.visible = true;
             this.toggleLostLife();
-            this.game.time.events.add(5000, this.toggleLostLife, this);
+            this.game.time.events.add(3000, this.toggleLostLife, this);
         } else if(!this.life2.visible){
             this.life2.visible = true;
             this.toggleLostLife();

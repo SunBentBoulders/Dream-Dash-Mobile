@@ -63,7 +63,7 @@ Preloader.prototype = {
 
     addGameMusic: function (game) {
         music = game.add.audio('bgm');
-        music.play('', 0, 1, true);
+        // music.play('', 0, 1, true);
         //.play('startMarker', startPosition, volume(0 to 1), loop t/f)
     },
 
