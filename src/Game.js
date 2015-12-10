@@ -442,11 +442,11 @@ Game.prototype = {
   checkCollision: function(player, star) {
     console.log("checking for collision");
     console.log("player.body.velocity.x", player.body.velocity.x);
-    player.body.velocity.x = 10
+    // player.body.velocity.x = 10
     console.log("player.body.velocity.x", player.body.velocity.x)
-    this.input.keyboard.enabled = false;
-    player.animations.frame = 4;
-    player.animations.paused = true;
+    // this.input.keyboard.enabled = false;
+    // player.animations.frame = 4;
+    // player.animations.paused = true;
     // console.log("player", player)
     // player.body.velocity.x = 0;
     // setTimeout(this.gameOver, 500);
@@ -457,7 +457,7 @@ Game.prototype = {
     //     player.body.velocity.x = -20;
     // }
     // player.body.velocity.x = 10;
-    player.body.velocity.y = -100;
+    player.body.velocity.y = -200;
     // star.body.velocity.x = Math.random()*1000;
     // star.body.velocity.y = -Math.random()*1000;
     // var collisionTweenPlayer = this.add.tween(player.position);
@@ -471,7 +471,7 @@ Game.prototype = {
   },
 
   render: function(game) {
-    this.game.debug.bodyInfo(this.player, 32, 32);
+    // this.game.debug.bodyInfo(this.player, 32, 32);
     this.game.debug.body(this.player);
     this.game.stars.forEachAlive(this.renderGroup, this);
     this.game.starsToCollect.forEachAlive(this.renderGroup, this);
