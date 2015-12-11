@@ -37,7 +37,7 @@ Preloader.prototype = {
 
         game.load.image('menu-bg', 'assets/images/BigAutumnGhost.png');
         game.load.image('gameover-bg', 'assets/images/BigSummer.jpg');
-        game.load.image('game-bg', 'assets/images/cloudImage2.png');
+        game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1.jpg');
         game.load.image('options-bg', 'assets/images/options-bg.jpg');
 
         game.load.image('ground', 'img/platform.png');
