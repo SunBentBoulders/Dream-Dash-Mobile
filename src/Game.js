@@ -70,10 +70,10 @@ Game.prototype = {
 
     game.load.image('clouds', 'img/cloud.png');
     game.load.image('enemy', 'img/friendlyGhost.png');
-    game.load.image('star', 'img/star.png');
+    game.load.image('life', 'img/candle.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
     game.load.image('pause', 'img/pause.png');
-    game.load.image('clock', 'img/clock.png');
+    game.load.image('token', 'img/clock.png');
   },
 
 
@@ -244,19 +244,19 @@ Game.prototype = {
     game.addStarToCollect = function(){
         // game.collectedStars++;
         console.log("addStarToCollect collectedStars", game.collectedStars);
-        var star = game.starsToCollect.create(game.camera.view.randomX, game.height/2, 'star');
+        var star = game.starsToCollect.create(game.camera.view.randomX, game.height/2, 'token');
         star.scale.setTo(0);
         star.anchor.setTo(.5);
         // modify physics body of enemy sprites
         game.physics.arcade.enable(game.stars);
         game.stars.enableBody = true;
-        star.body.setSize(10, 10);
+        star.body.setSize(30, 30)
 
         // star.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(star.scale);
         var timeToTween = 10000;
-        tween.to({x: 4, y:4}, timeToTween, Phaser.Easing.Exponential.In, true);
+        tween.to({x: 4, y: 4}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
         // var bodyTween = game.add.tween(star.body);
@@ -290,15 +290,17 @@ Game.prototype = {
     game.addClockToCollect = function(){
         // game.collectedClocks++;
         // console.log("addClockToCollect collectedClocks", game.collectedClocks);
-        var Clock = game.ClocksToCollect.create(game.camera.view.randomX, game.height/2, 'clock');
+        var Clock = game.ClocksToCollect.create(game.camera.view.randomX, game.height/2, 'life');
         Clock.scale.setTo(0);
         Clock.anchor.setTo(.5);
+        Clock.enableBody = true;
+        Clock.body.setSize(30, 90);
 
-        Clock.body.immovable = true;
+        // Clock.body.immovable = true;
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var tween = game.add.tween(Clock.scale);
-        var timeToTween = 10000;
-        tween.to({x: 4, y:4}, timeToTween, Phaser.Easing.Exponential.In, true);
+        var timeToTween = 12000;
+        tween.to({x: 1, y: 1}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for Clocks to move to edges of screen as they get bigger
         // applies to Clocks that Clockt on left of screen
 
@@ -332,19 +334,22 @@ Game.prototype = {
     //will add this back once level up game state is made
     // this.scoreText = game.add.text(this.realPlayer.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     // this.scoreText.fixedToCamera = true;
-    this.scoreSprite = game.add.sprite(this.player.x-400,24,'star');
+    this.scoreSprite = game.add.sprite(this.player.x-413,16,'token');
     this.scoreSprite.fixedToCamera = true;
     this.leftToCollect = game.add.text(this.player.x-380,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#fff' });
     this.leftToCollect.fixedToCamera = true;
     // console.log('this is this.stars', game.stars);
     //=====================================================
     //this will be the life bar
-    var lifeDistance = 80
-    this.life1 = game.add.sprite(lifeDistance, 16, 'clock');
+    var lifeDistance = 70
+    this.life1 = game.add.sprite(lifeDistance, 16, 'life');
+    this.life1.scale.setTo(.35);
     this.life1.fixedToCamera = true;
-    this.life2 = game.add.sprite(lifeDistance + 40, 16, 'clock');
+    this.life2 = game.add.sprite(lifeDistance + 40, 16, 'life');
+    this.life2.scale.setTo(.35);
     this.life2.fixedToCamera = true;
-    this.life3 = game.add.sprite(lifeDistance + 80, 16, 'clock');
+    this.life3 = game.add.sprite(lifeDistance + 80, 16, 'life');
+    this.life3.scale.setTo(.35);
     this.life3.fixedToCamera = true;
 
 
@@ -519,6 +524,7 @@ Game.prototype = {
     this.game.debug.body(this.player);
     this.game.stars.forEachAlive(this.renderGroup, this);
     this.game.starsToCollect.forEachAlive(this.renderGroup, this);
+    this.game.ClocksToCollect.forEachAlive(this.renderGroup, this);
   },
 
   renderGroup: function(member) {
