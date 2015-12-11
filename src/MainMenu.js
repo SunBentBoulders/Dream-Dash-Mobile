@@ -18,7 +18,7 @@ MainMenu.prototype = {
         startX: this.game.width/26.67
       };
 
-    this.titleText = this.game.make.text(this.game.world.centerX, this.game.height/6, "Cape Runner", {
+    this.titleText = this.game.make.text(this.game.world.centerX, this.game.height/6, "Bobby Dash", {
       font: 'bold ' + this.game.width/13.33 + 'pt TheMinion',
       fill: '#7CCD7C',
       align: 'center'
