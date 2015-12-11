@@ -1,8 +1,13 @@
-var LevelUp = function(game){};
+var LevelUp = function(game){
+
+	var emitter;
+	// totalScore;
+};
 
 LevelUp.prototype = {
 
 	preload: function(game){
+		game.load.image('clock', 'img/clock.png');
 		//stuff here
 	},
 	
@@ -31,9 +36,18 @@ LevelUp.prototype = {
 		this.addMenuOption('Main Menu', function () {
 	      game.state.start("MainMenu");
 	    });
+
+	    emitter = game.add.emitter(game.world.centerX, 200, 200);
+	    emitter.makeParticles('clock');
+	    emitter.start(true, 4000, null, totalScore);
+	    game.time.events.add(4000, this.destroyEmitter, this);
 	  
 
 		
+	},
+
+	destroyEmitter: function(){
+		emitter.destroy();
 	},
 
 	startNextLevel: function(){
