@@ -165,7 +165,7 @@ Game.prototype = {
     game.physics.arcade.enable(this.player);
     this.player.enableBody = true;
     this.player.body.width = 24;
-    this.player.body.height = 36;
+    this.player.body.height = 46;
     // this.player.add(this.fauxPlayer);
     // this.player.add(this.realPlayer);
     //  Player physics properties. Give the little guy a slight bounce.
