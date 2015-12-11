@@ -48,6 +48,7 @@ var Game = function(game) {
   playerInvincible = false;
   //sets the players lifesLost to be false
   playerLostLife = false;
+  this.loseLifeCount = 0;
 };
 Game.prototype = {
 
@@ -565,6 +566,8 @@ Game.prototype = {
   loseLife: function(){
     if(!playerInvincible){
         if(this.life3.visible){
+            // set new alpha for sprites
+            var newAlpha = 0.8;
             //makes the third life dissappear
             this.life3.visible = false;
             //makes the player non-invincible
@@ -574,6 +577,7 @@ Game.prototype = {
             //makes the player invincible for 5 seconds
             this.game.time.events.add(3000, this.toggleInvincible, this);
         } else if(this.life2.visible){
+            var newAlpha = 0.6;
             //makes second life dissapear
             this.life2.visible = false;
             this.toggleInvincible();
@@ -583,21 +587,34 @@ Game.prototype = {
             //once player loses last life, end the game
             this.gameOver();
         }
+        // set new alphas on sprites
+        this.player.alpha = newAlpha;
+        this.game.stars.setAll('alpha', newAlpha);
+        this.game.starsToCollect.setAll('alpha', newAlpha);
+        clouds.alpha = newAlpha;
     }
   },
 
   gainLife: function(){
     if(!playerLostLife){
-        if(!this.life3.visible){
-            this.life3.visible = true;
-            this.toggleLostLife();
-            this.game.time.events.add(3000, this.toggleLostLife, this);
-        } else if(!this.life2.visible){
+        if(!this.life2.visible){
+            var newAlpha = 0.8;
             this.life2.visible = true;
             this.toggleLostLife();
             this.game.time.events.add(5000, this.toggleLostLife, this);
+        } if(!this.life3.visible){
+            // set new alpha for sprites
+            var newAlpha = 1;
+            this.life3.visible = true;
+            this.toggleLostLife();
+            this.game.time.events.add(3000, this.toggleLostLife, this);
         }
     }
+    // set new alphas on sprites
+    this.player.alpha = newAlpha;
+    this.game.stars.setAll('alpha', newAlpha);
+    this.game.starsToCollect.setAll('alpha', newAlpha);
+    clouds.alpha = newAlpha;
   },
 
   toggleInvincible: function(){
