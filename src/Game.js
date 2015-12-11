@@ -402,7 +402,7 @@ Game.prototype = {
 
     // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
     game.physics.arcade.collide(this.player, game.stars, null, this.checkCollision, this);
-    game.physics.arcade.overlap(this.player, game.stars, null, this.loseLife, this);
+    // game.physics.arcade.overlap(this.player, game.stars, null, this.loseLife, this);
 
 
     // //  Reset the players velocity (movement)
@@ -507,6 +507,7 @@ Game.prototype = {
     //     this.gameOver();
     // }, this);
     // this.gameOver();
+    this.loseLife();
   },
 
   render: function(game) {
