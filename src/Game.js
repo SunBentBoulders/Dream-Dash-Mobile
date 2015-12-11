@@ -34,7 +34,8 @@ var Game = function(game) {
   //sets the score at the beginning of the game
   this.score = 0;
   // this.scoreText;
-  game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
+  game.scrollableWidth = game.width * 2.5;
+  console.log('this is scrollableWidth', game.scrollableWidth); // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
   var clouds;
