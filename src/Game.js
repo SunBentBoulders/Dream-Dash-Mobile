@@ -53,6 +53,7 @@ var Game = function(game) {
   //sets the players lifesLost to be false
   playerLostLife = false;
   this.loseLifeCount = 0;
+  this.backgroundImage;
 };
 Game.prototype = {
 
@@ -66,7 +67,7 @@ Game.prototype = {
     // this.optionCount = 1;
     // game.load.image('sky', 'img/sky.png');
     // game.load.image('ground', 'img/platform.png');
-    
+
     game.load.image('clouds', 'img/cloud.png');
     game.load.image('enemyStar', 'img/enemyStar.png');
     game.load.image('star', 'img/star.png');
@@ -92,8 +93,7 @@ Game.prototype = {
         alpha: 0
       }
     };
-      
-    game.add.sprite(0, 0, 'game-bg');
+    this.backgroundImage = game.add.sprite(0, 0, 'game-bg');
 
     //  We're going to be using physics, so enable the Arcade Physics system
 
@@ -588,7 +588,8 @@ Game.prototype = {
         this.player.alpha = newAlpha;
         this.game.stars.setAll('alpha', newAlpha);
         this.game.starsToCollect.setAll('alpha', newAlpha);
-        clouds.alpha = newAlpha;
+        // clouds.alpha = newAlpha;
+        this.backgroundImage.alpha = newAlpha;
     }
   },
 
@@ -615,7 +616,9 @@ Game.prototype = {
     this.player.alpha = newAlpha;
     this.game.stars.setAll('alpha', newAlpha);
     this.game.starsToCollect.setAll('alpha', newAlpha);
-    clouds.alpha = newAlpha;
+    // clouds.alpha = newAlpha;
+    this.backgroundImage.alpha = newAlpha;
+
   },
 
   toggleInvincible: function(){
