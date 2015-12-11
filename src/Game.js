@@ -190,7 +190,7 @@ Game.prototype = {
         // modify physics body of enemy sprites
         game.physics.arcade.enable(game.stars);
         game.stars.enableBody = true;
-        star.body.setSize(150, 150);
+        star.body.setSize(150, 250);
 
         // star.body.scale.setTo(0.5, 0.5)
         // game.physics.arcade.enable(star);
