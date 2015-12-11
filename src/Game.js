@@ -34,8 +34,9 @@ var Game = function(game) {
   //sets the score at the beginning of the game
   this.score = 0;
   // this.scoreText;
-  game.scrollableWidth = game.width * 2.5;
-  console.log('this is scrollableWidth', game.scrollableWidth); // same as 2000 but in relation to the game.width
+
+//    console.log('this is game.height ', game.height);
+  game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
   var clouds;
@@ -65,6 +66,7 @@ Game.prototype = {
     // this.optionCount = 1;
     // game.load.image('sky', 'img/sky.png');
     // game.load.image('ground', 'img/platform.png');
+    
     game.load.image('clouds', 'img/cloud.png');
     game.load.image('enemyStar', 'img/enemyStar.png');
     game.load.image('star', 'img/star.png');
@@ -90,14 +92,16 @@ Game.prototype = {
         alpha: 0
       }
     };
+      
+    game.add.sprite(0, 0, 'game-bg');
 
     //  We're going to be using physics, so enable the Arcade Physics system
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //creates infinite tiling of the cloud image
-    clouds = game.add.tileSprite(0,0,game.scrollableWidth,game.height, 'clouds');
+//    clouds = game.add.tileSprite(0,0,game.scrollableWidth,game.height, 'clouds');
     // set the scroll speed for the background image
-    backgroundScroll = 1;
+//    backgroundScroll = 1;
 
 
     // this block is for the game menu
@@ -106,14 +110,14 @@ Game.prototype = {
     // code for the background
     // ==================================
     // set background color
-    this.stage.backgroundColor = 0x00007f;
+//    this.stage.backgroundColor = 0x00007f;
     // add horizon line
-    var graphics = game.add.graphics(0,0);
-    graphics.beginFill(0x000019);
-    graphics.lineStyle(2, 0x000019, 1);
-    // syntax: top left x, top left y, width, height
-    graphics.drawRect(0, game.height/2, game.scrollableWidth, game.height);
-    graphics.endFill();
+//    var graphics = game.add.graphics(0,0);
+//    graphics.beginFill(0x000019);
+//    graphics.lineStyle(2, 0x000019, 1);
+//    // syntax: top left x, top left y, width, height
+//    graphics.drawRect(0, game.height/2, game.scrollableWidth, game.height);
+//    graphics.endFill();
     // ==================================
 
      // add group of enemy stars
@@ -330,7 +334,7 @@ Game.prototype = {
     // this.scoreText.fixedToCamera = true;
     this.scoreSprite = game.add.sprite(this.player.x-400,24,'star');
     this.scoreSprite.fixedToCamera = true;
-    this.leftToCollect = game.add.text(this.player.x-380,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#000' });
+    this.leftToCollect = game.add.text(this.player.x-380,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#fff' });
     this.leftToCollect.fixedToCamera = true;
     // console.log('this is this.stars', game.stars);
     //=====================================================
@@ -388,7 +392,7 @@ Game.prototype = {
     this.player.body.bounce.x = 0.2;
     // this.player.bounce.x = 0.2;
     //make the background scroll
-    clouds.tilePosition.y += backgroundScroll;
+//    clouds.tilePosition.y += backgroundScroll;
     //  Collide the player and the stars with the platforms
     // game.physics.arcade.collide(this.player, game.stars,this.gameOver, null, this);
     // game.physics.arcade.collide(this.stars, platforms);

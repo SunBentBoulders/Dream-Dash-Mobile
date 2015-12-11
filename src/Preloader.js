@@ -37,6 +37,7 @@ Preloader.prototype = {
 
         game.load.image('menu-bg', 'assets/images/BigAutumnGhost.png');
         game.load.image('gameover-bg', 'assets/images/BigSummer.jpg');
+        game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1.jpg');
         game.load.image('options-bg', 'assets/images/options-bg.jpg');
 
         game.load.image('ground', 'img/platform.png');
@@ -44,7 +45,7 @@ Preloader.prototype = {
         game.load.spritesheet('dude', 'img/dude.png', 32, 48);
 
         //loads audio
-		game.load.audio('bgm', 'assets/bgm/background_music.mp3');
+		game.load.audio('bgm', 'assets/bgm/background_music.ogg');
         game.load.audio('startDing', 'assets/bgm/startDing.wav');
 
         this.loadFonts(game);
@@ -63,7 +64,7 @@ Preloader.prototype = {
 
     addGameMusic: function (game) {
         music = game.add.audio('bgm');
-        // music.play('', 0, 1, true);
+        music.play('', 0, 1, true);
         //.play('startMarker', startPosition, volume(0 to 1), loop t/f)
     },
 
