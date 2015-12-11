@@ -1,9 +1,11 @@
 var Game = function(game) {
+
+    //add in the plugin for transitions
     var transitionPlugin = game.plugins.add(Phaser.Plugin.StateTransition);
 
     transitionPlugin.settings = {
       // how long the animation should take
-      duration: 3000,
+      duration: 2000,
 
       // ease property
       ease: Phaser.Easing.Quadratic.Out, /* default ease */
@@ -32,6 +34,7 @@ var Game = function(game) {
   //sets the score at the beginning of the game
   this.score = 0;
   // this.scoreText;
+
 //    console.log('this is game.height ', game.height);
   game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
@@ -525,17 +528,6 @@ Game.prototype = {
     this.gainLife();
   },
 
-  // this function is called when the faux player overlaps with an enemy star
-  // checkCollision: function() {
-  //   if(!loseLifeBool){
-  //       this.loseLife();
-  //   }
-
-  //   console.log("checking for collision");
-  //   // setTimeout(this.gameOver, 500);
-  //   // this.gameOver();
-  // },
-
   // this function called by end of update function
   gameOver: function(player) {
     console.log("gameover");
@@ -592,12 +584,12 @@ Game.prototype = {
 
   gainLife: function(){
     if(!playerLostLife){
-        if(!this.life3.visible){
-            this.life3.visible = true;
+        if(!this.life2.visible){
+            this.life2.visible = true;
             this.toggleLostLife();
             this.game.time.events.add(3000, this.toggleLostLife, this);
-        } else if(!this.life2.visible){
-            this.life2.visible = true;
+        } else if(!this.life3.visible){
+            this.life3.visible = true;
             this.toggleLostLife();
             this.game.time.events.add(5000, this.toggleLostLife, this);
         }
