@@ -1,41 +1,29 @@
 var Game = function(game) {
 
-    //add in the plugin for transitions
-    var transitionPlugin = game.plugins.add(Phaser.Plugin.StateTransition);
-
-    transitionPlugin.settings = {
-      // how long the animation should take
-      duration: 2000,
-
-      // ease property
-      ease: Phaser.Easing.Quadratic.Out, /* default ease */
-
-      // what property should be tweened
-      properties: {
-        alpha: 0
-      }
-    };
-
+  //add in the plugin for transitions
+  var transitionPlugin = game.plugins.add(Phaser.Plugin.StateTransition);
+  transitionPlugin.settings = {
+    // how long the animation should take
+    duration: 2000,
+    // ease property
+    ease: Phaser.Easing.Quadratic.Out, /* default ease */
+    // what property should be tweened
+    properties: {
+      alpha: 0
+    }
+  };
   transitionPlugin;
-  // player is now a group that we can use to bind the real player to the faux player
+
+  // the main character
   this.player;
-  // this is the real player that the user sees
-  // this.realPlayer;
-  // this is the fake player that only exists for collision detection
-  // this.fauxPlayer;
-  // this.platforms;
-  // this.cursors;
-  // these are the enemy stars
-  this.stars;
-  // these are the stars for the player to collect(set to 1 for now, until we get level up working)
-  this.starsToCollect = 5;
+  // these are the enemy sprites, was this.stars
+  this.enemies;
+  // these are the stars for the player to collect, this number will display and count down, was this.tokensToCollect
+  this.tokensToCollect = 5;
   // this is the number of stars that have been collected
-  this.collectedStars = 0;
+  this.collectedTokens = 0;
   //sets the score at the beginning of the game
   this.score = 0;
-  // this.scoreText;
-
-//    console.log('this is game.height ', game.height);
   game.scrollableWidth = game.width * 2.5; // same as 2000 but in relation to the game.width
   this.right = 1;
   this.left = 0;
@@ -52,9 +40,9 @@ var Game = function(game) {
   playerInvincible = false;
   //sets the players lifesLost to be false
   playerLostLife = false;
-  this.loseLifeCount = 0;
   this.backgroundImage;
 };
+
 Game.prototype = {
 
   preload: function (game) {
@@ -63,14 +51,11 @@ Game.prototype = {
         console.log('vibrate is on');
     }
 
-    // console.log(game.width,game.height);
-    // this.optionCount = 1;
-    // game.load.image('sky', 'img/sky.png');
-    // game.load.image('ground', 'img/platform.png');
-
+    // load the rest of the game assets. see preload gamestate for others
     game.load.image('clouds', 'img/cloud.png');
     game.load.image('enemy', 'img/friendlyGhost.png');
     game.load.image('life', 'img/candle.png');
+    // each sprite image is 32px wide by 48px tall in spritesheet
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
     game.load.image('pause', 'img/pause.png');
     game.load.image('token', 'img/clock.png');
@@ -80,94 +65,70 @@ Game.prototype = {
   create: function (game) {
     //adds in transitions
     transitionPlugin = game.plugins.add(Phaser.Plugin.StateTransition);
-
     transitionPlugin.settings = {
       // how long the animation should take
       duration: 2000,
-
       // ease property
       ease: Phaser.Easing.Quadratic.Out, /* default ease */
-
       // what property should be tweened
       properties: {
         alpha: 0
       }
     };
+
     this.backgroundImage = game.add.sprite(0, 0, 'game-bg');
 
     //  We're going to be using physics, so enable the Arcade Physics system
-
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    //creates infinite tiling of the cloud image
-//    clouds = game.add.tileSprite(0,0,game.scrollableWidth,game.height, 'clouds');
+    // creates infinite tiling of the cloud image
+    // clouds = game.add.tileSprite(0,0,game.scrollableWidth,game.height, 'clouds');
     // set the scroll speed for the background image
-//    backgroundScroll = 1;
+    // backgroundScroll = 1;
 
 
-    // this block is for the game menu
+    // this is for the game menu
     this.stage.disableVisibilityChange = false;
 
-    // code for the background
+    // code for the plain background
     // ==================================
     // set background color
-//    this.stage.backgroundColor = 0x00007f;
+    // this.stage.backgroundColor = 0x00007f;
     // add horizon line
-//    var graphics = game.add.graphics(0,0);
-//    graphics.beginFill(0x000019);
-//    graphics.lineStyle(2, 0x000019, 1);
-//    // syntax: top left x, top left y, width, height
-//    graphics.drawRect(0, game.height/2, game.scrollableWidth, game.height);
-//    graphics.endFill();
+    // var graphics = game.add.graphics(0,0);
+    // graphics.beginFill(0x000019);
+    // graphics.lineStyle(2, 0x000019, 1);
+    // syntax: top left x, top left y, width, height
+    // graphics.drawRect(0, game.height/2, game.scrollableWidth, game.height);
+    // graphics.endFill();
     // ==================================
 
-     // add group of enemy stars
-    game.stars = game.add.group();
-    // game.physics.arcade.enable(game.stars);
-    // game.stars.enableBody = true;
-    // console.log("game.stars", game.stars)
-    // console.log("game.stars", game.stars)
-    // game.stars.setAll('body.width', 30);
-    // game.stars.setAll('body.height', 50);
-    game.starCount = 0;
 
-    // add group of stars to collect
-    game.starsToCollect = game.add.group();
-    game.starsToCollect.enableBody = true;
-    game.collectedStars = 0;
-    // game.score = 0;
-
-    //add group of clocks to collect
-    game.ClocksToCollect = game.add.group();
-    game.ClocksToCollect.enableBody = true;
-
-
-    // make player and faux player for collision detection
+    // add main sprites to screen
     //===================================================
-    // add faux player first so it renders behind player and isn't seen by user, render physics on faux player
-    // this.fauxPlayer = game.add.sprite(game.scrollableWidth/2, game.height/4*4, 'dude');
-    // this.fauxPlayer.scale.setTo(.5, .5);
-    // this.fauxPlayer.anchor.setTo(.5, 1);
-    // game.physics.arcade.enable(this.fauxPlayer);
-    // this.fauxPlayer.visible = false;
+    // add group of enemy stars
+    game.enemies = game.add.group();
+    game.enemyCount = 0;
 
-    // add real player and enable physics on player
-    // this.realPlayer = game.add.sprite(game.scrollableWidth/2, 0, 'dude');
-    // this.realPlayer.scale.setTo(1.5, 1.5);
-    // this.realPlayer.anchor.setTo(.5, 1);
-    // this.realPlayer.hitArea = new Phaser.Rectangle(0, 0, 5, 5);
-    // console.log("realPlayer.hitArea", this.realPlayer.hitArea);
+    // add group of tokens to collect
+    game.tokensToCollect = game.add.group();
+    game.tokensToCollect.enableBody = true;
+    game.collectedTokens = 0;
 
-    // add real player and faux player to player group
+    //add group of lives to collect
+    game.livesToCollect = game.add.group();
+    game.livesToCollect.enableBody = true;
+
+    // add player to game
     this.player = game.add.sprite(game.scrollableWidth/2, 0, 'dude');
     this.player.scale.setTo(1.5, 1.5);
+    // set initial location of player in the top center of screen
     this.player.anchor.setTo(.5, 1);
-
+    // enable physics on the player
     game.physics.arcade.enable(this.player);
+    // set the bounding box size of the physics body for collision detection
     this.player.enableBody = true;
     this.player.body.width = 24;
     this.player.body.height = 46;
-    // this.player.add(this.fauxPlayer);
-    // this.player.add(this.realPlayer);
     //  Player physics properties. Give the little guy a slight bounce.
     this.player.body.collideWorldBounds = true;
     this.player.body.bounce.y = 0.3;
@@ -176,80 +137,65 @@ Game.prototype = {
     //===================================================
 
 
-
-
-    //  Create a star inside of the 'stars' group
-    game.addStar = function(){
-        game.starCount++;
-        console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(game.camera.view.randomX, game.height/2, 'enemy');
-        // console.log("this.width", this.width);
-        // console.log("game.width", game.width)
-        star.scale.setTo(0);
-        star.anchor.setTo(0.5);
+    //  Create an enemy inside of the 'enemies' group
+    game.addEnemy = function(){
+        game.enemyCount++;
+        console.log("addEnemy enemyCount", game.enemyCount);
+        // create enemy that starts invisible with a size of 0
+        var enemy = game.enemies.create(game.camera.view.randomX, game.height/2, 'enemy');
+        enemy.scale.setTo(0);
+        enemy.anchor.setTo(0.5);
         // modify physics body of enemy sprites
-        game.physics.arcade.enable(game.stars);
-        game.stars.enableBody = true;
-        star.body.setSize(150, 250);
+        game.physics.arcade.enable(game.enemies);
+        game.enemies.enableBody = true;
+        enemy.body.setSize(150, 250);
 
-        // star.body.scale.setTo(0.5, 0.5)
-        // game.physics.arcade.enable(star);
-        // star.enableBody = true;
-        // star.body.width = 30;
-        // star.body.height = 30;
-        // enable physics
-        // game.physics.enable(star, Phaser.Physics.ARCADE);
-        // star.body.immovable = true;
-        // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
-        game.physics.arcade.moveToXY(star, Math.random() * game.scrollableWidth, this.height * 1.5, 200, 14000)
+        // TODO: make enemies move with physics velocity instead of position tween
+        game.physics.arcade.moveToXY(enemy, Math.random() * game.scrollableWidth, this.height * 1.5, 200, 14000)
 
-        var tween = game.add.tween(star.scale);
+        // add a tween that scales the enemy sizes
+        var scaleTween = game.add.tween(enemy.scale);
         var timeToTween = 9000;
-        // tween.from({x: 0, y: 0});
-        tween.to({x: 1, y: 1}, timeToTween, Phaser.Easing.Exponential.In, true);
-        // add tween for stars to move to edges of screen as they get bigger
-        // applies to stars that start on left of screen
-        // var bodyTween = game.add.tween(star.body);
-        // bodyTween.to({width: 40, height: 40}, Phaser.Easing.Exponential.In, true);
-        // add velocity instead of tween
+        // scales enemy from size 0 to full size
+        scaleTween.to({x: 1, y: 1}, timeToTween, Phaser.Easing.Exponential.In, true);
 
-        var tween2 = game.add.tween(star.position);
+        // add a tween that changes the position of the enemy
+        var positionTween = game.add.tween(enemy.position);
         // stars move to random x coordinates of screen
-        tween2.to({x: Math.random() * game.scrollableWidth, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
-        tween2.onComplete.add(function() {
-            // game.starCount--;
-            star.kill();
-            console.log("star killed, starCount is", game.starCount)
+        positionTween.to({x: Math.random() * game.scrollableWidth, y: this.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
+        // this function gets called once tween is complete - will kill enemies once tween is complete and they are off screen
+        positionTween.onComplete.add(function() {
+            // game.enemyCount--;
+            enemy.kill();
+            console.log("enemy killed, enemyCount is", game.enemyCount)
         });
     };
 
-    // dropTimer and addStarWrapper are used to generate stars at random intervals
+    // dropTimer and addEnemyTimer are used to generate stars at random intervals
     game.dropTimer = game.time.create(false);
     game.dropTimer.start();
-    game.addStarWrapper = function() {
+    game.addEnemyTimer = function() {
+        // uncomment the following line to test the difficulty of a specific level
         // game.currentLevel = 10;
-        game.addStar();
-        console.log('this is nextLevel in addstar', nextLevel);
-        console.log('this is game.currentLevel in addstar', game.currentLevel)
-        // console.log('this is currentLevel', currentLevel);
-        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/ nextLevel * 3.5, game.addStarWrapper, this);
-
+        game.addEnemy();
+        // after adding an enemy, call the addEnemyTimer function again after a random amount of time elapses
+        game.dropTimer.add(Phaser.Timer.SECOND * Math.random()/ nextLevel * 3.5, game.addEnemyTimer, this);
     };
-    game.addStarWrapper();
+    game.addEnemyTimer();
 
     // add stars to collect and get points
     //=======================================================
 
     //  Create a star inside of the 'stars' group
     game.addStarToCollect = function(){
-        // game.collectedStars++;
-        console.log("addStarToCollect collectedStars", game.collectedStars);
-        var star = game.starsToCollect.create(game.camera.view.randomX, game.height/2, 'token');
+        // game.collectedTokens++;
+        console.log("addStarToCollect collectedTokens", game.collectedTokens);
+        var star = game.tokensToCollect.create(game.camera.view.randomX, game.height/2, 'token');
         star.scale.setTo(0);
         star.anchor.setTo(.5);
         // modify physics body of enemy sprites
-        game.physics.arcade.enable(game.stars);
-        game.stars.enableBody = true;
+        game.physics.arcade.enable(game.enemies);
+        game.enemies.enableBody = true;
         star.body.setSize(30, 30)
 
         // star.body.immovable = true;
@@ -266,14 +212,14 @@ Game.prototype = {
         // stars move to random x coordinates of screen
         tween2.to({x: Math.random() * game.scrollableWidth, y: game.height*1.5}, timeToTween, Phaser.Easing.Exponential.In, true)
         tween2.onComplete.add(function() {
-            // game.collectedStars--;
+            // game.collectedTokens--;
             star.kill();
-            console.log("collection star killed, collectedStars is", game.collectedStars)
+            console.log("collection star killed, collectedTokens is", game.collectedTokens)
 
         });
     }
 
-    // dropTimer and addStarWrapper are used to generate stars at random intervals
+    // dropTimer and addEnemyTimer are used to generate stars at random intervals
     game.dropTimerCollectedStars = game.time.create(false);
     game.dropTimerCollectedStars.start();
     game.addStarWrapperCollectedStars = function() {
@@ -290,7 +236,7 @@ Game.prototype = {
     game.addClockToCollect = function(){
         // game.collectedClocks++;
         // console.log("addClockToCollect collectedClocks", game.collectedClocks);
-        var Clock = game.ClocksToCollect.create(game.camera.view.randomX, game.height/2, 'life');
+        var Clock = game.livesToCollect.create(game.camera.view.randomX, game.height/2, 'life');
         Clock.scale.setTo(0);
         Clock.anchor.setTo(.5);
         Clock.enableBody = true;
@@ -336,9 +282,9 @@ Game.prototype = {
     // this.scoreText.fixedToCamera = true;
     this.scoreSprite = game.add.sprite(this.player.x-413,16,'token');
     this.scoreSprite.fixedToCamera = true;
-    this.leftToCollect = game.add.text(this.player.x-380,16,' x ' + this.starsToCollect, { fontSize: '32px', fill:'#fff' });
+    this.leftToCollect = game.add.text(this.player.x-380,16,' x ' + this.tokensToCollect, { fontSize: '32px', fill:'#fff' });
     this.leftToCollect.fixedToCamera = true;
-    // console.log('this is this.stars', game.stars);
+    // console.log('this is this.stars', game.enemies);
     //=====================================================
     //this will be the life bar
     var lifeDistance = 70
@@ -399,19 +345,19 @@ Game.prototype = {
     //make the background scroll
 //    clouds.tilePosition.y += backgroundScroll;
     //  Collide the player and the stars with the platforms
-    // game.physics.arcade.collide(this.player, game.stars,this.gameOver, null, this);
+    // game.physics.arcade.collide(this.player, game.enemies,this.gameOver, null, this);
     // game.physics.arcade.collide(this.stars, platforms);
 
 
     //Check to see if starTocollect is collected if so, run collect star
-    game.physics.arcade.overlap(this.player, game.starsToCollect, null, this.collectStar, this);
+    game.physics.arcade.overlap(this.player, game.tokensToCollect, null, this.collectStar, this);
 
     //check to see if ClockToCollect is collected, if so, run gainLife
-    game.physics.arcade.overlap(this.player, game.ClocksToCollect, null, this.collectClock, this);
+    game.physics.arcade.overlap(this.player, game.livesToCollect, null, this.collectClock, this);
 
     // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
-    game.physics.arcade.collide(this.player, game.stars, null, this.checkCollision, this);
-    // game.physics.arcade.overlap(this.player, game.stars, null, this.loseLife, this);
+    game.physics.arcade.collide(this.player, game.enemies, null, this.checkCollision, this);
+    // game.physics.arcade.overlap(this.player, game.enemies, null, this.loseLife, this);
 
 
     // //  Reset the players velocity (movement)
@@ -461,7 +407,7 @@ Game.prototype = {
 
     //=================================
     //this is here to simulate winning the game, need to go to game.state(win) once set up
-    if(this.starsToCollect + this.collectedStars === this.collectedStars){
+    if(this.tokensToCollect + this.collectedTokens === this.collectedTokens){
         console.log('you win');
         //calls function to increase the level
         this.levelUp();
@@ -476,14 +422,14 @@ Game.prototype = {
     star.kill();
 
     // //  Add and update the score and the number of stars collected and left to collect
-    this.collectedStars++;
-    this.starsToCollect--;
+    this.collectedTokens++;
+    this.tokensToCollect--;
     console.log('this.score',this.score);
     this.score += 10;
     totalScore = this.score;
     console.log('game.score', game.score);
     //this sets the upper right corner left to collect
-    this.leftToCollect.text = ' x ' + this.starsToCollect;
+    this.leftToCollect.text = ' x ' + this.tokensToCollect;
   },
 
   // this function is called when the faux player overlaps with an enemy star
@@ -522,9 +468,9 @@ Game.prototype = {
   render: function(game) {
     // this.game.debug.bodyInfo(this.player, 32, 32);
     this.game.debug.body(this.player);
-    this.game.stars.forEachAlive(this.renderGroup, this);
-    this.game.starsToCollect.forEachAlive(this.renderGroup, this);
-    this.game.ClocksToCollect.forEachAlive(this.renderGroup, this);
+    this.game.enemies.forEachAlive(this.renderGroup, this);
+    this.game.tokensToCollect.forEachAlive(this.renderGroup, this);
+    this.game.livesToCollect.forEachAlive(this.renderGroup, this);
   },
 
   renderGroup: function(member) {
@@ -556,7 +502,7 @@ Game.prototype = {
   levelUp: function(){
     playerInvincible = false;
     //resets the number of stars to collect once level up is reached
-    this.starsToCollect = 5;
+    this.tokensToCollect = 5;
     //increases the level
     nextLevel++;
     console.log('this is currentLevel', nextLevel);
@@ -592,8 +538,8 @@ Game.prototype = {
         }
         // set new alphas on sprites
         this.player.alpha = newAlpha;
-        this.game.stars.setAll('alpha', newAlpha);
-        this.game.starsToCollect.setAll('alpha', newAlpha);
+        this.game.enemies.setAll('alpha', newAlpha);
+        this.game.tokensToCollect.setAll('alpha', newAlpha);
         // clouds.alpha = newAlpha;
         this.backgroundImage.alpha = newAlpha;
     }
@@ -620,8 +566,8 @@ Game.prototype = {
     }
     // set new alphas on sprites
     this.player.alpha = newAlpha;
-    this.game.stars.setAll('alpha', newAlpha);
-    this.game.starsToCollect.setAll('alpha', newAlpha);
+    this.game.enemies.setAll('alpha', newAlpha);
+    this.game.tokensToCollect.setAll('alpha', newAlpha);
     // clouds.alpha = newAlpha;
     this.backgroundImage.alpha = newAlpha;
 
