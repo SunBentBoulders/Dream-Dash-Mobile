@@ -69,7 +69,7 @@ Game.prototype = {
     // game.load.image('ground', 'img/platform.png');
 
     game.load.image('clouds', 'img/cloud.png');
-    game.load.image('enemyStar', 'img/enemyStar.png');
+    game.load.image('enemy', 'img/friendlyGhost.png');
     game.load.image('star', 'img/star.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
     game.load.image('pause', 'img/pause.png');
@@ -182,7 +182,7 @@ Game.prototype = {
     game.addStar = function(){
         game.starCount++;
         console.log("addStar starCount", game.starCount);
-        var star = game.stars.create(game.camera.view.randomX, game.height/2, 'enemyStar');
+        var star = game.stars.create(game.camera.view.randomX, game.height/2, 'enemy');
         // console.log("this.width", this.width);
         // console.log("game.width", game.width)
         star.scale.setTo(0);
@@ -190,7 +190,7 @@ Game.prototype = {
         // modify physics body of enemy sprites
         game.physics.arcade.enable(game.stars);
         game.stars.enableBody = true;
-        star.body.setSize(300, 300);
+        star.body.setSize(150, 150);
 
         // star.body.scale.setTo(0.5, 0.5)
         // game.physics.arcade.enable(star);
@@ -204,9 +204,9 @@ Game.prototype = {
         game.physics.arcade.moveToXY(star, Math.random() * game.scrollableWidth, this.height * 1.5, 200, 14000)
 
         var tween = game.add.tween(star.scale);
-        var timeToTween = 8000;
+        var timeToTween = 9000;
         // tween.from({x: 0, y: 0});
-        tween.to({x: .5, y:.5}, timeToTween, Phaser.Easing.Exponential.In, true);
+        tween.to({x: 1, y: 1}, timeToTween, Phaser.Easing.Exponential.In, true);
         // add tween for stars to move to edges of screen as they get bigger
         // applies to stars that start on left of screen
         // var bodyTween = game.add.tween(star.body);
