@@ -52,6 +52,8 @@ var Game = function(game) {
   playerInvincible = false;
   //sets the players lifesLost to be false
   playerLostLife = false;
+  this.loseLifeCount = 0;
+  this.backgroundImage;
 };
 Game.prototype = {
 
@@ -65,7 +67,7 @@ Game.prototype = {
     // this.optionCount = 1;
     // game.load.image('sky', 'img/sky.png');
     // game.load.image('ground', 'img/platform.png');
-    
+
     game.load.image('clouds', 'img/cloud.png');
     game.load.image('enemyStar', 'img/enemyStar.png');
     game.load.image('star', 'img/star.png');
@@ -91,8 +93,7 @@ Game.prototype = {
         alpha: 0
       }
     };
-      
-    game.add.sprite(0, 0, 'game-bg');
+    this.backgroundImage = game.add.sprite(0, 0, 'game-bg');
 
     //  We're going to be using physics, so enable the Arcade Physics system
 
@@ -323,8 +324,8 @@ Game.prototype = {
     game.addClockWrapperCollectedClocks();
 
     // //  Our two animations, walking left and right.
-    this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-    this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+    this.player.animations.add('left', [0, 1, 2, 3, 2, 1], 10, true);
+    this.player.animations.add('right', [5, 6, 7, 8, 7, 6], 10, true);
 
 
     // //  The score=============================================
@@ -405,7 +406,7 @@ Game.prototype = {
 
     // //  Checks to see if the player overlaps with any of the enemy stars, if he does call the checkCollision function, then gameOver function
     game.physics.arcade.collide(this.player, game.stars, null, this.checkCollision, this);
-    game.physics.arcade.overlap(this.player, game.stars, null, this.loseLife, this);
+    // game.physics.arcade.overlap(this.player, game.stars, null, this.loseLife, this);
 
 
     // //  Reset the players velocity (movement)
@@ -510,6 +511,7 @@ Game.prototype = {
     //     this.gameOver();
     // }, this);
     // this.gameOver();
+    this.loseLife();
   },
 
   render: function(game) {
@@ -561,6 +563,8 @@ Game.prototype = {
   loseLife: function(){
     if(!playerInvincible){
         if(this.life3.visible){
+            // set new alpha for sprites
+            var newAlpha = 0.8;
             //makes the third life dissappear
             this.life3.visible = false;
             //makes the player non-invincible
@@ -570,6 +574,7 @@ Game.prototype = {
             //makes the player invincible for 5 seconds
             this.game.time.events.add(3000, this.toggleInvincible, this);
         } else if(this.life2.visible){
+            var newAlpha = 0.6;
             //makes second life dissapear
             this.life2.visible = false;
             this.toggleInvincible();
@@ -579,12 +584,19 @@ Game.prototype = {
             //once player loses last life, end the game
             this.gameOver();
         }
+        // set new alphas on sprites
+        this.player.alpha = newAlpha;
+        this.game.stars.setAll('alpha', newAlpha);
+        this.game.starsToCollect.setAll('alpha', newAlpha);
+        // clouds.alpha = newAlpha;
+        this.backgroundImage.alpha = newAlpha;
     }
   },
 
   gainLife: function(){
     if(!playerLostLife){
         if(!this.life2.visible){
+            var newAlpha = 0.8;
             this.life2.visible = true;
             this.toggleLostLife();
             this.game.time.events.add(3000, this.toggleLostLife, this);
@@ -592,8 +604,21 @@ Game.prototype = {
             this.life3.visible = true;
             this.toggleLostLife();
             this.game.time.events.add(5000, this.toggleLostLife, this);
+        } if(!this.life3.visible){
+            // set new alpha for sprites
+            var newAlpha = 1;
+            this.life3.visible = true;
+            this.toggleLostLife();
+            this.game.time.events.add(3000, this.toggleLostLife, this);
         }
     }
+    // set new alphas on sprites
+    this.player.alpha = newAlpha;
+    this.game.stars.setAll('alpha', newAlpha);
+    this.game.starsToCollect.setAll('alpha', newAlpha);
+    // clouds.alpha = newAlpha;
+    this.backgroundImage.alpha = newAlpha;
+
   },
 
   toggleInvincible: function(){
