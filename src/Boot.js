@@ -55,32 +55,35 @@ Boot.prototype = {
         var windowWidth = window.innerWidth * window.devicePixelRatio;
         var windowHeight = window.innerHeight * window.devicePixelRatio;
         var ratio = windowWidth/windowHeight;
-        console.log("dpr", window.devicePixelRatio)
+        window.deviceAssetSize = 'desktop';
+
         // check to see if game device is desktop
         if (!this.game.device.desktop) {
             // else new game width and height
             if (ratio < 1.4) {
                 this.game.canvas.style.width = 1024
                 this.game.canvas.style.height = 768
+                window.deviceAssetSize = '1024x768';
             } else if (ratio <= 1.5) {
                 this.game.canvas.style.width = 960
                 this.game.canvas.style.height = 640;
+                window.deviceAssetSize = '960x640';
             } else if (ratio <= 1.6) {
                this.game.canvas.style.width = 1280
                this.game.canvas.style.height = 800;
+               window.deviceAssetSize = '1280x800';
             } else if (ratio <=1.7) {
                 this.game.canvas.style.width = 1024
                 this.game.canvas.style.height = 600;
+                window.deviceAssetSize = '1024x600';
             } else {
+                console.log("else")
                 this.game.canvas.style.width = 1408
                 this.game.canvas.style.height = 792;
+                window.deviceAssetSize = '1408x792';
             }
         }
-                console.log("gamewidth", this.game.width)
-        console.log("gameheight", this.game.height)
-        console.log("window.innerWidth", window.innerWidth)
-        console.log("window.innerHeight", window.innerHeight)
-
+        console.log("window.deviceAssetSize", window.deviceAssetSize)
 
         // this block centers game on screen
         var ow = parseInt(this.game.canvas.style.width, 10); // outer width, parseInt needs a string argument, returns integer for outer width
@@ -104,7 +107,20 @@ Boot.prototype = {
     preload: function (game) {
 
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
-        game.load.image('stars', 'assets/images/2.jpg');
+        if (window.deviceAssetSize === 'desktop') {
+            game.load.image('stars', 'assets/images/2.jpg');
+        } else if (window.deviceAssetSize === '1024x768') {
+            game.load.image('stars', 'assets/images/2_1024x768.png');
+        } else if (window.deviceAssetSize === '960x640') {
+            game.load.image('stars', 'assets/images/2_960x640.png');
+        } else if (window.deviceAssetSize === '1280x800') {
+            game.load.image('stars', 'assets/images/2_1280x800.png');
+        } else if (window.deviceAssetSize === '1024x600') {
+            game.load.image('stars', 'assets/images/2_1024x600.png');
+        } else if (window.deviceAssetSize === '1408x792') {
+            game.load.image('stars', 'assets/images/2_1408x792.png');
+        }
+
         game.load.image('loading', 'assets/images/loading.png');
         game.load.image('brand', 'assets/images/Boulder.png');
 

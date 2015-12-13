@@ -33,15 +33,44 @@ Preloader.prototype = {
         game.add.existing(this.game.loadingBar);
         game.add.existing(this.game.status);
         game.load.setPreloadSprite(this.game.loadingBar);
-        //loads images first
 
-        game.load.image('menu-bg', 'assets/images/BigAutumnGhost.png');
-        game.load.image('gameover-bg', 'assets/images/BigSummer.jpg');
-        game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1.jpg');
-        game.load.image('options-bg', 'assets/images/options-bg.jpg');
+        //loads images first, based on aspect ratio
+            console.log("window.deviceAssetSize",window.deviceAssetSize)
+        if (window.deviceAssetSize === 'desktop') {
+            game.load.image('menu-bg', 'assets/images/BigAutumnGhost.png');
+            game.load.image('gameover-bg', 'assets/images/BigSummer.jpg');
+            game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1.jpg');
+            game.load.image('options-bg', 'assets/images/options-bg.jpg');
+        } else if (window.deviceAssetSize === '1024x768') {
+            game.load.image('menu-bg', 'assets/images/BigAutumnGhost1024x768.png');
+            game.load.image('gameover-bg', 'assets/images/BigSummer1024x768.png');
+            game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1_1024x768.png');
+            game.load.image('options-bg', 'assets/images/options-bg1024x768.png');
+        } else if (window.deviceAssetSize === '960x640') {
+            game.load.image('menu-bg', 'assets/images/BigAutumnGhost960x640.png');
+            game.load.image('gameover-bg', 'assets/images/BigSummer960x640.png');
+            game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1_960x640.png');
+            game.load.image('options-bg', 'assets/images/options-bg960x640.png');
+        } else if (window.deviceAssetSize === '1280x800') {
+             game.load.image('menu-bg', 'assets/images/BigAutumnGhost1280x800.png');
+             game.load.image('gameover-bg', 'assets/images/BigSummer1280x800.png');
+             game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1_1280x800.png');
+             game.load.image('options-bg', 'assets/images/options-bg1280x800.png');
+        } else if (window.deviceAssetSize === '1024x600') {
+             game.load.image('menu-bg', 'assets/images/BigAutumnGhost1024x600.png');
+             game.load.image('gameover-bg', 'assets/images/BigSummer1024x600.png');
+             game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1_1024x600.png');
+             game.load.image('options-bg', 'assets/images/options-bg1024x600.png');
+        } else if (window.deviceAssetSize === '1408x792') {
+            console.log("else2")
+             game.load.image('menu-bg', 'assets/images/BigAutumnGhost1408x792.png');
+             game.load.image('gameover-bg', 'assets/images/BigSummer1408x792.png');
+             game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1_1408x792.png');
+             game.load.image('options-bg', 'assets/images/options-bg1408x792.png');
+        }
 
-        game.load.image('ground', 'img/platform.png');
-        game.load.image('star', 'img/star.png');
+        // game.load.image('ground', 'img/platform.png');
+        // game.load.image('star', 'img/star.png');
         game.load.spritesheet('dude', 'img/dude.png', 32, 48);
 
         //loads audio
