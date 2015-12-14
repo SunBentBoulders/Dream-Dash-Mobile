@@ -59,7 +59,6 @@ Boot.prototype = {
         document.getElementById('game').style.width = window.innerWidth + 'px';
         document.getElementById('game').style.height = window.innerHeight - 1 + 'px'; //css for body includes 1px top margin that we want to eliminate
         document.getElementById('game').style.overflow = 'hidden';
-
     },
 
     preload: function (game) {
