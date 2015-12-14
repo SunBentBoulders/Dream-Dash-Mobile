@@ -460,7 +460,7 @@ Game.prototype = {
     window.navigator.vibrate([2000]);
     totalScore = 0;
     // reset world bounds to the original 800x600 so following gamestates show up correctly
-    this.world.setBounds(0,0,800,600);
+    this.world.setBounds(0,0,this.game.width, this.game.height);
 
     // // go to gameover state
     transitionPlugin.to("GameOver");
@@ -478,7 +478,7 @@ Game.prototype = {
     //starts the levelup state
     transitionPlugin.to("LevelUp");
     //resets the world bounds
-    this.world.setBounds(0,0,800,600);
+    this.world.setBounds(0,0,this.game.width, this.game.height);
   },
 
   loseLife: function(){
