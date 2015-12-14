@@ -12,8 +12,8 @@ Options.prototype = {
   },
 
   preload: function(){
-    game.load.image('< Back', 'assets/buttons/back.png');
-  }
+    // game.load.image('< Back', 'assets/buttons/back.png');
+  },
 
 
   init: function (game) {
@@ -29,7 +29,7 @@ Options.prototype = {
 
   addMenuOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'black', align: 'center', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
-    var txt = this.game.add.text(this.game.world.centerX, (this.optionCount * this.game.height/7.5) + this.game.world.centerY, text, optionStyle);
+    var txt = this.game.add.text(this.game.world.centerX, (optionCount * this.game.height/7.5) + this.game.world.centerY, text, optionStyle);
     txt.anchor.setTo(.5, 2);
     txt.stroke = "rgba(0,0,0,0)";
     txt.strokeThickness = 4;
@@ -56,8 +56,8 @@ Options.prototype = {
 
   addDesktopBackOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
-    var txt = this.game.add.text(this.game.width/30, ((this.optionCount + 1) * this.game.height/7.5) + this.game.height/2, text, optionStyle);
-    console.log("this.optionCount", this.optionCount)
+    var txt = this.game.add.text(this.game.width/30, ((optionCount + 1) * this.game.height/7.5) + this.game.height/2, text, optionStyle);
+    console.log("optionCount", optionCount)
     txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 
 
@@ -84,7 +84,7 @@ Options.prototype = {
     optionCount ++;
   },
   addMobileBackButton: function(buttonName, callback){
-    var button = this.game.add.button(this.game.width/30, ((this.optionCount + 1) * this.game.height/7.5) + this.game.height/2, buttonName);
+    var button = this.game.add.button(this.game.width/30, ((optionCount + 1) * this.game.height/7.5) + this.game.height/2, buttonName);
     button.inputEnabled = true;
     button.events.onInputDown.add(callback, this);
   },

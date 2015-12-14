@@ -1,6 +1,9 @@
 var LevelUp = function(game){
 
 	var emitter;
+	var optionCount;
+	var nextLevelButton;
+	var mainMenuButton;
 	// totalScore;
 };
 
@@ -8,6 +11,8 @@ LevelUp.prototype = {
 
 	preload: function(game){
 		game.load.image('clock', 'img/clock.png');
+		// game.load.image('Next Level', 'assets/buttons/nextLevel.png');
+		// game.load.image('Main Menu', 'assets/buttons/mainMenu.png');
 		//stuff here
 	},
 	
@@ -21,7 +26,7 @@ LevelUp.prototype = {
 		});
 		this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 		this.titleText.anchor.set(0.5);
-		this.optionCount = 1;
+		optionCount = 1;
 		//========================================
 		this.showScore = game.add.text(game.width/2 - 130 , game.height/4 + 100, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/40 + 'pt TheMinion',
 		  fill: '#c37c01',
@@ -29,13 +34,21 @@ LevelUp.prototype = {
 		});
 
 		//======================================
-
-	    this.addMenuOption('Next Level', function () {
-	      this.startNextLevel();
-	    });
-		this.addMenuOption('Main Menu', function () {
-	      game.state.start("MainMenu");
-	    });
+		if(game.device.desktop){
+		    this.addDesktopMenuOption('Next Level', function () {
+		      this.startNextLevel();
+		    });
+			this.addDesktopMenuOption('Main Menu', function () {
+		      game.state.start("MainMenu");
+		    });
+		} else {
+			this.addMobileMenuOption('Next Level', function(){
+				this.startNextLevel();
+			});
+			this.addMobileMenuOption('Main Menu', function(){
+				game.state.start('MainMenu');
+			});
+		}
 
 	    emitter = game.add.emitter(game.world.centerX, 200, 200);
 	    emitter.makeParticles('clock');
@@ -54,9 +67,9 @@ LevelUp.prototype = {
 		this.game.state.start("Game");
 	},
 
-	addMenuOption: function(text, callback) {
+	addDesktopMenuOption: function(text, callback) {
 	  var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'center', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
-	  var txt = this.game.add.text(this.game.width/3, (this.optionCount * this.game.height/7.5) + this.game.height/2.2, text, optionStyle);
+	  var txt = this.game.add.text(this.game.width/3, (optionCount * this.game.height/7.5) + this.game.height/2.2, text, optionStyle);
 	  txt.anchor.setTo(0);
 	  txt.stroke = "rgba(0,0,0,0)";
 	  txt.strokeThickness = 4;
@@ -79,7 +92,15 @@ LevelUp.prototype = {
 	  txt.events.onInputOver.add(onOver, this);
 	  txt.events.onInputOut.add(onOut, this);
 
-	  this.optionCount ++;
+	  optionCount ++;
+	},
+
+	addMobileMenuOption: function(buttonName, callback){
+		var button = this.game.add.button(this.game.width/3, (optionCount * this.game.height/7.5) + this.game.height/2.2, buttonName);
+		button.inputEnabled = true;
+		button.events.onInputDown.add(callback, this);
+
+		optionCount++;
 	}
 
 };
