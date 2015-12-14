@@ -35,7 +35,6 @@ Preloader.prototype = {
         game.load.setPreloadSprite(this.game.loadingBar);
 
         //loads images first, based on aspect ratio
-            console.log("window.deviceAssetSize",window.deviceAssetSize)
         if (window.deviceAssetSize === 'desktop') {
             game.load.image('menu-bg', 'assets/images/BigAutumnGhost.png');
             game.load.image('gameover-bg', 'assets/images/BigSummer.jpg');
@@ -62,7 +61,6 @@ Preloader.prototype = {
              game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1_1024x600.png');
              game.load.image('options-bg', 'assets/images/options-bg1024x600.png');
         } else if (window.deviceAssetSize === '1408x792') {
-            console.log("else2")
              game.load.image('menu-bg', 'assets/images/BigAutumnGhost1408x792.png');
              game.load.image('gameover-bg', 'assets/images/BigSummer1408x792.png');
              game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1_1408x792.png');
