@@ -1,4 +1,7 @@
-var Options = function(game) {};
+var Options = function(game) {
+  var backButton;
+  var optionCount;
+};
 
 Options.prototype = {
 
@@ -7,6 +10,10 @@ Options.prototype = {
     startY: this.height/2.31,
     startX: "center"
   },
+
+  preload: function(){
+    game.load.image('< Back', 'assets/buttons/back.png');
+  }
 
 
   init: function (game) {
@@ -17,7 +24,7 @@ Options.prototype = {
     });
     this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     this.titleText.anchor.set(.5);
-    this.optionCount = 1;
+    optionCount = 1;
   },
 
   addMenuOption: function(text, callback) {
@@ -44,10 +51,10 @@ Options.prototype = {
     txt.events.onInputOver.add(onOver, this);
     txt.events.onInputOut.add(onOut, this);
 
-    this.optionCount ++;
+    optionCount ++;
   },
 
-  addBackOption: function(text, callback) {
+  addDesktopBackOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
     var txt = this.game.add.text(this.game.width/30, ((this.optionCount + 1) * this.game.height/7.5) + this.game.height/2, text, optionStyle);
     console.log("this.optionCount", this.optionCount)
@@ -74,7 +81,12 @@ Options.prototype = {
     txt.events.onInputOver.add(onOver, this);
     txt.events.onInputOut.add(onOut, this);
 
-    this.optionCount ++;
+    optionCount ++;
+  },
+  addMobileBackButton: function(buttonName, callback){
+    var button = this.game.add.button(this.game.width/30, ((this.optionCount + 1) * this.game.height/7.5) + this.game.height/2, buttonName);
+    button.inputEnabled = true;
+    button.events.onInputDown.add(callback, this);
   },
 
   create: function (game) {
@@ -94,10 +106,15 @@ Options.prototype = {
     //   playSound = !playSound;
     //   target.text = playSound ? 'Mute Sound' : 'Play Sound';
     // });
-
-    this.addBackOption('< Back', function () {
-      game.state.start("MainMenu");
-    });
+    if(game.device.desktop){
+      this.addDesktopBackOption('< Back', function () {
+        game.state.start("MainMenu");
+      });
+    } else {
+      this.addMobileBackOption('< Back', function () {
+        game.state.start("MainMenu");
+      });
+    }
   }
 };
 
