@@ -12,7 +12,7 @@ var paths = {
     scripts: ['vendor/**/*.js', 'lib/**/*.js', 'src/**/*.js'],
     images: ['img/**/*', 'assets/images/**/*', 'icons/**/*'],
     audio: 'assets/bgm/**/*',
-    css: ['css/**/*.css', 'assets/**/*.css']
+    css: ['css/**/*.css', 'assets/style/**/*.css']
 };
 
 gulp.task('watch', function(){
@@ -63,4 +63,4 @@ END OF MOCHA TEST-RELATED
 */
 
 
-gulp.task('default', ['watch', 'scripts', 'minifyimgs'])
+gulp.task('default', ['watch', 'scripts', 'minifyimgs']);
