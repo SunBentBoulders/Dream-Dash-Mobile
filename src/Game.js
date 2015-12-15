@@ -122,7 +122,7 @@ Game.prototype = {
 
     // add player to game
     this.player = game.add.sprite(game.scrollableWidth/2, 0, 'dude');
-    this.player.scale.setTo(1.5, 1.5);
+    // this.player.scale.setTo(1.5, 1.5);
     // set initial location of player in the top center of screen
     this.player.anchor.setTo(.5, 1);
     // enable physics on the player
@@ -239,7 +239,7 @@ Game.prototype = {
         life.scale.setTo(0);
         life.anchor.setTo(.5);
         life.enableBody = true;
-        life.body.setSize(30, 90);
+        life.body.setSize(50, 300);
 
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var scaleTween = game.add.tween(life.scale);
