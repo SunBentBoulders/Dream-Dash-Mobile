@@ -12,9 +12,11 @@ LevelUp.prototype = {
 	preload: function(game){
 		game.load.image('clock', 'img/clock.png');
 		//loads up buttons for mobile devices
-		// game.load.image('Next Level', 'assets/buttons/nextLevel.png');
-		// game.load.image('Main Menu', 'assets/buttons/mainMenu.png');
-		//stuff here
+		if(!game.device.desktop){
+		  game.load.image('Next Level', 'assets/buttons/nextLevelButton.png');
+		  game.load.image('Main Menu', 'assets/buttons/mainMenuButton.png');
+		}
+	//stuff here
 	},
 
 	create: function(game){

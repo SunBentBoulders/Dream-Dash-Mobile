@@ -19,9 +19,11 @@ MainMenu.prototype = {
 
   preload: function(game){
     //load up button pics
-    game.load.image('Start', 'assets/buttons/button.png');
-    // game.load.image('Options', 'assets/buttons/options.png');
-    // game.load.image('Credits', 'assets/buttons/credits.png');
+    if(!game.device.desktop){
+      game.load.image('Start', 'assets/buttons/startButton.png');
+      game.load.image('Options', 'assets/buttons/optionsButton.png');
+      game.load.image('Credits', 'assets/buttons/creditsButton.png');
+    }
   },
 
 
@@ -111,8 +113,6 @@ MainMenu.prototype = {
       this.addDesktopMenuOption('Credits', function () {
         game.state.start("Credits");
       });
-      
-
     }
 
   }

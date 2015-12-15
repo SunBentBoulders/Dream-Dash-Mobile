@@ -2,10 +2,12 @@ var GameOver = function(game) {};
 
 GameOver.prototype = {
 
-  preload: function () {
+  preload: function (game) {
     //loads up buttons for game over screen
-    // game.load.image('Main Menu', 'assets/buttons/mainMenu.png');
-    // game.load.image('Play Again', 'assets/buttons/playAgain.png');
+    if(!game.desktop.device){
+      game.load.image('Main Menu', 'assets/buttons/mainMenuButton.png');
+      game.load.image('Play Again', 'assets/buttons/playAgainButton.png');
+    }
     this.optionCount = 1;
   },
 

@@ -50,7 +50,7 @@ Game.prototype = {
   preload: function (game) {
     //checks to see if vibrate is available, and if so, activates it
     if("vibrate" in window.navigator) {
-        console.log('vibrate is on');
+        // console.log('vibrate is on');
     }
 
     // load the rest of the game assets. see preload gamestate for others
@@ -405,7 +405,7 @@ Game.prototype = {
 
     //this is here to simulate winning the game, need to go to game.state(win) once set up
     if(this.tokensToCollect + this.collectedTokens === this.collectedTokens){
-        console.log('you win');
+        // console.log('you win');
         //calls function to increase the level
         this.levelUp();
         // this.gameOver();
