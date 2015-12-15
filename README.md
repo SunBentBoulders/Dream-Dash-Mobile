@@ -21,11 +21,11 @@
 
 ## Usage
 
-> Options for playing Dream Dash include:
+Options for playing Dream Dash include:
 	1. Download from the Apple App Store
-	2. Download from the Google Play Store
-	3. Play online [here](#)
-	4. Clone this repo to your local machine and run through localhost
+	1. Download from the Google Play Store
+	1. Play online [here](#)
+	1. Clone this repo to your local machine and run through localhost
 
 ## Requirements
 
