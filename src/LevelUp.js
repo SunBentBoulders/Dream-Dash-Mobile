@@ -10,7 +10,7 @@ LevelUp.prototype = {
 		game.load.image('clock', 'img/clock.png');
 		//stuff here
 	},
-	
+
 	create: function(game){
 		this.stage.backgroundColor = 0x4B0082
 		//stuff here
@@ -23,10 +23,12 @@ LevelUp.prototype = {
 		this.titleText.anchor.set(0.5);
 		this.optionCount = 1;
 		//========================================
-		this.showScore = game.add.text(game.width/2 - 130 , game.height/4 + 100, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/40 + 'pt TheMinion',
+		this.showScore = game.add.text(game.width/2, game.height/4 + game.height/8, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/40 + 'pt TheMinion',
 		  fill: '#c37c01',
 		  align: 'center'
 		});
+		this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
+		this.showScore.anchor.set(0.5);
 
 		//======================================
 
@@ -41,9 +43,9 @@ LevelUp.prototype = {
 	    emitter.makeParticles('clock');
 	    emitter.start(true, 4000, null, totalScore);
 	    game.time.events.add(4000, this.destroyEmitter, this);
-	  
 
-		
+
+
 	},
 
 	destroyEmitter: function(){
@@ -56,8 +58,8 @@ LevelUp.prototype = {
 
 	addMenuOption: function(text, callback) {
 	  var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'center', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
-	  var txt = this.game.add.text(this.game.width/3, (this.optionCount * this.game.height/7.5) + this.game.height/2.2, text, optionStyle);
-	  txt.anchor.setTo(0);
+	  var txt = this.game.add.text(this.game.width/2, (this.optionCount * this.game.height/7.5) + this.game.height/2.2, text, optionStyle);
+	  txt.anchor.setTo(.5);
 	  txt.stroke = "rgba(0,0,0,0)";
 	  txt.strokeThickness = 4;
 	  txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
