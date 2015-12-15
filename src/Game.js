@@ -274,21 +274,25 @@ Game.prototype = {
     // will add this back once level up game state is made
     // this.scoreText = game.add.text(this.realPlayer.x-400, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
     // this.scoreText.fixedToCamera = true;
-    this.scoreSprite = game.add.sprite(this.player.x-413,16,'token');
+    if (window.deviceAssetSize === 'desktop') {
+        this.scoreSprite = game.add.sprite(this.player.x-this.game.width/1.937, this.game.height/37.5,'token');
+    } else {
+        this.scoreSprite = game.add.sprite(this.player.x-this.game.width/2, this.game.height/30,'token');
+    }
     this.scoreSprite.fixedToCamera = true;
-    this.leftToCollect = game.add.text(this.player.x-380,16,' x ' + this.tokensToCollect, { fontSize: '32px', fill:'#fff' });
+    this.leftToCollect = game.add.text(this.player.x-this.game.width/2.10526315789, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/18.75 + 'px', fill:'#fff' });
     this.leftToCollect.fixedToCamera = true;
     //=====================================================
 
     //this will be the life bar
-    var lifeDistance = 70
-    this.life1 = game.add.sprite(lifeDistance, 16, 'life');
+    var lifeDistance = this.game.width/11.42
+    this.life1 = game.add.sprite(lifeDistance, this.game.height/37.5, 'life');
     this.life1.scale.setTo(.35);
     this.life1.fixedToCamera = true;
-    this.life2 = game.add.sprite(lifeDistance + 40, 16, 'life');
+    this.life2 = game.add.sprite(lifeDistance + this.game.width/20, this.game.height/37.5, 'life');
     this.life2.scale.setTo(.35);
     this.life2.fixedToCamera = true;
-    this.life3 = game.add.sprite(lifeDistance + 80, 16, 'life');
+    this.life3 = game.add.sprite(lifeDistance + this.game.width/10, this.game.height/37.5, 'life');
     this.life3.scale.setTo(.35);
     this.life3.fixedToCamera = true;
 
@@ -306,7 +310,7 @@ Game.prototype = {
 
 
     //add pause button ============================
-    pause = game.add.button(16,16,'pause');
+    pause = game.add.button(this.game.width/50, this.game.height/37.5,'pause');
     pause.fixedToCamera = true;
     pause.inputEnabled = true;
     pause.events.onInputUp.add(function(){
@@ -460,7 +464,7 @@ Game.prototype = {
     window.navigator.vibrate([2000]);
     totalScore = 0;
     // reset world bounds to the original 800x600 so following gamestates show up correctly
-    this.world.setBounds(0,0,800,600);
+    this.world.setBounds(0,0,this.game.width, this.game.height);
 
     // // go to gameover state
     transitionPlugin.to("GameOver");
@@ -478,7 +482,7 @@ Game.prototype = {
     //starts the levelup state
     transitionPlugin.to("LevelUp");
     //resets the world bounds
-    this.world.setBounds(0,0,800,600);
+    this.world.setBounds(0,0,this.game.width, this.game.height);
   },
 
   loseLife: function(){

@@ -3,34 +3,45 @@ MainMenu = function (game) {
 
 //	this.music = null;
 //	this.playButton = null;
+var startButton;
+var creditsButton;
+var optionsButton;
+var optionCount;
 
 };
 
 
 MainMenu.prototype = {
+    menuConfig: {
+      startY: this.height/2.31,
+      startX: this.width/26.67
+    },
+
+  preload: function(game){
+    //load up button pics
+    game.load.image('Start', 'assets/buttons/button.png');
+    // game.load.image('Options', 'assets/buttons/options.png');
+    // game.load.image('Credits', 'assets/buttons/credits.png');
+  },
 
 
   init: function (game) {
     // console.log('this is ', this);
     // console.log('game is ', game);
-      var menuConfig = {
-        startY: this.game.height/2.31,
-        startX: this.game.width/26.67
-      };
 
-    this.titleText = this.game.make.text(this.game.world.centerX, this.game.height/6, "Bobby Dash", {
+    this.titleText = this.game.make.text(this.game.world.centerX, this.game.height/6, "Dream Dash", {
       font: 'bold ' + this.game.width/13.33 + 'pt TheMinion',
       fill: '#7CCD7C',
       align: 'center'
     });
     this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
     this.titleText.anchor.set(0.5);
-    this.optionCount = 1;
+    optionCount = 1;
   },
 
-  addMenuOption: function(text, callback) {
+  addDesktopMenuOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
-    var txt = this.game.add.text(this.game.width/30, (this.optionCount * this.game.height/7.5) + this.game.height/2.2, text, optionStyle);
+    var txt = this.game.add.text(this.game.width/30, (optionCount * this.game.height/7.5) + this.game.height/2.2, text, optionStyle);
     txt.anchor.setTo(0);
     txt.stroke = "rgba(0,0,0,0)";
     txt.strokeThickness = 4;
@@ -53,12 +64,19 @@ MainMenu.prototype = {
     txt.events.onInputOver.add(onOver, this);
     txt.events.onInputOut.add(onOut, this);
 
-    this.optionCount ++;
+    optionCount++;
+  },
+
+  addMobileMenuOption: function (buttonName, callback){
+    var button = this.game.add.button(this.game.width/30, (optionCount * this.game.height/7.5) + this.game.height/2.2, buttonName);
+    button.inputEnabled = true;
+    button.events.onInputDown.add(callback, this);
+
+    optionCount++
   },
 
   create: function (game) {
-
- 
+    
 
     if (music.name !== "bgm" && playMusic) {
       music.stop();
@@ -70,18 +88,34 @@ MainMenu.prototype = {
     game.add.sprite(0, 0, 'menu-bg');
     game.add.existing(this.titleText);
 
-    this.addMenuOption('Start', function () {
-      // game.state.start("Game");
-      game.state.start('Game');
-    });
-    this.addMenuOption('Options', function () {
-      game.state.start("Options");
-    });
-    this.addMenuOption('Credits', function () {
-      game.state.start("Credits");
-    });
+    //checks to see which buttons to load
+    if(!game.device.desktop){
+      //loads actual buttons
+      startButton = this.addMobileMenuOption('Start', function () {
+         game.state.start('Game'); 
+       });
+      optionsButton = this.addMobileMenuOption('Options', function () {
+         game.state.start('Options'); 
+       });
+      creditsButton = this.addMobileMenuOption('Credits', function () {
+         game.state.start('Credits'); 
+       });
+    } else {
+      //loads text buttons
+      this.addDesktopMenuOption('Start', function () {
+        game.state.start('Game');
+      });
+      this.addDesktopMenuOption('Options', function () {
+        game.state.start("Options");
+      });
+      this.addDesktopMenuOption('Credits', function () {
+        game.state.start("Credits");
+      });
+      
 
-  },
+    }
+
+  }
 
 
 
