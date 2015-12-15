@@ -35,17 +35,20 @@ gulp.task('scripts', function(){
         
 });
 
-/*//TASK to Minify All Images
+//TASK to Minify All Images
 gulp.task('minimgs', function(){
     return gulp.src(paths.images)
-        .pipe(imagemin({optimizationLevel: 5}))
+        .pipe(imagemin({optimizationLevel: 7}))
         .pipe(gulp.dest('minified'));
-});*/
+});
 
-//TASK to Minify All Images
+//TASK to Minify All CSS
 gulp.task('mincss', function(){
     return gulp.src(paths.css)
-        .pipe(mincss())
+        // .pipe(concat('allfiles.css'))
+        .pipe(cssmin({compatibility: 'ie8'}))
+        .pipe(rename({extname: '.min.css'}))
+        .pipe(gulp.dest('minified'))
 });
 
 /*TASK to Minify All Audio, not sure which gulp plugin to use for this yet
@@ -69,4 +72,4 @@ END OF MOCHA TEST-RELATED
 */
 
 //Removed ImageMin from default task, will compress elsewhere
-gulp.task('default', ['watch', 'scripts']);
+gulp.task('default', ['watch', 'scripts', 'mincss']);
