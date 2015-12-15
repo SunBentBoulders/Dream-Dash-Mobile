@@ -1,4 +1,7 @@
-var Credits = function(game) {};
+var Credits = function(game) {
+
+  var backButton;
+};
 
 Credits.prototype = {
 
@@ -66,6 +69,8 @@ Credits.prototype = {
     }
 
     var bg = this.game.add.sprite(0, 0, 'gameover-bg');
+
+
     this.addCredit('Physics Engineer', 'Shanna Sullivan');
     this.addCredit('State Engineer', 'Jazz Lyles');
     this.addCredit('Mechanics Engineer', 'Darryl Nunn');

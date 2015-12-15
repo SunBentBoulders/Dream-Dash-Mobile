@@ -4,9 +4,10 @@ GameOver.prototype = {
 
   preload: function (game) {
     //loads up buttons for game over screen
-    if(!game.desktop.device){
+    if(!game.device.desktop){
       game.load.image('Main Menu', 'assets/buttons/mainMenuButton.png');
       game.load.image('Play Again', 'assets/buttons/playAgainButton.png');
+      game.load.image('Game Over Title', 'assets/buttons/gameOverButton.png');
     }
     this.optionCount = 1;
   },
@@ -44,7 +45,7 @@ GameOver.prototype = {
     button.inputEnabled = true;
     button.events.onInputDown.add(callback, this);
 
-    optionCount++;
+    this.optionCount++;
   },
 
   create: function (game) {
@@ -64,6 +65,7 @@ GameOver.prototype = {
         game.state.start("MainMenu");
       });
     } else {
+      game.add.sprite(game.world.centerX/2, game.height/6, "Game Over Title");
       this.addMobileMenuOption('Play Again', function (e) {
         game.state.add('game', Game, true);
       });

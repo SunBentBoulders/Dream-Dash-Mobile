@@ -89,7 +89,7 @@ Options.prototype = {
 
     optionCount ++;
   },
-  addMobileBackButton: function(buttonName, callback){
+  addMobileBackOption: function(buttonName, callback){
     var button = this.game.add.button(this.game.width/30, ((optionCount + 1) * this.game.height/7.5) + this.game.height/2, buttonName);
     button.inputEnabled = true;
     button.events.onInputDown.add(callback, this);

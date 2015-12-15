@@ -15,6 +15,7 @@ LevelUp.prototype = {
 		if(!game.device.desktop){
 		  game.load.image('Next Level', 'assets/buttons/nextLevelButton.png');
 		  game.load.image('Main Menu', 'assets/buttons/mainMenuButton.png');
+		  game.load.image('You Woke Up Title', 'assets/buttons/youWokeUpTitleButton.png');
 		}
 	//stuff here
 	},
@@ -22,21 +23,25 @@ LevelUp.prototype = {
 	create: function(game){
 		this.stage.backgroundColor = 0x4B0082
 		//stuff here
-		this.titleText = game.add.text(game.width/2, game.height/4, "You Woke Up!", {
-		  font: 'bold ' + game.width/13.33 + 'pt TheMinion',
-		  fill: '#7CCD7C',
-		  align: 'center'
-		});
-		this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
-		this.titleText.anchor.set(0.5);
-		optionCount = 1;
-		//========================================
-		this.showScore = game.add.text(game.width/2, game.height/4 + game.height/8, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/40 + 'pt TheMinion',
-		  fill: '#c37c01',
-		  align: 'center'
-		});
-		this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
-		this.showScore.anchor.set(0.5);
+		if(game.device.desktop){
+			this.titleText = game.add.text(game.width/2, game.height/4, "You Woke Up!", {
+			  font: 'bold ' + game.width/13.33 + 'pt TheMinion',
+			  fill: '#7CCD7C',
+			  align: 'center'
+			});
+			this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
+			this.titleText.anchor.set(0.5);
+			optionCount = 1;
+			//========================================
+			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/8, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/40 + 'pt TheMinion',
+			  fill: '#c37c01',
+			  align: 'center'
+			});
+			this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
+			this.showScore.anchor.set(0.5);
+		} else {
+			game.add.sprite(game.width/2, game.height/4, 'You Woke Up Title');
+		}
 
 		//======================================
 		if(game.device.desktop){
