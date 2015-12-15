@@ -10,7 +10,7 @@ var cssmin = require('gulp-minify-css');
 //var mocha = require('gulp-mocha');
 
 var paths = {
-    scripts: ['vendor/**/*.js', 'lib/**/*.js', 'src/Boot.js', 'src/Preloader.js', 'src/MainMenu.js', 'src/Options.js', 'src/Credits.js', 'src/Game', 'src/Gameover.js', 'src/LevelUp.js'],
+    scripts: ['vendor/**/*.js', 'lib/**/*.js', 'src/**/*.js'],
     images: ['img/**/*', 'assets/images/**/*', 'icons/**/*'],
     audio: 'assets/bgm/**/*',
     css: ['css/**/*.css', 'assets/style/**/*.css']
@@ -26,27 +26,26 @@ gulp.task('watch', function(){
 gulp.task('scripts', function(){
     //output and put script in build folder
     return gulp.src(paths.scripts)
-        .pipe(gulp.dest('build/scripts'))
         //concat and uglify scripts
-        .pipe(concat())
+        .pipe(concat('allfiles.js'))
         .pipe(uglify())
         //rename minified file, then place in build folder
         .pipe(rename({extname: '.min.js'}))
-        .pipe(gulp.dest('build/scripts'));
+        .pipe(gulp.dest('minified'));
         
 });
 
-//TASK to Minify All Images
+/*//TASK to Minify All Images
 gulp.task('minimgs', function(){
     return gulp.src(paths.images)
         .pipe(imagemin({optimizationLevel: 5}))
-        .pipe(gulp.dest('build/images'));
-});
+        .pipe(gulp.dest('minified'));
+});*/
 
 //TASK to Minify All Images
 gulp.task('mincss', function(){
     return gulp.src(paths.css)
-        .pipe(mincss({}))
+        .pipe(mincss())
 });
 
 /*TASK to Minify All Audio, not sure which gulp plugin to use for this yet
@@ -69,5 +68,5 @@ gulp.task('watch-mocha', function(){
 END OF MOCHA TEST-RELATED
 */
 
-
-gulp.task('default', ['watch', 'scripts', 'mincss', 'minimgs']);
+//Removed ImageMin from default task, will compress elsewhere
+gulp.task('default', ['watch', 'scripts']);
