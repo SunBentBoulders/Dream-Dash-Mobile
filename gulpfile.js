@@ -9,7 +9,7 @@ var changed = require('gulp-changed');
 //var mocha = require('gulp-mocha');
 
 var paths = {
-    scripts: ['vendor/**/*.js', 'lib/**/*.js', 'src/**/*.js'],
+    scripts: ['vendor/**/*.js', 'lib/**/*.js', 'src/Boot.js', 'src/Preloader.js', 'src/MainMenu.js', 'src/Options.js', 'src/Credits.js', 'src/Game', 'src/Gameover.js', 'src/LevelUp.js'],
     images: ['img/**/*', 'assets/images/**/*', 'icons/**/*'],
     audio: 'assets/bgm/**/*',
     css: ['css/**/*.css', 'assets/style/**/*.css']
