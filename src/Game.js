@@ -287,13 +287,13 @@ Game.prototype = {
     //this will be the life bar
     var lifeDistance = this.game.width/11.42
     this.life1 = game.add.sprite(lifeDistance, this.game.height/37.5, 'life');
-    this.life1.scale.setTo(.35);
+    this.life1.scale.setTo(.20);
     this.life1.fixedToCamera = true;
     this.life2 = game.add.sprite(lifeDistance + this.game.width/20, this.game.height/37.5, 'life');
-    this.life2.scale.setTo(.35);
+    this.life2.scale.setTo(.20);
     this.life2.fixedToCamera = true;
     this.life3 = game.add.sprite(lifeDistance + this.game.width/10, this.game.height/37.5, 'life');
-    this.life3.scale.setTo(.35);
+    this.life3.scale.setTo(.20);
     this.life3.fixedToCamera = true;
 
 
