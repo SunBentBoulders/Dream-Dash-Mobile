@@ -3,10 +3,13 @@ var GameOver = function(game) {};
 GameOver.prototype = {
 
   preload: function () {
+    //loads up buttons for game over screen
+    // game.load.image('Main Menu', 'assets/buttons/mainMenu.png');
+    // game.load.image('Play Again', 'assets/buttons/playAgain.png');
     this.optionCount = 1;
   },
 
-  addMenuOption: function(text, callback) {
+  addDesktopMenuOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 +'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', srokeThickness: 4};
     var txt = this.game.add.text(this.game.world.centerX, (this.optionCount * this.game.height/7.5) + this.game.height/2, text, optionStyle);
     txt.anchor.setTo(0.5);
@@ -34,19 +37,38 @@ GameOver.prototype = {
     this.optionCount ++;
   },
 
+  addMobileMenuOption: function(buttonName, callback){
+    var button = this.game.add.button(this.game.world.centerX, (this.optionCount * this.game.height/7.5) + this.game.height/2, buttonName);
+    button.inputEnabled = true;
+    button.events.onInputDown.add(callback, this);
+
+    optionCount++;
+  },
+
   create: function (game) {
     game.add.sprite(0, 0, 'gameover-bg');
     var titleStyle = { font: 'bold ' +  game.height/10 + 'pt TheMinion', fill: '#FDFFB5', align: 'center'};
     var text = game.add.text(game.world.centerX, game.height/6, "Game Over", titleStyle);
     text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     text.anchor.set(0.5);
-    this.addMenuOption('Play Again', function (e) {
-      // need to add game state rather than start game state
-      game.state.add('game', Game, true);
-    });
-    this.addMenuOption('Main Menu', function (e) {
-      game.state.start("MainMenu");
-    })
+
+
+    if(game.device.desktop){
+      this.addDesktopMenuOption('Play Again', function (e) {
+        // need to add game state rather than start game state
+        game.state.add('game', Game, true);
+      });
+      this.addDesktopMenuOption('Main Menu', function (e) {
+        game.state.start("MainMenu");
+      });
+    } else {
+      this.addMobileMenuOption('Play Again', function (e) {
+        game.state.add('game', Game, true);
+      });
+      this.addMobileMenuOption('Main Menu', function(e){
+        game.state.start('MainMenu');
+      });
+    }
   }
 };
 

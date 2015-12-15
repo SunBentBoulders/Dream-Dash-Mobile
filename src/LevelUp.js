@@ -11,6 +11,7 @@ LevelUp.prototype = {
 
 	preload: function(game){
 		game.load.image('clock', 'img/clock.png');
+		//loads up buttons for mobile devices
 		// game.load.image('Next Level', 'assets/buttons/nextLevel.png');
 		// game.load.image('Main Menu', 'assets/buttons/mainMenu.png');
 		//stuff here
@@ -49,7 +50,8 @@ LevelUp.prototype = {
 				game.state.start('MainMenu');
 			});
 		}
-
+		//=========================================
+		//makes clocks pop out on game win
 	    emitter = game.add.emitter(game.world.centerX, 200, 200);
 	    emitter.makeParticles('clock');
 	    emitter.start(true, 4000, null, totalScore);
