@@ -22,8 +22,8 @@
 ## Usage
 
 Options for playing Dream Dash include:
-	1. Download from the Apple App Store
-	1. Download from the Google Play Store
+	1. Download from [Apple App Store](https://www.securityfederalbank.com/images/related-images/AppStore_BADGE.png)
+	1. Download from [Google Play ](http://static1.squarespace.com/static/5109335ae4b04ea0ec18c6b9/t/5255bec1e4b006abe8bb5821/1381351107444/GooglePlay_appStore.png)
 	1. Play online [here](#)
 	1. Clone this repo to your local machine and run through localhost
 
