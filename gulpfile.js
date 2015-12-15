@@ -5,7 +5,8 @@ var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
-var changed = require('gulp-changed');
+var cssmin = require('gulp-minify-css');
+// var changed = require('gulp-changed');
 //var mocha = require('gulp-mocha');
 
 var paths = {
@@ -36,10 +37,16 @@ gulp.task('scripts', function(){
 });
 
 //TASK to Minify All Images
-gulp.task('minifyimgs', function(){
+gulp.task('minimgs', function(){
     return gulp.src(paths.images)
         .pipe(imagemin({optimizationLevel: 5}))
         .pipe(gulp.dest('build/images'));
+});
+
+//TASK to Minify All Images
+gulp.task('mincss', function(){
+    return gulp.src(paths.css)
+        .pipe(mincss({}))
 });
 
 /*TASK to Minify All Audio, not sure which gulp plugin to use for this yet
@@ -63,4 +70,4 @@ END OF MOCHA TEST-RELATED
 */
 
 
-gulp.task('default', ['watch', 'scripts', 'minifyimgs']);
+gulp.task('default', ['watch', 'scripts', 'mincss', 'minimgs']);
