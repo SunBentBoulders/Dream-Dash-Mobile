@@ -65,7 +65,7 @@ Boot.prototype = {
 
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
         if (window.deviceAssetSize === 'desktop') {
-            game.load.image('stars', 'assets/images/2.jpg');
+            game.load.image('stars', 'assets/images/2.png');
         } else if (window.deviceAssetSize === '1024x768') {
             game.load.image('stars', 'assets/images/2_1024x768.png');
         } else if (window.deviceAssetSize === '960x640') {
