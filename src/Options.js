@@ -1,6 +1,8 @@
 var Options = function(game) {
   var backButton;
   var optionCount;
+  var playMusic;
+  var muteMusic;
 };
 
 Options.prototype = {
@@ -11,8 +13,13 @@ Options.prototype = {
     startX: "center"
   },
 
-  preload: function(){
-    // game.load.image('< Back', 'assets/buttons/back.png');
+  preload: function(game){
+    if(!game.device.desktop){
+      game.load.image('< Back', 'assets/buttons/backButton.png');
+      game.load.image('Mute Music', 'assets/buttons/muteMusicButton.png');
+      game.load.image('Play Music', 'assets/buttons/playMusicButton.png');
+      game.load.image('Options Title Button', 'assets/buttons/optionsTitleButton.png');
+    }
   },
 
 
@@ -27,7 +34,7 @@ Options.prototype = {
     optionCount = 1;
   },
 
-  addMenuOption: function(text, callback) {
+  addDesktopMenuOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'black', align: 'center', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
     var txt = this.game.add.text(this.game.world.centerX, (optionCount * this.game.height/7.5) + this.game.world.centerY, text, optionStyle);
     txt.anchor.setTo(.5, 2);
@@ -83,34 +90,48 @@ Options.prototype = {
 
     optionCount ++;
   },
-  addMobileBackButton: function(buttonName, callback){
+  addMobileBackOption: function(buttonName, callback){
     var button = this.game.add.button(this.game.width/30, ((optionCount + 1) * this.game.height/7.5) + this.game.height/2, buttonName);
+    button.inputEnabled = true;
+    button.events.onInputDown.add(callback, this);
+  },
+
+  addMobileMenuOption: function(buttonName, callback){
+     var button = this.game.add.button(this.game.width/3.5, (optionCount * this.game.height/35) + this.game.world.centerY, buttonName);
     button.inputEnabled = true;
     button.events.onInputDown.add(callback, this);
   },
 
   create: function (game) {
     // var playSound = gameOptions.playSound,
-        var playMusic = gameOptions.playMusic;
+    var playMusic = gameOptions.playMusic;
 
     game.add.sprite(0, 0, 'options-bg');
-    game.add.existing(this.titleText);
 
-    this.addMenuOption(playMusic ? 'Mute Music' : 'Play Music', function (target) {
-      playMusic = !playMusic;
-      target.text = playMusic ? 'Mute Music' : 'Play Music';
-      music.volume = playMusic ? 1 : 0;
-    });
-
-    // this.addMenuOption(playSound ? 'Mute Sound' : 'Play Sound', function (target) {
-    //   playSound = !playSound;
-    //   target.text = playSound ? 'Mute Sound' : 'Play Sound';
-    // });
     if(game.device.desktop){
+      game.add.existing(this.titleText);
+
+      this.addDesktopMenuOption(playMusic ? 'Mute Music' : 'Play Music', function (target) {
+        playMusic = !playMusic;
+        target.text = playMusic ? 'Mute Music' : 'Play Music';
+        music.volume = playMusic ? 1 : 0;
+      });
+
       this.addDesktopBackOption('< Back', function () {
         game.state.start("MainMenu");
       });
-    } else {
+    }else{
+      var optionTitle = game.add.sprite(game.width/2, game.height/6, 'Options Title Button');
+
+      optionTitle.anchor.setTo(0.5);
+    
+      this.addMobileMenuOption(playMusic ? 'Mute Music' : 'Play Music', function(target){
+          playMusic = !playMusic;
+          target.key = playMusic ? 'Mute Music' : 'Play Music';
+          music.volume = playMusic ? 1 : 0;
+          console.log(target.key)
+        });
+
       this.addMobileBackOption('< Back', function () {
         game.state.start("MainMenu");
       });

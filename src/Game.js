@@ -50,11 +50,11 @@ Game.prototype = {
   preload: function (game) {
     //checks to see if vibrate is available, and if so, activates it
     if("vibrate" in window.navigator) {
-        console.log('vibrate is on');
+        // console.log('vibrate is on');
     }
 
     // load the rest of the game assets. see preload gamestate for others
-    game.load.image('clouds', 'img/cloud.png');
+    // game.load.image('clouds', 'img/cloud.png');
     game.load.image('enemy', 'img/friendlyGhost.png');
     game.load.image('life', 'img/candle.png');
     // each sprite image is 32px wide by 48px tall in spritesheet
@@ -203,7 +203,7 @@ Game.prototype = {
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var scaleTween = game.add.tween(token.scale);
         var timeToTween = 10000;
-        scaleTween.to({x: 4, y: 4}, timeToTween, Phaser.Easing.Exponential.In, true);
+        scaleTween.to({x: 2, y: 2}, timeToTween, Phaser.Easing.Exponential.In, true);
         // applies to tokens that start on left of screen
 
         // add tween for tokens to move to edges of screen as they get bigger, helps create illusion of perspective
@@ -276,11 +276,12 @@ Game.prototype = {
     // this.scoreText.fixedToCamera = true;
     if (window.deviceAssetSize === 'desktop') {
         this.scoreSprite = game.add.sprite(this.player.x-this.game.width/1.937, this.game.height/37.5,'token');
+        this.leftToCollect = game.add.text(this.player.x-this.game.width/2.3, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/17 + 'px', fill:'#fff' });
     } else {
         this.scoreSprite = game.add.sprite(this.player.x-this.game.width/2, this.game.height/30,'token');
+        this.leftToCollect = game.add.text(this.player.x-this.game.width/2.2, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/17 + 'px', fill:'#fff' });
     }
     this.scoreSprite.fixedToCamera = true;
-    this.leftToCollect = game.add.text(this.player.x-this.game.width/2.10526315789, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/18.75 + 'px', fill:'#fff' });
     this.leftToCollect.fixedToCamera = true;
     //=====================================================
 
@@ -315,7 +316,8 @@ Game.prototype = {
     pause.inputEnabled = true;
     pause.events.onInputUp.add(function(){
         //this is the game paused text
-        pausedText = game.add.text(game.camera.x + 400,game.height/2, "Paused",{ font: '200px Arial', fill: '#fff' });
+        console.log("game.camera", game.camera)
+        pausedText = game.add.text(game.camera.view.centerX, game.height/2, "Paused",{ font: '200px Arial', fill: '#fff' });
         pausedText.anchor.setTo(0.5,0.5);
         game.paused = true;
     });
@@ -405,7 +407,7 @@ Game.prototype = {
 
     //this is here to simulate winning the game, need to go to game.state(win) once set up
     if(this.tokensToCollect + this.collectedTokens === this.collectedTokens){
-        console.log('you win');
+        // console.log('you win');
         //calls function to increase the level
         this.levelUp();
         // this.gameOver();
@@ -439,19 +441,19 @@ Game.prototype = {
     this.loseLife();
   },
 
-  // this function for debugging only
-  render: function(game) {
-    // this.game.debug.bodyInfo(this.player, 32, 32);
-    this.game.debug.body(this.player);
-    this.game.enemies.forEachAlive(this.renderGroup, this);
-    this.game.tokensToCollect.forEachAlive(this.renderGroup, this);
-    this.game.livesToCollect.forEachAlive(this.renderGroup, this);
-  },
+  // // this function for debugging only
+  // render: function(game) {
+  //   // this.game.debug.bodyInfo(this.player, 32, 32);
+  //   this.game.debug.body(this.player);
+  //   this.game.enemies.forEachAlive(this.renderGroup, this);
+  //   this.game.tokensToCollect.forEachAlive(this.renderGroup, this);
+  //   this.game.livesToCollect.forEachAlive(this.renderGroup, this);
+  // },
 
-  // this function for debugging groups of sprites only
-  renderGroup: function(member) {
-    this.game.debug.body(member);
-  },
+  // // this function for debugging groups of sprites only
+  // renderGroup: function(member) {
+  //   this.game.debug.body(member);
+  // },
 
   collectLife: function(player, life){
     life.kill();

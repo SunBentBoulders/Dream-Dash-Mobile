@@ -38,9 +38,9 @@ Preloader.prototype = {
         //loads images first, based on aspect ratio
         if (window.deviceAssetSize === 'desktop') {
             game.load.image('menu-bg', 'assets/images/BigAutumnGhost.png');
-            game.load.image('gameover-bg', 'assets/images/BigSummer.jpg');
-            game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1.jpg');
-            game.load.image('options-bg', 'assets/images/options-bg.jpg');
+            game.load.image('gameover-bg', 'assets/images/BigSummer.png');
+            game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1.png');
+            game.load.image('options-bg', 'assets/images/options-bg.png');
         } else if (window.deviceAssetSize === '1024x768') {
             game.load.image('menu-bg', 'assets/images/BigAutumnGhost1024x768.png');
             game.load.image('gameover-bg', 'assets/images/BigSummer1024x768.png');
@@ -67,6 +67,14 @@ Preloader.prototype = {
              game.load.image('game-bg', 'assets/images/creepybg-scrollwidth-1_1408x792.png');
              game.load.image('options-bg', 'assets/images/options-bg1408x792.png');
         }
+
+        //loads the button images for mobile
+        game.load.image('Title', 'assets/buttons/dreamDashButton120pt.png');
+        game.load.image('Start', 'assets/buttons/startButton85pt.png');
+        game.load.image('Options', 'assets/buttons/optionsButton85pt.png');
+        game.load.image('Credits', 'assets/buttons/creditsButton85pt.png');
+        // game.load.image()
+
 
         game.load.spritesheet('dude', 'img/dude.png', 32, 48);
 
