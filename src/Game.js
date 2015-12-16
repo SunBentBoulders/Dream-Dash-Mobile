@@ -439,19 +439,19 @@ Game.prototype = {
     this.loseLife();
   },
 
-  // this function for debugging only
-  render: function(game) {
-    // this.game.debug.bodyInfo(this.player, 32, 32);
-    this.game.debug.body(this.player);
-    this.game.enemies.forEachAlive(this.renderGroup, this);
-    this.game.tokensToCollect.forEachAlive(this.renderGroup, this);
-    this.game.livesToCollect.forEachAlive(this.renderGroup, this);
-  },
+  // // this function for debugging only
+  // render: function(game) {
+  //   // this.game.debug.bodyInfo(this.player, 32, 32);
+  //   this.game.debug.body(this.player);
+  //   this.game.enemies.forEachAlive(this.renderGroup, this);
+  //   this.game.tokensToCollect.forEachAlive(this.renderGroup, this);
+  //   this.game.livesToCollect.forEachAlive(this.renderGroup, this);
+  // },
 
-  // this function for debugging groups of sprites only
-  renderGroup: function(member) {
-    this.game.debug.body(member);
-  },
+  // // this function for debugging groups of sprites only
+  // renderGroup: function(member) {
+  //   this.game.debug.body(member);
+  // },
 
   collectLife: function(player, life){
     life.kill();
