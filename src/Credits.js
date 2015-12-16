@@ -9,6 +9,12 @@ Credits.prototype = {
     this.optionCount = 1;
     this.creditCount = 0;
     this.game.load.image('< Back', 'assets/buttons/backButton.png');
+    this.game.load.image('shanna name', 'assets/buttons/shannaButton.png');
+    this.game.load.image('shanna job', 'assets/buttons/physicsEngineerButton.png'); 
+    this.game.load.image('darryl name', 'assets/buttons/darrylButton.png'); 
+    this.game.load.image('darryl job' , 'assets/buttons/mechanicsEngineerButton.png') 
+    this.game.load.image('jazz name', 'assets/buttons/jazzButton.png'); 
+    this.game.load.image('jazz job' , 'assets/buttons/stateEngineerButton.png'); 
 
   },
 
@@ -28,6 +34,17 @@ Credits.prototype = {
     taskText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
     this.add.tween(authorText).to( { y: -300 }, 20000, Phaser.Easing.Cubic.Out, true, this.creditCount * 5000);
     this.add.tween(taskText).to( { y: -200 }, 20000, Phaser.Easing.Cubic.Out, true, this.creditCount * 5000);
+    this.creditCount ++;
+  },
+
+  addMobileCreditButton: function(task, author){
+    var authorButton = this.game.add.button(this.game.world.centerX, this.game.height/.667, author);
+    var taskButton = this.game.add.button(this.game.world.centerX, this.game.height/.667, task);
+    authorButton.anchor.setTo(0.5);
+    taskButton.anchor.setTo(0.5);
+
+     this.add.tween(authorButton).to( { y: -300 }, 20000, Phaser.Easing.Cubic.Out, true, this.creditCount * 5000);
+    this.add.tween(taskButton).to( { y: -200 }, 20000, Phaser.Easing.Cubic.Out, true, this.creditCount * 5000);
     this.creditCount ++;
   },
 
@@ -78,18 +95,19 @@ Credits.prototype = {
 
     var bg = this.game.add.sprite(0, 0, 'gameover-bg');
 
-
-    this.addCredit('Physics Engineer', 'Shanna Sullivan');
-    this.addCredit('State Engineer', 'Jazz Lyles');
-    this.addCredit('Mechanics Engineer', 'Darryl Nunn');
-    this.addCredit('Phaser.io & Cocoon', 'Powered By');
-    this.addCredit('for playing', 'Thank you');
-
     if(this.game.device.desktop){
+      this.addCredit('Physics Engineer', 'Shanna Sullivan');
+      this.addCredit('State Engineer', 'Jazz Lyles');
+      this.addCredit('Mechanics Engineer', 'Darryl Nunn');
+      this.addCredit('Phaser.io & Cocoon', 'Powered By');
+      this.addCredit('for playing', 'Thank you');
       this.addDesktopMenuOption('< Back', function (e) {
         this.game.state.start("MainMenu");
      });
     } else {
+      this.addMobileCreditButton('jazz job', 'jazz name');
+      this.addMobileCreditButton('darryl job', 'darryl name');
+      this.addMobileCreditButton('shanna job', 'shanna name');
       this.addMobileMenuOption('< Back', function (){
         this.game.state.start("MainMenu");
       })
