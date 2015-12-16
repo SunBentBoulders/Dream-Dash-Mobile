@@ -86,7 +86,7 @@ MainMenu.prototype = {
 
     //checks to see which buttons to load
     if(!game.device.desktop){
-      game.add.sprite(game.world.centerX/2, game.height/6, 'Title')
+      game.add.sprite(window.innerWidth/3, game.height/9, 'Title')
       optionCount = 1;
       //loads actual buttons
       startButton = this.addMobileMenuOption('Start', function () {

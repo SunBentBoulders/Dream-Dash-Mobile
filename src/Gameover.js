@@ -7,7 +7,7 @@ GameOver.prototype = {
     if(!game.device.desktop){
       game.load.image('Main Menu', 'assets/buttons/mainMenuButton.png');
       game.load.image('Play Again', 'assets/buttons/playAgainButton.png');
-      game.load.image('Game Over Title', 'assets/buttons/gameOverButton.png');
+      game.load.image('Game Over Title', 'assets/buttons/gameOverTitleButton.png');
     }
     this.optionCount = 1;
   },
@@ -65,11 +65,11 @@ GameOver.prototype = {
         game.state.start("MainMenu");
       });
     } else {
-      game.add.sprite(game.world.centerX/2, game.height/6, "Game Over Title");
+      game.add.sprite(window.innerWidth/3, game.height/6, "Game Over Title");
       this.addMobileMenuOption('Play Again', function (e) {
         game.state.add('game', Game, true);
       });
-      this.addMobileMenuOption('Main Menu', function(e){
+      this.addMobileMenuOption('Main Menu', function (e){
         game.state.start('MainMenu');
       });
     }

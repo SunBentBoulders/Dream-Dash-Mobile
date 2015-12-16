@@ -97,7 +97,7 @@ Options.prototype = {
   },
 
   addMobileMenuOption: function(buttonName, callback){
-     var button = this.game.add.button(this.game.world.centerX/2, (optionCount * this.game.height/7.5) + this.game.world.centerY, buttonName);
+     var button = this.game.add.button(this.game.width/3.5, (optionCount * this.game.height/35) + this.game.world.centerY, buttonName);
     button.inputEnabled = true;
     button.events.onInputDown.add(callback, this);
   },
@@ -121,7 +121,9 @@ Options.prototype = {
         game.state.start("MainMenu");
       });
     }else{
-      game.add.sprite(game.world.centerX/2, game.height/6, 'Options Title Button')
+      var optionTitle = game.add.sprite(game.width/2, game.height/6, 'Options Title Button');
+
+      optionTitle.anchor.setTo(0.5);
     
       this.addMobileMenuOption(playMusic ? 'Mute Music' : 'Play Music', function(target){
           playMusic = !playMusic;

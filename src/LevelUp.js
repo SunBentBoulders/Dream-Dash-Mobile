@@ -4,6 +4,7 @@ var LevelUp = function(game){
 	var optionCount;
 	var nextLevelButton;
 	var mainMenuButton;
+	// var button;
 	// totalScore;
 };
 
@@ -15,60 +16,11 @@ LevelUp.prototype = {
 		if(!game.device.desktop){
 		  game.load.image('Next Level', 'assets/buttons/nextLevelButton.png');
 		  game.load.image('Main Menu', 'assets/buttons/mainMenuButton.png');
-		  game.load.image('You Woke Up Title', 'assets/buttons/youWokeUpTitleButton.png');
+		  game.load.image('You Woke Up Title', 'assets/buttons/youWokeupButton.png');
 		}
 	//stuff here
 	},
 
-	create: function(game){
-		this.stage.backgroundColor = 0x4B0082
-		//stuff here
-		if(game.device.desktop){
-			this.titleText = game.add.text(game.width/2, game.height/4, "You Woke Up!", {
-			  font: 'bold ' + game.width/13.33 + 'pt TheMinion',
-			  fill: '#7CCD7C',
-			  align: 'center'
-			});
-			this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
-			this.titleText.anchor.set(0.5);
-			optionCount = 1;
-			//========================================
-			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/8, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/40 + 'pt TheMinion',
-			  fill: '#c37c01',
-			  align: 'center'
-			});
-			this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
-			this.showScore.anchor.set(0.5);
-		} else {
-			game.add.sprite(game.width/2, game.height/4, 'You Woke Up Title');
-		}
-
-		//======================================
-		if(game.device.desktop){
-		    this.addDesktopMenuOption('Next Level', function () {
-		      this.startNextLevel();
-		    });
-			this.addDesktopMenuOption('Main Menu', function () {
-		      game.state.start("MainMenu");
-		    });
-		} else {
-			this.addMobileMenuOption('Next Level', function(){
-				this.startNextLevel();
-			});
-			this.addMobileMenuOption('Main Menu', function(){
-				game.state.start('MainMenu');
-			});
-		}
-		//=========================================
-		//makes clocks pop out on game win
-	    emitter = game.add.emitter(game.world.centerX, 200, 200);
-	    emitter.makeParticles('clock');
-	    emitter.start(true, 4000, null, totalScore);
-	    game.time.events.add(4000, this.destroyEmitter, this);
-
-
-
-	},
 
 	destroyEmitter: function(){
 		emitter.destroy();
@@ -107,11 +59,63 @@ LevelUp.prototype = {
 	},
 
 	addMobileMenuOption: function(buttonName, callback){
-		var button = this.game.add.button(this.game.width/3, (optionCount * this.game.height/7.5) + this.game.height/2.2, buttonName);
+
+		var button = this.game.add.button(window.innerWidth/2, window.innerHeight/4 + (100 * optionCount), buttonName);
+		// button.anchor.setTo(0.5)
 		button.inputEnabled = true;
 		button.events.onInputDown.add(callback, this);
+		console.log(optionCount)
 
 		optionCount++;
-	}
+	},
 
+	create: function(game){
+		this.stage.backgroundColor = 0x4B0082
+		//stuff here
+		if(game.device.desktop){
+			this.titleText = game.add.text(game.width/2, game.height/4, "You Woke Up!", {
+			  font: 'bold ' + game.width/13.33 + 'pt TheMinion',
+			  fill: '#7CCD7C',
+			  align: 'center'
+			});
+			this.titleText.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
+			this.titleText.anchor.set(0.5);
+			optionCount = 1;
+			//========================================
+			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/8, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/40 + 'pt TheMinion',
+			  fill: '#c37c01',
+			  align: 'center'
+			});
+			this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
+			this.showScore.anchor.set(0.5);
+		} else {
+			game.add.sprite(window.innerWidth/4, game.height/4, 'You Woke Up Title');
+		}
+
+		//======================================
+		if(game.device.desktop){
+		    this.addDesktopMenuOption('Next Level', function () {
+		      this.startNextLevel();
+		    });
+			this.addDesktopMenuOption('Main Menu', function () {
+		      game.state.start("MainMenu");
+		    });
+		} else {
+			this.addMobileMenuOption('Next Level', function (){
+				this.startNextLevel();
+			});
+			this.addMobileMenuOption('Main Menu', function (){
+				game.state.start('MainMenu');
+			});
+		}
+		//=========================================
+		//makes clocks pop out on game win
+	    emitter = game.add.emitter(game.world.centerX, 200, 200);
+	    emitter.makeParticles('clock');
+	    emitter.start(true, 4000, null, totalScore);
+	    game.time.events.add(4000, this.destroyEmitter, this);
+
+
+
+	}
 };
