@@ -60,8 +60,9 @@ gulp.task('minifyaudio', function(){
 
 /* START of MOCHA TEST-RELATED
 gulp.task('mocha', function(){
-    return gulp.src(['src/*.js'], {read: false})
-        .pipe(mocha({reporter: 'list'}))
+    return gulp.src(['src/*.js'], {read: false}) //read option "false" allows files to be piped to mocha first
+        .pipe(mocha({reporter: 'nyan'}))
+        //reporter option "nyan" is just one of many we can use
         .on('error', gutil.log);
 });
 
