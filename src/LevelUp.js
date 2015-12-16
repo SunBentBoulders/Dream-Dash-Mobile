@@ -12,8 +12,12 @@ LevelUp.prototype = {
 
 	preload: function(game){
 		game.load.image('clock', 'img/clock.png');
-		//loads up buttons for mobile devices
-		if(!game.device.desktop){
+		//loads up buttons for mobile devices, smaller buttons for 960x640
+		if (window.deviceAssetSize ==='960x640') {
+		  game.load.image('Next Level', 'assets/buttons/nextLevelButton40pt.png');
+		  game.load.image('Main Menu', 'assets/buttons/mainMenuButton40pt.png');
+		  game.load.image('You Woke Up Title', 'assets/buttons/youWokeupButton60pt.png');
+		} else if(!game.device.desktop){
 		  game.load.image('Next Level', 'assets/buttons/nextLevelButton.png');
 		  game.load.image('Main Menu', 'assets/buttons/mainMenuButton.png');
 		  game.load.image('You Woke Up Title', 'assets/buttons/youWokeupButton.png');
@@ -89,7 +93,9 @@ LevelUp.prototype = {
 			this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 			this.showScore.anchor.set(0.5);
 		} else {
-			game.add.sprite(window.innerWidth/4, game.height/4, 'You Woke Up Title');
+			console.log("window.innerWidth/2", window.innerWidth/2)
+			var titleText = game.add.sprite(window.innerWidth/2, game.height/4, 'You Woke Up Title');
+			// titleText.anchor.setTo(0.5)
 			//========================================
 			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/4, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/30 + 'pt Arial',
 			  fill: '#c37c01',
