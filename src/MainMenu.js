@@ -73,7 +73,7 @@ MainMenu.prototype = {
   },
 
   create: function (game) {
-    
+
 
     if (music.name !== "bgm" && playMusic) {
       music.stop();
@@ -86,17 +86,18 @@ MainMenu.prototype = {
 
     //checks to see which buttons to load
     if(!game.device.desktop){
-      game.add.sprite(window.innerWidth/3, game.height/9, 'Title')
+      var title = game.add.sprite(game.width/2, game.height/9, 'Title')
+      title.anchor.setTo(0.5);
       optionCount = 1;
       //loads actual buttons
       startButton = this.addMobileMenuOption('Start', function () {
-         game.state.start('Game'); 
+         game.state.start('Game');
        });
       optionsButton = this.addMobileMenuOption('Options', function () {
-         game.state.start('Options'); 
+         game.state.start('Options');
        });
       creditsButton = this.addMobileMenuOption('Credits', function () {
-         game.state.start('Credits'); 
+         game.state.start('Credits');
        });
     } else {
       game.add.existing(this.titleText);
