@@ -64,7 +64,7 @@ LevelUp.prototype = {
 
 	addMobileMenuOption: function(buttonName, callback){
 
-		var button = this.game.add.button(this.game.world.centerX, window.innerHeight + (100 * optionCount), buttonName);
+		var button = this.game.add.button(this.game.width/2, (optionCount * this.game.height/7.5) + this.game.height/2.2, buttonName);
 		button.anchor.setTo(0.5)
 		button.inputEnabled = true;
 		button.events.onInputDown.add(callback, this);
