@@ -58,7 +58,7 @@ Game.prototype = {
     game.load.image('enemy', 'img/friendlyGhost.png');
     game.load.image('life', 'img/candle.png');
     // each sprite image is 32px wide by 48px tall in spritesheet
-    game.load.spritesheet('dude', 'img/dude.png', 32, 48);
+    game.load.spritesheet('dude', 'img/dude.png', 86, 129);
     game.load.image('pause', 'img/pause.png');
     game.load.image('token', 'img/clock.png');
   },
@@ -122,18 +122,18 @@ Game.prototype = {
 
     // add player to game
     this.player = game.add.sprite(game.scrollableWidth/2, 0, 'dude');
-    this.player.scale.setTo(1.5, 1.5);
+    // this.player.scale.setTo(1.5, 1.5);
     // set initial location of player in the top center of screen
     this.player.anchor.setTo(.5, 1);
     // enable physics on the player
     game.physics.arcade.enable(this.player);
     // set the bounding box size of the physics body for collision detection
     this.player.enableBody = true;
-    this.player.body.width = 24;
-    this.player.body.height = 46;
+    this.player.body.width = 45;
+    this.player.body.height = 95;
     //  Player physics properties. Give the little guy a slight bounce.
     this.player.body.collideWorldBounds = true;
-    this.player.body.bounce.y = 0.3;
+    this.player.body.bounce.y = 0.4;
     this.player.body.bounce.x = 0.2;
     this.player.body.gravity.y = 300;
     //===================================================
@@ -239,7 +239,7 @@ Game.prototype = {
         life.scale.setTo(0);
         life.anchor.setTo(.5);
         life.enableBody = true;
-        life.body.setSize(30, 90);
+        life.body.setSize(50, 300);
 
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var scaleTween = game.add.tween(life.scale);
@@ -267,8 +267,8 @@ Game.prototype = {
 
 
     // Our two animations, walking left and right.
-    this.player.animations.add('left', [0, 1, 2, 3, 2, 1], 10, true);
-    this.player.animations.add('right', [5, 6, 7, 8, 7, 6], 10, true);
+    this.player.animations.add('left', [0, 1, 2, 3, 2, 1], 12, true);
+    this.player.animations.add('right', [5, 6, 7, 8, 7, 6], 12, true);
 
     // The score=============================================
     // will add this back once level up game state is made
@@ -285,15 +285,15 @@ Game.prototype = {
     //=====================================================
 
     //this will be the life bar
-    var lifeDistance = this.game.width/11.42
+    var lifeDistance = this.game.width/8
     this.life1 = game.add.sprite(lifeDistance, this.game.height/37.5, 'life');
-    this.life1.scale.setTo(.35);
+    this.life1.scale.setTo(.20);
     this.life1.fixedToCamera = true;
     this.life2 = game.add.sprite(lifeDistance + this.game.width/20, this.game.height/37.5, 'life');
-    this.life2.scale.setTo(.35);
+    this.life2.scale.setTo(.20);
     this.life2.fixedToCamera = true;
     this.life3 = game.add.sprite(lifeDistance + this.game.width/10, this.game.height/37.5, 'life');
-    this.life3.scale.setTo(.35);
+    this.life3.scale.setTo(.20);
     this.life3.fixedToCamera = true;
 
 

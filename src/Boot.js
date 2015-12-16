@@ -28,7 +28,7 @@ Boot.prototype = {
 
         if (this.game.device.desktop) {
             this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            this.game.scale.setMinMax(400, 300, 1400, 1050);
+            this.game.scale.setMinMax(400, 300, 800, 600);
             this.game.scale.pageAlignHorizontally = true;
             this.game.scale.pageAlignVertically = true;
             this.game.scale.updateLayout(true);
