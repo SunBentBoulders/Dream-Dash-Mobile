@@ -68,6 +68,14 @@ Preloader.prototype = {
              game.load.image('options-bg', 'assets/images/options-bg1408x792.png');
         }
 
+        //loads the button images for mobile
+        game.load.image('Title', 'assets/buttons/dreamDashButton120pt.png');
+        game.load.image('Start', 'assets/buttons/startButton85pt.png');
+        game.load.image('Options', 'assets/buttons/optionsButton85pt.png');
+        game.load.image('Credits', 'assets/buttons/creditsButton85pt.png');
+        // game.load.image()
+
+
         game.load.spritesheet('dude', 'img/dude.png', 32, 48);
 
         //loads audio

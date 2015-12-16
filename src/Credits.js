@@ -1,10 +1,14 @@
-var Credits = function(game) {};
+var Credits = function(game) {
+
+  var backButton;
+};
 
 Credits.prototype = {
 
   preload: function () {
     this.optionCount = 1;
     this.creditCount = 0;
+    this.game.load.image('< Back', 'assets/buttons/backButton.png');
 
   },
 
@@ -27,7 +31,7 @@ Credits.prototype = {
     this.creditCount ++;
   },
 
-  addMenuOption: function(text, callback) {
+  addDesktopMenuOption: function(text, callback) {
     var optionStyle = { font: this.game.height/20 + 'pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', strokeThickness: 4};
     var txt = this.game.add.text(this.game.width/30, ((this.optionCount + 2) * this.game.height/7.5) + this.game.height/2, text, optionStyle);
     txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
@@ -55,6 +59,13 @@ Credits.prototype = {
     this.optionCount ++;
   },
 
+  addMobileMenuOption: function(buttonName, callback){
+    var button = this.game.add.button(this.game.width/30, ((this.optionCount + 1) * this.game.height/7.5) + this.game.height/2, buttonName);
+    button.inputEnabled = true;
+    button.events.onInputDown.add(callback, this);
+
+  },
+
   create: function () {
 
     this.game.stage.disableVisibilityChange = true;
@@ -66,14 +77,23 @@ Credits.prototype = {
     }
 
     var bg = this.game.add.sprite(0, 0, 'gameover-bg');
+
+
     this.addCredit('Physics Engineer', 'Shanna Sullivan');
     this.addCredit('State Engineer', 'Jazz Lyles');
     this.addCredit('Mechanics Engineer', 'Darryl Nunn');
     this.addCredit('Phaser.io & Cocoon', 'Powered By');
     this.addCredit('for playing', 'Thank you');
-    this.addMenuOption('< Back', function (e) {
-      this.game.state.start("MainMenu");
-    });
+
+    if(this.game.device.desktop){
+      this.addDesktopMenuOption('< Back', function (e) {
+        this.game.state.start("MainMenu");
+     });
+    } else {
+      this.addMobileMenuOption('< Back', function (){
+        this.game.state.start("MainMenu");
+      })
+    }
 
     this.game.add.tween(bg).to({alpha: 0}, 20000, Phaser.Easing.Cubic.Out, true, 10000);
   }
