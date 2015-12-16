@@ -58,7 +58,7 @@ Game.prototype = {
     game.load.image('enemy', 'img/friendlyGhost.png');
     game.load.image('life', 'img/candle.png');
     // each sprite image is 32px wide by 48px tall in spritesheet
-    game.load.spritesheet('dude', 'img/dude.png', 32, 48);
+    game.load.spritesheet('dude', 'img/dude.png', 86, 129);
     game.load.image('pause', 'img/pause.png');
     game.load.image('token', 'img/clock.png');
   },
@@ -129,11 +129,11 @@ Game.prototype = {
     game.physics.arcade.enable(this.player);
     // set the bounding box size of the physics body for collision detection
     this.player.enableBody = true;
-    this.player.body.width = 24;
-    this.player.body.height = 46;
+    this.player.body.width = 45;
+    this.player.body.height = 95;
     //  Player physics properties. Give the little guy a slight bounce.
     this.player.body.collideWorldBounds = true;
-    this.player.body.bounce.y = 0.3;
+    this.player.body.bounce.y = 0.4;
     this.player.body.bounce.x = 0.2;
     this.player.body.gravity.y = 300;
     //===================================================
@@ -267,8 +267,8 @@ Game.prototype = {
 
 
     // Our two animations, walking left and right.
-    this.player.animations.add('left', [0, 1, 2, 3, 2, 1], 10, true);
-    this.player.animations.add('right', [5, 6, 7, 8, 7, 6], 10, true);
+    this.player.animations.add('left', [0, 1, 2, 3, 2, 1], 12, true);
+    this.player.animations.add('right', [5, 6, 7, 8, 7, 6], 12, true);
 
     // The score=============================================
     // will add this back once level up game state is made
@@ -435,7 +435,7 @@ Game.prototype = {
     // player.animations.paused = true;
 
     // make player "react" to the collision
-    player.body.velocity.y = -200;
+    player.body.velocity.y = -300;
     this.loseLife();
   },
 
