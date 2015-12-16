@@ -135,7 +135,7 @@ Game.prototype = {
     this.player.body.collideWorldBounds = true;
     this.player.body.bounce.y = 0.4;
     this.player.body.bounce.x = 0.2;
-    this.player.body.gravity.y = 300;
+    this.player.body.gravity.y = 500;
     //===================================================
 
 
