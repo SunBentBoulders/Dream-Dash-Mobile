@@ -203,7 +203,7 @@ Game.prototype = {
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var scaleTween = game.add.tween(token.scale);
         var timeToTween = 10000;
-        scaleTween.to({x: 4, y: 4}, timeToTween, Phaser.Easing.Exponential.In, true);
+        scaleTween.to({x: 2, y: 2}, timeToTween, Phaser.Easing.Exponential.In, true);
         // applies to tokens that start on left of screen
 
         // add tween for tokens to move to edges of screen as they get bigger, helps create illusion of perspective
