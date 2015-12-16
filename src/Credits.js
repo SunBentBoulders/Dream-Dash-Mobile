@@ -5,17 +5,27 @@ var Credits = function(game) {
 
 Credits.prototype = {
 
-  preload: function () {
+  preload: function (game) {
     this.optionCount = 1;
     this.creditCount = 0;
-    this.game.load.image('< Back', 'assets/buttons/backButton.png');
-    this.game.load.image('shanna name', 'assets/buttons/shannaButton.png');
-    this.game.load.image('shanna job', 'assets/buttons/physicsEngineerButton.png'); 
-    this.game.load.image('darryl name', 'assets/buttons/darrylButton.png'); 
-    this.game.load.image('darryl job' , 'assets/buttons/mechanicsEngineerButton.png') 
-    this.game.load.image('jazz name', 'assets/buttons/jazzButton.png'); 
-    this.game.load.image('jazz job' , 'assets/buttons/stateEngineerButton.png'); 
-
+    //loads up buttons for game over screen, smaller buttons for 960x640
+    if (window.deviceAssetSize ==='960x640') {
+      this.game.load.image('< Back', 'assets/buttons/backButton40pt.png');
+      this.game.load.image('shanna name', 'assets/buttons/shannaButton40pt.png');
+      this.game.load.image('shanna job', 'assets/buttons/physicsEngineerButton40pt.png');
+      this.game.load.image('darryl name', 'assets/buttons/darrylButton40pt.png');
+      this.game.load.image('darryl job' , 'assets/buttons/mechanicsEngineerButton40pt.png')
+      this.game.load.image('jazz name', 'assets/buttons/jazzButton40pt.png');
+      this.game.load.image('jazz job' , 'assets/buttons/stateEngineerButton40pt.png');
+    } else if(!game.device.desktop){
+      this.game.load.image('< Back', 'assets/buttons/backButton.png');
+      this.game.load.image('shanna name', 'assets/buttons/shannaButton.png');
+      this.game.load.image('shanna job', 'assets/buttons/physicsEngineerButton.png');
+      this.game.load.image('darryl name', 'assets/buttons/darrylButton.png');
+      this.game.load.image('darryl job' , 'assets/buttons/mechanicsEngineerButton.png')
+      this.game.load.image('jazz name', 'assets/buttons/jazzButton.png');
+      this.game.load.image('jazz job' , 'assets/buttons/stateEngineerButton.png');
+    }
   },
 
   addCredit: function(task, author) {
