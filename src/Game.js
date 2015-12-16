@@ -285,7 +285,7 @@ Game.prototype = {
     //=====================================================
 
     //this will be the life bar
-    var lifeDistance = this.game.width/11.42
+    var lifeDistance = this.game.width/8
     this.life1 = game.add.sprite(lifeDistance, this.game.height/37.5, 'life');
     this.life1.scale.setTo(.20);
     this.life1.fixedToCamera = true;
