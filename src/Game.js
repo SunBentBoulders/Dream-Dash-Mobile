@@ -316,7 +316,8 @@ Game.prototype = {
     pause.inputEnabled = true;
     pause.events.onInputUp.add(function(){
         //this is the game paused text
-        pausedText = game.add.text(game.camera.x + 400,game.height/2, "Paused",{ font: '200px Arial', fill: '#fff' });
+        console.log("game.camera", game.camera)
+        pausedText = game.add.text(game.camera.view.centerX, game.height/2, "Paused",{ font: '200px Arial', fill: '#fff' });
         pausedText.anchor.setTo(0.5,0.5);
         game.paused = true;
     });
