@@ -93,8 +93,8 @@ LevelUp.prototype = {
 			this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 			this.showScore.anchor.set(0.5);
 		} else {
-			var titleText = game.add.sprite(window.innerWidth/2, game.height/4, 'You Woke Up Title');
-			// titleText.anchor.setTo(0.5);
+			var titleText = game.add.sprite(game.width/2, game.height/4, 'You Woke Up Title');
+			titleText.anchor.setTo(0.5);
 			// game.add.sprite(window.innerWidth/4, game.height/4, 'You Woke Up Title');
 			optionCount = 1;
 			//========================================
