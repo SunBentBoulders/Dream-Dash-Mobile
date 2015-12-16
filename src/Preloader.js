@@ -69,10 +69,11 @@ Preloader.prototype = {
         }
 
         //loads the button images for mobile
-        game.load.image('Title', 'assets/buttons/dreamDashButton85pt.png');
-        game.load.image('Start', 'assets/buttons/startButton60pt.png');
+        game.load.image('Title', 'assets/buttons/dreamDashButton120pt.png');
+        game.load.image('Start', 'assets/buttons/startButton85pt.png');
         game.load.image('Options', 'assets/buttons/optionsButton.png');
         game.load.image('Credits', 'assets/buttons/creditsButton.png');
+        // game.load.image()
 
 
         game.load.spritesheet('dude', 'img/dude.png', 32, 48);

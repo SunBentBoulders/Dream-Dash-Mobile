@@ -18,6 +18,7 @@ Options.prototype = {
       game.load.image('< Back', 'assets/buttons/backButton.png');
       game.load.image('Mute Music', 'assets/buttons/muteMusicButton.png');
       game.load.image('Play Music', 'assets/buttons/playMusicButton.png');
+      game.load.image('Options Title Button', 'assets/buttons/optionsTitleButton.png');
     }
   },
 
@@ -96,19 +97,19 @@ Options.prototype = {
   },
 
   addMobileMenuOption: function(buttonName, callback){
-     var button = this.game.add.button(this.game.world.centerX, (optionCount * this.game.height/7.5) + this.game.world.centerY, buttonName);
+     var button = this.game.add.button(this.game.world.centerX/2, (optionCount * this.game.height/7.5) + this.game.world.centerY, buttonName);
     button.inputEnabled = true;
     button.events.onInputDown.add(callback, this);
   },
 
   create: function (game) {
     // var playSound = gameOptions.playSound,
-        var playMusic = gameOptions.playMusic;
+    var playMusic = gameOptions.playMusic;
 
     game.add.sprite(0, 0, 'options-bg');
-    game.add.existing(this.titleText);
 
     if(game.device.desktop){
+      game.add.existing(this.titleText);
 
       this.addDesktopMenuOption(playMusic ? 'Mute Music' : 'Play Music', function (target) {
         playMusic = !playMusic;
@@ -120,12 +121,14 @@ Options.prototype = {
         game.state.start("MainMenu");
       });
     }else{
-
-      this.addMobileMenuOption(playMusic ? 'Mute Music' : 'Play Music', function (target){
-        playMusic = !playMusic;
-        target.button = playMusic ? 'Mute Music' : 'Play Music';
-        music.volume = playMusic ? 1 : 0;
-      });
+      game.add.sprite(game.world.centerX/2, game.height/6, 'Options Title Button')
+    
+      this.addMobileMenuOption(playMusic ? 'Mute Music' : 'Play Music', function(target){
+          playMusic = !playMusic;
+          target.key = playMusic ? 'Mute Music' : 'Play Music';
+          music.volume = playMusic ? 1 : 0;
+          console.log(target.key)
+        });
 
       this.addMobileBackOption('< Back', function () {
         game.state.start("MainMenu");
