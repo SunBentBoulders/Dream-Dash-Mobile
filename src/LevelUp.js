@@ -64,7 +64,7 @@ LevelUp.prototype = {
 
 	addMobileMenuOption: function(buttonName, callback){
 
-		var button = this.game.add.button(this.game.world.centerX, window.innerHeight/4 + (100 * optionCount), buttonName);
+		var button = this.game.add.button(this.game.world.centerX, window.innerHeight + (100 * optionCount), buttonName);
 		button.anchor.setTo(0.5)
 		button.inputEnabled = true;
 		button.events.onInputDown.add(callback, this);
@@ -93,14 +93,17 @@ LevelUp.prototype = {
 			this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 			this.showScore.anchor.set(0.5);
 		} else {
-			console.log("window.innerWidth/2", window.innerWidth/2)
-			var titleText = game.add.sprite(window.innerWidth/2, game.height/4, 'You Woke Up Title');
-			// titleText.anchor.setTo(0.5)
+			// TODO: checck shanna's last version on github
+			// var titleText = game.add.sprite(window.innerWidth/2, game.height/4, 'You Woke Up Title');
+
+			game.add.sprite(window.innerWidth/4, game.height/4, 'You Woke Up Title');
+			optionCount = 1;
 			//========================================
-			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/4, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/30 + 'pt Arial',
+			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/4, 'Total Score: '+ totalScore, {
 			  fill: '#c37c01',
 			  align: 'center'
 			});
+			this.showScore.cssFont = 'bold 50pt Arial';
 			this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 			this.showScore.anchor.set(0.5);
 		}
