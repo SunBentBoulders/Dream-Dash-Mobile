@@ -276,11 +276,12 @@ Game.prototype = {
     // this.scoreText.fixedToCamera = true;
     if (window.deviceAssetSize === 'desktop') {
         this.scoreSprite = game.add.sprite(this.player.x-this.game.width/1.937, this.game.height/37.5,'token');
+        this.leftToCollect = game.add.text(this.player.x-this.game.width/2.3, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/17 + 'px', fill:'#fff' });
     } else {
         this.scoreSprite = game.add.sprite(this.player.x-this.game.width/2, this.game.height/30,'token');
+        this.leftToCollect = game.add.text(this.player.x-this.game.width/2.2, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/17 + 'px', fill:'#fff' });
     }
     this.scoreSprite.fixedToCamera = true;
-    this.leftToCollect = game.add.text(this.player.x-this.game.width/2.10526315789, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/18.75 + 'px', fill:'#fff' });
     this.leftToCollect.fixedToCamera = true;
     //=====================================================
 
