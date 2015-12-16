@@ -60,7 +60,7 @@ LevelUp.prototype = {
 
 	addMobileMenuOption: function(buttonName, callback){
 
-		var button = this.game.add.button(this.game.world.centerX, window.innerHeight/4 + (100 * optionCount), buttonName);
+		var button = this.game.add.button(this.game.world.centerX, window.innerHeight + (100 * optionCount), buttonName);
 		button.anchor.setTo(0.5)
 		button.inputEnabled = true;
 		button.events.onInputDown.add(callback, this);
@@ -90,6 +90,7 @@ LevelUp.prototype = {
 			this.showScore.anchor.set(0.5);
 		} else {
 			game.add.sprite(window.innerWidth/4, game.height/4, 'You Woke Up Title');
+			optionCount = 1;
 			//========================================
 			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/4, 'Total Score: '+ totalScore, {
 			  fill: '#c37c01',
