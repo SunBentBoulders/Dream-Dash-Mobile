@@ -68,11 +68,18 @@ Preloader.prototype = {
              game.load.image('options-bg', 'assets/images/options-bg1408x792.png');
         }
 
-        //loads the button images for mobile
-        game.load.image('Title', 'assets/buttons/dreamDashButton120pt.png');
-        game.load.image('Start', 'assets/buttons/startButton85pt.png');
-        game.load.image('Options', 'assets/buttons/optionsButton85pt.png');
-        game.load.image('Credits', 'assets/buttons/creditsButton85pt.png');
+        //loads the button images for mobile, load smaller buttons for 960x640
+        if (window.deviceAssetSize ==='960x640') {
+            game.load.image('Title', 'assets/buttons/dreamDashButton60pt.png');
+            game.load.image('Start', 'assets/buttons/startButton40pt.png');
+            game.load.image('Options', 'assets/buttons/optionsButton40pt.png');
+            game.load.image('Credits', 'assets/buttons/creditsButton40pt.png');
+        } else {
+            game.load.image('Title', 'assets/buttons/dreamDashButton120pt.png');
+            game.load.image('Start', 'assets/buttons/startButton85pt.png');
+            game.load.image('Options', 'assets/buttons/optionsButton85pt.png');
+            game.load.image('Credits', 'assets/buttons/creditsButton85pt.png');
+        }
         // game.load.image()
 
 

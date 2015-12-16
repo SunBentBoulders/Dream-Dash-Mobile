@@ -3,8 +3,12 @@ var GameOver = function(game) {};
 GameOver.prototype = {
 
   preload: function (game) {
-    //loads up buttons for game over screen
-    if(!game.device.desktop){
+    //loads up buttons for game over screen, smaller buttons for 960x640
+    if (window.deviceAssetSize ==='960x640') {
+      game.load.image('Main Menu', 'assets/buttons/mainMenuButton40pt.png');
+      game.load.image('Play Again', 'assets/buttons/playAgainButton40pt.png');
+      game.load.image('Game Over Title', 'assets/buttons/gameOverTitleButton60pt.png');
+    } else if(!game.device.desktop){
       game.load.image('Main Menu', 'assets/buttons/mainMenuButton.png');
       game.load.image('Play Again', 'assets/buttons/playAgainButton.png');
       game.load.image('Game Over Title', 'assets/buttons/gameOverTitleButton.png');
@@ -19,13 +23,13 @@ GameOver.prototype = {
     txt.stroke = "rgba(0,0,0,0)";
     txt.strokeThickness = 4;
     txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
-      
+
     var onOver = function (target) {
       target.fill = "#FEFFD5";
       target.stroke = "rgba(200,200,200,0.5)";
       txt.useHandCursor = true;
     };
-      
+
     var onOut = function (target) {
       target.fill = "white";
       target.stroke = "rgba(0,0,0,0)";
@@ -41,9 +45,10 @@ GameOver.prototype = {
   },
 
   addMobileMenuOption: function(buttonName, callback){
-    var button = this.game.add.button(this.game.world.centerX/2, (this.optionCount * this.game.height/7.5) + this.game.height/2, buttonName);
+    var button = this.game.add.button(this.game.world.centerX, (this.optionCount * this.game.height/7.5) + this.game.height/2, buttonName);
     button.inputEnabled = true;
     button.events.onInputDown.add(callback, this);
+    button.anchor.setTo(0.5)
 
     this.optionCount++;
   },
@@ -65,7 +70,7 @@ GameOver.prototype = {
         game.state.start("MainMenu");
       });
     } else {
-      game.add.sprite(window.innerWidth/3, game.height/6, "Game Over Title");
+      game.add.sprite(window.innerWidth/2, game.height/6, "Game Over Title");
       this.addMobileMenuOption('Play Again', function (e) {
         game.state.add('game', Game, true);
       });

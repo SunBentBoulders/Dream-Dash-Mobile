@@ -135,7 +135,7 @@ Game.prototype = {
     this.player.body.collideWorldBounds = true;
     this.player.body.bounce.y = 0.4;
     this.player.body.bounce.x = 0.2;
-    this.player.body.gravity.y = 300;
+    this.player.body.gravity.y = 500;
     //===================================================
 
 
@@ -280,6 +280,7 @@ Game.prototype = {
     } else {
         this.scoreSprite = game.add.sprite(this.player.x-this.game.width/2, this.game.height/30,'token');
         this.leftToCollect = game.add.text(this.player.x-this.game.width/2.2, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/17 + 'px', fill:'#fff' });
+        this.leftToCollect.cssFont = 'bold 50pt Arial';
     }
     this.scoreSprite.fixedToCamera = true;
     this.leftToCollect.fixedToCamera = true;
@@ -427,6 +428,7 @@ Game.prototype = {
     // console.log('game.score', game.score);
     //this sets the upper right corner left to collect
     this.leftToCollect.text = ' x ' + this.tokensToCollect;
+    this.leftToCollect.cssFont = 'bold 50pt Arial';
   },
 
   // this function is called when the player collides with an enemy
