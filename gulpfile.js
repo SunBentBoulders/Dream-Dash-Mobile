@@ -35,12 +35,14 @@ gulp.task('scripts', function(){
         
 });
 
-//TASK to Minify All Images
+/*
+//TASK to Minify All Images - Currently only reduces size by 1.5MB, using API instead
 gulp.task('minimgs', function(){
     return gulp.src(paths.images)
         .pipe(imagemin({optimizationLevel: 7}))
         .pipe(gulp.dest('minified'));
 });
+*/
 
 //TASK to Minify All CSS
 gulp.task('mincss', function(){
@@ -50,13 +52,6 @@ gulp.task('mincss', function(){
         .pipe(rename({extname: '.min.css'}))
         .pipe(gulp.dest('minified'))
 });
-
-/*TASK to Minify All Audio, not sure which gulp plugin to use for this yet
-gulp.task('minifyaudio', function(){
-    return gulp.src(paths.audio)
-        .pipe()
-        .pipe(gulp.dest('build/audio'));
-});*/
 
 /* START of MOCHA TEST-RELATED
 gulp.task('mocha', function(){
