@@ -91,10 +91,11 @@ LevelUp.prototype = {
 		} else {
 			game.add.sprite(window.innerWidth/4, game.height/4, 'You Woke Up Title');
 			//========================================
-			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/4, 'Total Score: '+ totalScore, { font: 'bold ' + game.width/30 + 'pt Arial',
+			this.showScore = game.add.text(game.width/2, game.height/4 + game.height/4, 'Total Score: '+ totalScore, {
 			  fill: '#c37c01',
 			  align: 'center'
 			});
+			this.showScore.cssFont = 'bold 50pt Arial';
 			this.showScore.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
 			this.showScore.anchor.set(0.5);
 		}
