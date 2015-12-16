@@ -435,7 +435,7 @@ Game.prototype = {
     // player.animations.paused = true;
 
     // make player "react" to the collision
-    player.body.velocity.y = -300;
+    player.body.velocity.y = -200;
     this.loseLife();
   },
 
