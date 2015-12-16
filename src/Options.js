@@ -14,7 +14,13 @@ Options.prototype = {
   },
 
   preload: function(game){
-    if(!game.device.desktop){
+    //loads up buttons for game over screen, smaller buttons for 960x640
+    if (window.deviceAssetSize ==='960x640') {
+      game.load.image('< Back', 'assets/buttons/backButton40pt.png');
+      game.load.image('Mute Music', 'assets/buttons/muteMusicButton40pt.png');
+      game.load.image('Play Music', 'assets/buttons/playMusicButton40pt.png');
+      game.load.image('Options Title Button', 'assets/buttons/optionsTitleButton60pt.png');
+    } else if(!game.device.desktop){
       game.load.image('< Back', 'assets/buttons/backButton.png');
       game.load.image('Mute Music', 'assets/buttons/muteMusicButton.png');
       game.load.image('Play Music', 'assets/buttons/playMusicButton.png');
@@ -97,7 +103,8 @@ Options.prototype = {
   },
 
   addMobileMenuOption: function(buttonName, callback){
-     var button = this.game.add.button(this.game.width/3.5, (optionCount * this.game.height/35) + this.game.world.centerY, buttonName);
+     var button = this.game.add.button(this.game.width/2, (optionCount * this.game.height/35) + this.game.world.centerY, buttonName);
+    button.anchor.setTo(0.5);
     button.inputEnabled = true;
     button.events.onInputDown.add(callback, this);
   },
@@ -124,7 +131,7 @@ Options.prototype = {
       var optionTitle = game.add.sprite(game.width/2, game.height/6, 'Options Title Button');
 
       optionTitle.anchor.setTo(0.5);
-    
+
       this.addMobileMenuOption(playMusic ? 'Mute Music' : 'Play Music', function(target){
           playMusic = !playMusic;
           target.key = playMusic ? 'Mute Music' : 'Play Music';
