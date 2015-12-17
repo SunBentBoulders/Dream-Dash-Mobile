@@ -70,7 +70,8 @@ GameOver.prototype = {
         game.state.start("MainMenu");
       });
     } else {
-      game.add.sprite(window.innerWidth/2, game.height/6, "Game Over Title");
+      var title = game.add.sprite(game.world.centerX, game.height/6, "Game Over Title");
+      title.anchor.setTo(0.5);
       this.addMobileMenuOption('Play Again', function (e) {
         game.state.add('game', Game, true);
       });
