@@ -121,7 +121,7 @@ Game.prototype = {
     game.livesToCollect.enableBody = true;
 
     // add player to game
-    this.player = game.add.sprite(game.scrollableWidth/2, 0, 'dude');
+    this.player = game.add.sprite(game.scrollableWidth/2, game.height/2, 'dude');
     // this.player.scale.setTo(1.5, 1.5);
     // set initial location of player in the top center of screen
     this.player.anchor.setTo(.5, 1);
