@@ -530,15 +530,10 @@ Game.prototype = {
             this.toggleLostLife();
             this.game.time.events.add(3000, this.toggleLostLife, this);
         } else if(!this.life3.visible){
-            this.life3.visible = true;
-            this.toggleLostLife();
-            this.game.time.events.add(5000, this.toggleLostLife, this);
-        } if(!this.life3.visible){
-            // set new alpha for sprites
             var newAlpha = 1;
             this.life3.visible = true;
             this.toggleLostLife();
-            this.game.time.events.add(3000, this.toggleLostLife, this);
+            this.game.time.events.add(5000, this.toggleLostLife, this);
         }
     }
     // set new alphas on sprites
