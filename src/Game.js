@@ -203,7 +203,7 @@ Game.prototype = {
         // tween syntax: .to( object containing chosen parameter's ending values, time of tween in ms, type of easing to use, "true" value, [optional] onComplete event handler)
         var scaleTween = game.add.tween(token.scale);
         var timeToTween = 10000;
-        scaleTween.to({x: 2, y: 2}, timeToTween, Phaser.Easing.Exponential.In, true);
+        scaleTween.to({x: 1, y: 1}, timeToTween, Phaser.Easing.Exponential.In, true);
         // applies to tokens that start on left of screen
 
         // add tween for tokens to move to edges of screen as they get bigger, helps create illusion of perspective
@@ -282,6 +282,7 @@ Game.prototype = {
         this.leftToCollect = game.add.text(this.player.x-this.game.width/2.2, this.game.height/37.5, ' x ' + this.tokensToCollect, { fontSize: this.game.height/17 + 'px', fill:'#fff' });
         this.leftToCollect.cssFont = 'bold 50pt Arial';
     }
+    this.scoreSprite.scale.setTo(0.5);
     this.scoreSprite.fixedToCamera = true;
     this.leftToCollect.fixedToCamera = true;
     //=====================================================
