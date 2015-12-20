@@ -125,6 +125,8 @@ LevelUp.prototype = {
 		//makes clocks pop out on game win
 	    emitter = game.add.emitter(game.world.centerX, 200, 200);
 	    emitter.makeParticles('clock');
+	    emitter.maxParticleScale = 0.5;
+	    emitter.minParticleScale = 0.5;
 	    emitter.start(true, 4000, null, totalScore);
 	    game.time.events.add(4000, this.destroyEmitter, this);
 	}
