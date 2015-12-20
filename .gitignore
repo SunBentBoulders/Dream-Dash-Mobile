@@ -9,8 +9,6 @@
 ######################
 node_modules/
 bower_components/
-build/
-dist/
 
 # OS Generated Files #
 ######################
