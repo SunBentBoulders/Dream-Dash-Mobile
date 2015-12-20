@@ -1,7 +1,7 @@
 # Dream Dash
 
-> Single-player, continuous runner javaScript game, built with Phaser and compiled for mobile with Cocoon.
-> Find your way through dreams, dodging enemy ghosts and collecting alarm clocks to help wake you up
+> Single-player, continuous runner javascript game, built with Phaser and compiled for mobile with Cocoon.
+> Find your way through dreams, dodging enemy ghosts and collecting alarm clocks to help wake you up.
 
 
 ## Engineering Team
