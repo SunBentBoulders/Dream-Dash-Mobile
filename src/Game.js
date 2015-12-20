@@ -211,6 +211,7 @@ Game.prototype = {
             });
             this.leftToCollect.cssFont = 'bold 50pt Arial';
         }
+        this.scoreSprite.scale.setTo(0.5);
         this.scoreSprite.fixedToCamera = true;
         this.leftToCollect.fixedToCamera = true;
         //=====================================================
