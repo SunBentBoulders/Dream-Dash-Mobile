@@ -139,7 +139,6 @@ Credits.prototype = {
             this.addCredit('State Engineer', 'Jazz Lyles');
             this.addCredit('Mechanics Engineer', 'Darryl Nunn');
             this.addCredit('Phaser.io & Cocoon', 'Powered By');
-            this.addCredit('Agung Setya Nugraha, Graphic River, Shanna Sullivan', 'Graphics By');
             this.addCredit('for playing', 'Thank you');
             this.addDesktopMenuOption('< Back', function(e) {
                 this.game.state.start("MainMenu");
