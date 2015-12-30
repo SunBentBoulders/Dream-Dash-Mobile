@@ -1,6 +1,4 @@
 Preloader = function(game) {
-    //  this.background = null;
-    //  this.preloadBar = null;
     game.ready = false;
 };
 
@@ -16,19 +14,9 @@ Preloader.prototype = {
         utils.centerGameObjects([this.game.logo, this.game.status]);
     },
 
-    /*    
-    loadFonts: function (game) {
-        WebFontConfig = {
-          custom: {
-            families: ['TheMinion'],
-            urls: ['assets/style/theminion.css']
-          }
-        }
-    },
-    */
     preload: function(game) {
         //adds content to splash screen
-        game.add.sprite(0, 0, 'stars');
+        game.add.sprite(0, 0, 'loading-bg');
         game.add.existing(this.game.logo).scale.setTo(0.5);
         game.add.existing(this.game.loadingBar);
         game.add.existing(this.game.status);
@@ -86,7 +74,6 @@ Preloader.prototype = {
         game.load.audio('bgm', 'assets/bgm/background_music.ogg');
         game.load.audio('startDing', 'assets/bgm/startDing.wav');
 
-//        this.loadFonts(game);
     },
 
     addGameStates: function(game) {
