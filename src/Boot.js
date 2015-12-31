@@ -78,11 +78,13 @@ Boot.prototype = {
 
         game.load.script("WebFont", "vendor/webfontloader.js");
         game.load.script('MainMenu', 'src/MainMenu.js');
+        
+        game.state.add('Directions', Directions);
 
     },
 
     create: function(game) {
-
+        
         game.state.start('Directions');
 
     },
