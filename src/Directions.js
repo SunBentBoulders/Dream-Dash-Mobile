@@ -74,7 +74,7 @@ Directions.prototype = {
     
     create: function(game){
         
-        this.stage.backgroundColor = 0x4B0082;
+        this.stage.backgroundColor = 0x000000;
         game.state.add('Preloader', Preloader);
         
         if (this.game.device.desktop) {
