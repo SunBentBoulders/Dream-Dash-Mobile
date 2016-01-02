@@ -90,14 +90,14 @@ Credits.prototype = {
         txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
         txt.stroke = "rgba(0,0,0,0";
         txt.strokeThickness = 4;
-      
+
         var onOver = function(target) {
             target.fill = "#FEFFD5";
             target.stroke = "rgba(200,200,200,0.5)";
             txt.useHandCursor = true;
             txt.setShadow(3, 3, 'rgba(0,0,0,1.5)', 5);
         };
-      
+
         var onOut = function(target) {
             target.fill = "white";
             target.stroke = "rgba(0,0,0,0)";
@@ -124,7 +124,7 @@ Credits.prototype = {
         this.game.stage.disableVisibilityChange = true;
 
         if (gameOptions.playMusic) {
-            /*      
+            /*
             musicPlayer.stop();
             musicPlayer = game.add.audio('exit');
             musicPlayer.play();
@@ -134,6 +134,7 @@ Credits.prototype = {
         var bg = this.game.add.sprite(0, 0, 'gameover-bg');
 
         if (this.game.device.desktop) {
+            this.addCredit('Credits');
             this.addCredit('Physics Engineer', 'Shanna Sullivan');
             this.addCredit('State Engineer', 'Jazz Lyles');
             this.addCredit('Mechanics Engineer', 'Darryl Nunn');
