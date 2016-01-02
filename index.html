@@ -40,8 +40,7 @@
 
 <body>
     <!-- Non-Minified Script Tags Below   -->
-     
- <!--   <script src="vendor/phaser.js"></script>
+    <script src="vendor/phaser.js"></script>
     <script src="vendor/webfontloader.js"></script>
     <script src="lib/phaser-state-transition-plugin.min.js"></script>
 
@@ -60,10 +59,14 @@
     <script src="src/Credits.js"></script>
     <script src="src/Options.js"></script>
     <script src="src/LevelUp.js"></script>-->
-    
-    
+       
     <!-- Minified Scripts Below -->
-    <script src="minified/allfiles.min.js"></script>
+    <!-- <script src="minified/allfiles.min.js"></script> -->
+
+</head>
+
+<body>
+    
     <div id="game"></div>
     <div id="orientation"></div>
 
@@ -81,7 +84,7 @@
                 return check;
             }
 
-            /*      
+            /*
             scale game canvas based on aspect ratios
             5 possible aspect ratios: (width:height)
             4:3, 1024 x 768 --> 4/3 = 1.3333
@@ -126,7 +129,7 @@
 
             //  Loads States for Game
             game.state.add('Boot', Boot);
-            game.state.add('Preloader', Preloader); 
+            game.state.add('Preloader', Preloader);
 
             //  Starts the Boot state
             game.state.start('Boot');
