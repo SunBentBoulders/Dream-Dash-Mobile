@@ -72,7 +72,8 @@ LevelUp.prototype = {
 	},
 
 	create: function(game){
-		this.stage.backgroundColor = 0x4B0082
+
+		this.stage.backgroundColor = 0x4B0082;
 
 		if(game.device.desktop){
 			this.titleText = game.add.text(game.width/2, game.height/4, "You Woke Up!", {
@@ -106,7 +107,6 @@ LevelUp.prototype = {
 		} else {
 			var titleText = game.add.sprite(game.width/2, game.height/4, 'You Woke Up Title');
 			titleText.anchor.setTo(0.5);
-			// game.add.sprite(window.innerWidth/4, game.height/4, 'You Woke Up Title');
 			optionCount = 1;
 
 			// user's level
