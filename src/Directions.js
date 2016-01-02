@@ -1,7 +1,7 @@
 var Directions = function(game){};
 
-var storyLine = 'Tap left/right to move';
-var directionsFullText = 'Fast asleep and lost in a dream\nCollect the clocks to wake up\nThe candles will guide your way';
+var directionsFullText = 'Tap left/right to move\nCollect the clocks\nto sound off your alarm\nThe candles give life & light';
+var storyLine = 'Fast asleep and lost in a dream\nAvoid the ghoulies & wake up';
 var text, text2, titleText;
 
 Directions.prototype = {
@@ -118,11 +118,11 @@ Directions.prototype = {
             });
             titleText.anchor.setTo(0);
             
-            game.add.sprite(this.game.width.centerX, this.game.height/6, 'directions-bg');
+            game.add.sprite(this.game.width.centerX, this.game.height/4, 'directions-bg');
             game.add.sprite(this.game.width.centerX, this.game.height/8, 'clock_candle');
     
             text2 = game.add.text(this.game.width/2, this.game.height/6, directionsFullText, {
-                font: this.game.height / 40 + 'pt TheMinion',
+                font: this.game.width / 40 + 'pt TheMinion',
                 fill: 'white',
                 align: 'right',
                 stroke: 'rgba(0,0,0,0)',
@@ -131,7 +131,7 @@ Directions.prototype = {
             text2.anchor.setTo(0);
 
             text = game.add.text(20, this.game.height/2, storyLine, {
-                font: this.game.height / 40 + 'pt TheMinion',
+                font: this.game.width / 40 + 'pt TheMinion',
                 fill: 'white',
                 align: 'right',
                 stroke: 'rgba(0,0,0,0)',
