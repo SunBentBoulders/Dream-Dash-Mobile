@@ -84,7 +84,7 @@ Directions.prototype = {
         game.state.add('Preloader', Preloader);
 
         if (this.game.device.desktop) {
-
+            // title for directions state
             titleText = game.add.text(this.game.width/4, this.game.height.centerY/4, "How To Play", {
                 font: 'bold ' + this.game.height / 20 + 'pt TheMinion',
                 fill: '#7CCD7C',
@@ -118,12 +118,12 @@ Directions.prototype = {
                     game.state.start("Preloader");
             });
         } else {
-            titleText = game.add.text(this.game.width/2, this.game.height.centerY/4, "How To Play", {
+            titleText = game.add.text(this.game.width/2, this.game.height/12, "How To Play", {
                 font: 'bold ' + this.game.height / 20 + 'pt TheMinion',
                 fill: '#7CCD7C',
                 align: 'center'
             });
-            titleText.anchor.setTo(0);
+            titleText.anchor.setTo(0.5);
 
             game.add.sprite(this.game.width.centerX, this.game.height/4, 'directions-bg');
             game.add.sprite(this.game.width.centerX, this.game.height/8, 'clock_candle');
