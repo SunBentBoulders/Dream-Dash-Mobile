@@ -1,6 +1,4 @@
 Preloader = function(game) {
-    //  this.background = null;
-    //  this.preloadBar = null;
     game.ready = false;
 };
 
@@ -16,19 +14,9 @@ Preloader.prototype = {
         utils.centerGameObjects([this.game.logo, this.game.status]);
     },
 
-    /*    
-    loadFonts: function (game) {
-        WebFontConfig = {
-          custom: {
-            families: ['TheMinion'],
-            urls: ['assets/style/theminion.css']
-          }
-        }
-    },
-    */
     preload: function(game) {
         //adds content to splash screen
-        game.add.sprite(0, 0, 'stars');
+        game.add.sprite(0, 0, 'loading-bg');
         game.add.existing(this.game.logo).scale.setTo(0.5);
         game.add.existing(this.game.loadingBar);
         game.add.existing(this.game.status);
@@ -69,11 +57,15 @@ Preloader.prototype = {
 
         //loads the button images for mobile, load smaller buttons for 960x640
         if (window.deviceAssetSize === '960x640') {
+            // uncomment when order of direction state changes
+            // game.load.image('Continue', 'assets/buttons/continueButton40pt.png');
             game.load.image('Title', 'assets/buttons/dreamDashButton60pt.png');
             game.load.image('Start', 'assets/buttons/startButton40pt.png');
             game.load.image('Options', 'assets/buttons/optionsButton40pt.png');
             game.load.image('Credits', 'assets/buttons/creditsButton40pt.png');
         } else {
+            // uncomment when order of direction state changes
+            // game.load.image('Continue', 'assets/buttons/continueButton85pt.png');
             game.load.image('Title', 'assets/buttons/dreamDashButton120pt.png');
             game.load.image('Start', 'assets/buttons/startButton85pt.png');
             game.load.image('Options', 'assets/buttons/optionsButton85pt.png');
@@ -86,7 +78,6 @@ Preloader.prototype = {
         game.load.audio('bgm', 'assets/bgm/background_music.ogg');
         game.load.audio('startDing', 'assets/bgm/startDing.wav');
 
-//        this.loadFonts(game);
     },
 
     addGameStates: function(game) {
