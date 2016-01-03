@@ -1,11 +1,6 @@
 Game = {
-    /* Here we've just got some global level vars that persist regardless of State swaps */
+
     score: 0,
-
-    /* If the music in your game needs to play through-out a few State swaps, then you could reference it here */
-    //    music: null,
-
-    /* Your game can check Game.orientated in internal loops to know if it should pause or not */
     orientated: false
 
 };
@@ -14,7 +9,6 @@ var gameOptions = {
     playSound: true,
     playMusic: true
 };
-var musicPlayer;
 
 Boot = function(game) {};
 
@@ -66,29 +60,33 @@ Boot.prototype = {
 
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
         if (window.deviceAssetSize === 'desktop') {
-            game.load.image('stars', 'assets/images/2.png');
+            game.load.image('loading-bg', 'assets/images/2.png');
         } else if (window.deviceAssetSize === '1024x768') {
-            game.load.image('stars', 'assets/images/2_1024x768.png');
+            game.load.image('loading-bg', 'assets/images/2_1024x768.png');
         } else if (window.deviceAssetSize === '960x640') {
-            game.load.image('stars', 'assets/images/2_960x640.png');
+            game.load.image('loading-bg', 'assets/images/2_960x640.png');
         } else if (window.deviceAssetSize === '1280x800') {
-            game.load.image('stars', 'assets/images/2_1280x800.png');
+            game.load.image('loading-bg', 'assets/images/2_1280x800.png');
         } else if (window.deviceAssetSize === '1024x600') {
-            game.load.image('stars', 'assets/images/2_1024x600.png');
+            game.load.image('loading-bg', 'assets/images/2_1024x600.png');
         } else if (window.deviceAssetSize === '1408x792') {
-            game.load.image('stars', 'assets/images/2_1408x792.png');
+            game.load.image('loading-bg', 'assets/images/2_1408x792.png');
         }
 
         game.load.image('loading', 'assets/images/loading.png');
         game.load.image('brand', 'assets/images/Boulder.png');
 
-        game.load.script("WebFont", "vendor/webfontloader.js");
+        game.load.script('WebFont', "vendor/webfontloader.js");
         game.load.script('MainMenu', 'src/MainMenu.js');
+        
+        game.state.add('Directions', Directions);
 
     },
 
     create: function(game) {
-        game.state.start('Preloader');
+        
+        game.state.start('Directions');
+
     },
 
     enterIncorrectOrientation: function() {
