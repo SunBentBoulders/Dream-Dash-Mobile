@@ -57,11 +57,15 @@ Preloader.prototype = {
 
         //loads the button images for mobile, load smaller buttons for 960x640
         if (window.deviceAssetSize === '960x640') {
+            // uncomment when order of direction state changes
+            // game.load.image('Continue', 'assets/buttons/continueButton40pt.png');
             game.load.image('Title', 'assets/buttons/dreamDashButton60pt.png');
             game.load.image('Start', 'assets/buttons/startButton40pt.png');
             game.load.image('Options', 'assets/buttons/optionsButton40pt.png');
             game.load.image('Credits', 'assets/buttons/creditsButton40pt.png');
         } else {
+            // uncomment when order of direction state changes
+            // game.load.image('Continue', 'assets/buttons/continueButton85pt.png');
             game.load.image('Title', 'assets/buttons/dreamDashButton120pt.png');
             game.load.image('Start', 'assets/buttons/startButton85pt.png');
             game.load.image('Options', 'assets/buttons/optionsButton85pt.png');
