@@ -79,15 +79,16 @@ Directions.prototype = {
         
         if (this.game.device.desktop) {
 
-            titleText = game.add.text(this.game.width/2, this.game.height.centerY/4, "How To Play", {
+            titleText = game.add.text(this.game.width/4, this.game.height.centerY/4, "How To Play", {
                 font: 'bold ' + this.game.height / 20 + 'pt TheMinion',
                 fill: '#7CCD7C',
                 align: 'center'
             });
             titleText.anchor.set(0);
 
-            game.add.sprite(this.game.width.centerX, this.game.height/6, 'directions-bg');
-            game.add.sprite(this.game.width.centerX, this.game.height/8, 'clock_candle');
+            var bg = game.add.sprite(this.game.width.centerX, this.game.height/6, 'directions-bg');
+            var combo = game.add.sprite(this.game.width.centerX, this.game.height/8, 'clock_candle');
+            combo.anchor.set(-.4,-.4);
     
             text2 = game.add.text(this.game.width/2, this.game.height/6, directionsFullText, {
                 font: this.game.height / 40 + 'pt TheMinion',
