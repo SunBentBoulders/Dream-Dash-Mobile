@@ -61,7 +61,7 @@ Game.prototype = {
         game.load.image('enemy', 'img/friendlyGhost.png');
         game.load.image('life', 'img/candle.png');
         // each sprite image is 32px wide by 48px tall in spritesheet
-        game.load.spritesheet('dude', 'img/dude.png', 86, 129);
+        game.load.spritesheet('dude', 'img/player.png', 86, 129);
         game.load.image('pause', 'img/pause.png');
         game.load.image('token', 'img/clock.png');
     },
