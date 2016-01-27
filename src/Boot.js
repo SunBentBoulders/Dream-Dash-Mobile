@@ -76,13 +76,15 @@ Boot.prototype = {
         game.load.image('loading', 'assets/images/loading.png');
         game.load.image('brand', 'assets/images/Boulder.png');
 
-        game.load.script("WebFont", "vendor/webfontloader.js");
+        game.load.script('WebFont', "vendor/webfontloader.js");
         game.load.script('MainMenu', 'src/MainMenu.js');
+        
+        game.state.add('Directions', Directions);
 
     },
 
     create: function(game) {
-
+        
         game.state.start('Directions');
 
     },
