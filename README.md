@@ -34,12 +34,9 @@ Options for playing Dream Dash include:
 
 - This project has no outside dependencies
 
-## Development
-
 ### Roadmap
 
 View the project roadmap [here](https://github.com/SunBentBoulders/Dream-Dash-Mobile/issues)
-
 
 ## Contributing
 
